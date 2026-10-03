@@ -1,0 +1,1487 @@
+{
+  "sourceUrl": "https://www.misakiatsuperior.com/online-ordering-1",
+  "capturedOn": "2026-10-02",
+  "sourceItemCount": 148,
+  "items": [
+    {
+      "id": "menu-001",
+      "category": "Sides",
+      "name": "White Rice",
+      "description": "",
+      "price": 2.75,
+      "availability": "available",
+      "sourcePrice": "$2.75",
+      "sourceCategory": "Sides"
+    },
+    {
+      "id": "menu-002",
+      "category": "Sides",
+      "name": "Sushi Rice",
+      "description": "",
+      "price": 4.25,
+      "availability": "available",
+      "sourcePrice": "$4.25",
+      "sourceCategory": "Sides"
+    },
+    {
+      "id": "menu-003",
+      "category": "Sides",
+      "name": "Unagi Sauce",
+      "description": "2oz",
+      "price": 0.5,
+      "availability": "available",
+      "sourcePrice": "$0.50",
+      "sourceCategory": "Sides"
+    },
+    {
+      "id": "menu-004",
+      "category": "Sides",
+      "name": "Spicy Mayonnaise",
+      "description": "2oz",
+      "price": 0.5,
+      "availability": "available",
+      "sourcePrice": "$0.50",
+      "sourceCategory": "Sides"
+    },
+    {
+      "id": "menu-005",
+      "category": "Sides",
+      "name": "Teriyaki Sauce",
+      "description": "2oz",
+      "price": 0.5,
+      "availability": "available",
+      "sourcePrice": "$0.50",
+      "sourceCategory": "Sides"
+    },
+    {
+      "id": "menu-006",
+      "category": "Sides",
+      "name": "Ponzu Sauce",
+      "description": "2oz",
+      "price": 0.5,
+      "availability": "available",
+      "sourcePrice": "$0.50",
+      "sourceCategory": "Sides"
+    },
+    {
+      "id": "menu-007",
+      "category": "Sides",
+      "name": "Ginger",
+      "description": "2oz",
+      "price": 0.5,
+      "availability": "available",
+      "sourcePrice": "$0.50",
+      "sourceCategory": "Sides"
+    },
+    {
+      "id": "menu-008",
+      "category": "Sides",
+      "name": "Wasabi",
+      "description": "2oz",
+      "price": 0.5,
+      "availability": "available",
+      "sourcePrice": "$0.50",
+      "sourceCategory": "Sides"
+    },
+    {
+      "id": "menu-009",
+      "category": "Sides",
+      "name": "Jalapeno Macho",
+      "description": "",
+      "price": 0.5,
+      "availability": "available",
+      "sourcePrice": "$0.50",
+      "sourceCategory": "Sides"
+    },
+    {
+      "id": "menu-010",
+      "category": "Sides",
+      "name": "Chili Oil",
+      "description": "",
+      "price": 0.5,
+      "availability": "available",
+      "sourcePrice": "$0.50",
+      "sourceCategory": "Sides"
+    },
+    {
+      "id": "menu-011",
+      "category": "Sides",
+      "name": "Spicy Siracha",
+      "description": "",
+      "price": 0.5,
+      "availability": "available",
+      "sourcePrice": "$0.50",
+      "sourceCategory": "Sides"
+    },
+    {
+      "id": "menu-012",
+      "category": "Beverages",
+      "name": "original ramune",
+      "description": "",
+      "price": 6,
+      "availability": "available",
+      "sourcePrice": "$6.00",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-013",
+      "category": "Beverages",
+      "name": "strawberry ramune",
+      "description": "",
+      "price": 6,
+      "availability": "available",
+      "sourcePrice": "$6.00",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-014",
+      "category": "Beverages",
+      "name": "melon ramune",
+      "description": "",
+      "price": 6,
+      "availability": "available",
+      "sourcePrice": "$6.00",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-015",
+      "category": "Beverages",
+      "name": "peach ramune",
+      "description": "",
+      "price": 6,
+      "availability": "available",
+      "sourcePrice": "$6.00",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-016",
+      "category": "Beverages",
+      "name": "orange ramune",
+      "description": "",
+      "price": 6,
+      "availability": "available",
+      "sourcePrice": "$6.00",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-017",
+      "category": "Beverages",
+      "name": "coke can",
+      "description": "",
+      "price": 2.5,
+      "availability": "available",
+      "sourcePrice": "$2.50",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-018",
+      "category": "Beverages",
+      "name": "diet coke",
+      "description": "",
+      "price": 2.5,
+      "availability": "available",
+      "sourcePrice": "$2.50",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-019",
+      "category": "Beverages",
+      "name": "sprite can",
+      "description": "",
+      "price": 2.5,
+      "availability": "available",
+      "sourcePrice": "$2.50",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-020",
+      "category": "Beverages",
+      "name": "Dr. Pepper can",
+      "description": "",
+      "price": 2.5,
+      "availability": "available",
+      "sourcePrice": "$2.50",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-021",
+      "category": "Beverages",
+      "name": "St. Pellegrino",
+      "description": "500ml",
+      "price": 4.5,
+      "availability": "available",
+      "sourcePrice": "$4.50",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-022",
+      "category": "Beverages",
+      "name": "Yuzu Shiso Soda",
+      "description": "Refreshing house made Japanese citrus with shiso leaves",
+      "price": 6,
+      "availability": "available",
+      "sourcePrice": "$6.00",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-023",
+      "category": "Beverages",
+      "name": "Citron Honey Iced Tea",
+      "description": "Japanese herbal tea with bright citrus flavor and a gentle touch of honey",
+      "price": 4,
+      "availability": "available",
+      "sourcePrice": "$4.00",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-024",
+      "category": "Beverages",
+      "name": "Black Iced Tea",
+      "description": "",
+      "price": 4,
+      "availability": "available",
+      "sourcePrice": "$4.00",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-025",
+      "category": "Beverages",
+      "name": "Matcha Iced Tea",
+      "description": "",
+      "price": 4,
+      "availability": "available",
+      "sourcePrice": "$4.00",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-026",
+      "category": "Beverages",
+      "name": "Apple Juice",
+      "description": "",
+      "price": 3.5,
+      "availability": "available",
+      "sourcePrice": "$3.50",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-027",
+      "category": "Beverages",
+      "name": "Cranberry Juice",
+      "description": "",
+      "price": 3.5,
+      "availability": "available",
+      "sourcePrice": "$3.50",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-028",
+      "category": "Beverages",
+      "name": "Mango Juice",
+      "description": "",
+      "price": 3.5,
+      "availability": "available",
+      "sourcePrice": "$3.50",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-029",
+      "category": "Beverages",
+      "name": "Lemonade",
+      "description": "",
+      "price": 3.5,
+      "availability": "available",
+      "sourcePrice": "$3.50",
+      "sourceCategory": "Beverage"
+    },
+    {
+      "id": "menu-030",
+      "category": "Dessert",
+      "name": "green tea mochi ice cream",
+      "description": "2 pcs / order",
+      "price": 6,
+      "availability": "available",
+      "sourcePrice": "$6.00",
+      "sourceCategory": "Dessert"
+    },
+    {
+      "id": "menu-031",
+      "category": "Dessert",
+      "name": "Mango mochi ice cream",
+      "description": "2 pcs / order",
+      "price": 6,
+      "availability": "available",
+      "sourcePrice": "$6.00",
+      "sourceCategory": "Dessert"
+    },
+    {
+      "id": "menu-032",
+      "category": "Dessert",
+      "name": "Vanilla mochi ice cream",
+      "description": "2 pcs / order",
+      "price": 6,
+      "availability": "available",
+      "sourcePrice": "$6.00",
+      "sourceCategory": "Dessert"
+    },
+    {
+      "id": "menu-033",
+      "category": "Dessert",
+      "name": "Strawberry mochi ice cream",
+      "description": "2 pcs / order",
+      "price": 6,
+      "availability": "available",
+      "sourcePrice": "$6.00",
+      "sourceCategory": "Dessert"
+    },
+    {
+      "id": "menu-034",
+      "category": "Dessert",
+      "name": "chocolate crème pie",
+      "description": "Chocolate and vanilla crème in a chocolatey cookie crust, topped with chocolate chips and fudge drizzle",
+      "price": 8,
+      "availability": "unavailable",
+      "sourcePrice": "$8.00",
+      "sourceCategory": "Dessert"
+    },
+    {
+      "id": "menu-035",
+      "category": "Dessert",
+      "name": "Chocolate mochi ice cream",
+      "description": "2 pcs / order",
+      "price": 6,
+      "availability": "unavailable",
+      "sourcePrice": "$6.00 - Unavailable",
+      "sourceCategory": "Dessert"
+    },
+    {
+      "id": "menu-036",
+      "category": "Dessert",
+      "name": "egg custard tarts",
+      "description": "4pcs of A crisp pastry creamy egg custard before baking until golden, can be paired with chocolate or caramel dressing if desire",
+      "price": 7,
+      "availability": "unavailable",
+      "sourcePrice": "$7.00 - Unavailable",
+      "sourceCategory": "Dessert"
+    },
+    {
+      "id": "menu-037",
+      "category": "Sake (21+)",
+      "name": "House Sake (Large)",
+      "description": "14 fl oz House Yaegaki Reiko Sake",
+      "price": 12,
+      "availability": "available",
+      "sourcePrice": "$12.00",
+      "sourceCategory": "Sake"
+    },
+    {
+      "id": "menu-038",
+      "category": "Sake (21+)",
+      "name": "Raspberry Sake",
+      "description": "14 fl oz Yaegaki Reiko Sake Raspberry Flavor",
+      "price": 12,
+      "availability": "available",
+      "sourcePrice": "$12.00",
+      "sourceCategory": "Sake"
+    },
+    {
+      "id": "menu-039",
+      "category": "Nigiri & Sashimi",
+      "name": "★ uni *",
+      "description": "fresh sea urchin 2pcs per order",
+      "price": 18,
+      "availability": "available",
+      "sourcePrice": "$18.00",
+      "sourceCategory": "nigiri and sashimi"
+    },
+    {
+      "id": "menu-040",
+      "category": "Nigiri & Sashimi",
+      "name": "o-toro (fatty tuna)*",
+      "description": "2 pieces per order",
+      "price": 15.55,
+      "availability": "available",
+      "sourcePrice": "$15.55",
+      "sourceCategory": "nigiri and sashimi"
+    },
+    {
+      "id": "menu-041",
+      "category": "Nigiri & Sashimi",
+      "name": "chu-toro (semi-fatty tuna)*",
+      "description": "2 pieces per order",
+      "price": 12.55,
+      "availability": "available",
+      "sourcePrice": "$12.55",
+      "sourceCategory": "nigiri and sashimi"
+    },
+    {
+      "id": "menu-042",
+      "category": "Nigiri & Sashimi",
+      "name": "bluefin akami (red lean tuna)*",
+      "description": "2 pieces per order",
+      "price": 10.55,
+      "availability": "available",
+      "sourcePrice": "$10.55",
+      "sourceCategory": "nigiri and sashimi"
+    },
+    {
+      "id": "menu-043",
+      "category": "Nigiri & Sashimi",
+      "name": "ankimo (monkfish liver)",
+      "description": "2 pieces per order",
+      "price": 12.55,
+      "availability": "available",
+      "sourcePrice": "$12.55",
+      "sourceCategory": "nigiri and sashimi"
+    },
+    {
+      "id": "menu-044",
+      "category": "Nigiri & Sashimi",
+      "name": "king salmon (New Zealand)*",
+      "description": "2 pieces per order",
+      "price": 11.55,
+      "availability": "available",
+      "sourcePrice": "$11.55",
+      "sourceCategory": "nigiri and sashimi"
+    },
+    {
+      "id": "menu-045",
+      "category": "Nigiri & Sashimi",
+      "name": "mongoika (cuttlefish)*",
+      "description": "2 pieces per order",
+      "price": 10.25,
+      "availability": "available",
+      "sourcePrice": "$10.25",
+      "sourceCategory": "nigiri and sashimi"
+    },
+    {
+      "id": "menu-046",
+      "category": "Nigiri & Sashimi",
+      "name": "★ kuruma ebi (black tiger prawn)",
+      "description": "cooked, super premium giant tiger shrimp topped with our house special spicy sauce.",
+      "price": 9.55,
+      "availability": "available",
+      "sourcePrice": "$9.55",
+      "sourceCategory": "nigiri and sashimi"
+    },
+    {
+      "id": "menu-047",
+      "category": "Nigiri & Sashimi",
+      "name": "tri-tip beef*",
+      "description": "torched with garlic butter, 2 pieces per order",
+      "price": 9.25,
+      "availability": "available",
+      "sourcePrice": "$9.25",
+      "sourceCategory": "nigiri and sashimi"
+    },
+    {
+      "id": "menu-048",
+      "category": "Nigiri & Sashimi",
+      "name": "chuka idako (baby octopus)",
+      "description": "cooked, sweet marinated, 2 pcs per order",
+      "price": 8.25,
+      "availability": "unavailable",
+      "sourcePrice": "$8.25",
+      "sourceCategory": "nigiri and sashimi"
+    },
+    {
+      "id": "menu-049",
+      "category": "Nigiri & Sashimi",
+      "name": "amedai (tile fish)*",
+      "description": "choose nigiri or sashimi, 2 pieces per order",
+      "price": 8,
+      "availability": "unavailable",
+      "sourcePrice": "$8.00 - Unavailable",
+      "sourceCategory": "nigiri and sashimi"
+    },
+    {
+      "id": "menu-050",
+      "category": "Mukozune Style",
+      "name": "fly of bluefin*",
+      "description": "2pcs of bluefin akami nigiri, 2pcs of bluefin chu-toro sashimi, and 1 negitoro roll (6pcs) or hand roll",
+      "price": 31.95,
+      "availability": "available",
+      "sourcePrice": "$31.95",
+      "sourceCategory": "mukozune style"
+    },
+    {
+      "id": "menu-051",
+      "category": "Mukozune Style",
+      "name": "★ bluefin jalapeno*",
+      "description": "6pcs of special akami bluefin tuna sashimi with house made ponzu, jalapeno",
+      "price": 29.95,
+      "availability": "available",
+      "sourcePrice": "$29.95",
+      "sourceCategory": "mukozune style"
+    },
+    {
+      "id": "menu-052",
+      "category": "Mukozune Style",
+      "name": "kampachi jalapeno*",
+      "description": "6 pcs of kampachi (amber jack) sashimi and jalapeno slices, with chef special sauce.",
+      "price": 22,
+      "availability": "available",
+      "sourcePrice": "$22.00",
+      "sourceCategory": "mukozune style"
+    },
+    {
+      "id": "menu-053",
+      "category": "Mukozune Style",
+      "name": "Kanpa Hama Trio",
+      "description": "2pcs kampachi (amber jack) nigiri, 2 pcs hamachi (yellowtail) sashimi and a negihama maki",
+      "price": 23.95,
+      "availability": "available",
+      "sourcePrice": "$23.95",
+      "sourceCategory": "mukozune style"
+    },
+    {
+      "id": "menu-054",
+      "category": "Mukozune Style",
+      "name": "shake zanmai (salmon trio)*",
+      "description": "2pcs of Scottish salmon nigiri, 2pcs of New Zealand king salmon sashimi, and 1 salmon hand roll or shake maki (6pcs)",
+      "price": 23.95,
+      "availability": "available",
+      "sourcePrice": "$23.95",
+      "sourceCategory": "mukozune style"
+    },
+    {
+      "id": "menu-055",
+      "category": "Mukozune Style",
+      "name": "sashimi appetizer*",
+      "description": "sashimi of 2 pieces of maguro, 2 pieces of shake and 2 pieces of hamachi",
+      "price": 19.95,
+      "availability": "available",
+      "sourcePrice": "$19.95",
+      "sourceCategory": "mukozune style"
+    },
+    {
+      "id": "menu-056",
+      "category": "Mukozune Style",
+      "name": "maguro tataki* app. (seared tuna)",
+      "description": "6 pieces of seared tuna tataki appetizer",
+      "price": 19.95,
+      "availability": "available",
+      "sourcePrice": "$19.95",
+      "sourceCategory": "mukozune style"
+    },
+    {
+      "id": "menu-057",
+      "category": "Mukozune Style",
+      "name": "squid seaweed salad",
+      "description": "marinated squid, baby octopus, and seaweed salad",
+      "price": 14.25,
+      "availability": "available",
+      "sourcePrice": "$14.25",
+      "sourceCategory": "mukozune style"
+    },
+    {
+      "id": "menu-058",
+      "category": "Nigiri & Sashimi",
+      "name": "maguro*",
+      "description": "tuna*",
+      "price": 7.55,
+      "availability": "available",
+      "sourcePrice": "$7.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-059",
+      "category": "Nigiri & Sashimi",
+      "name": "maguro tataki*",
+      "description": "seared tuna*",
+      "price": 7.55,
+      "availability": "available",
+      "sourcePrice": "$7.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-060",
+      "category": "Nigiri & Sashimi",
+      "name": "bincho*",
+      "description": "albacore tuna*",
+      "price": 7.55,
+      "availability": "available",
+      "sourcePrice": "$7.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-061",
+      "category": "Nigiri & Sashimi",
+      "name": "shake*",
+      "description": "salmon*",
+      "price": 7.55,
+      "availability": "available",
+      "sourcePrice": "$7.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-062",
+      "category": "Nigiri & Sashimi",
+      "name": "kunsei*",
+      "description": "smoked salmon*",
+      "price": 7.55,
+      "availability": "available",
+      "sourcePrice": "$7.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-063",
+      "category": "Nigiri & Sashimi",
+      "name": "hamachi*",
+      "description": "yellow tail*",
+      "price": 7.55,
+      "availability": "available",
+      "sourcePrice": "$7.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-064",
+      "category": "Nigiri & Sashimi",
+      "name": "kampachi*",
+      "description": "amber jack",
+      "price": 9.55,
+      "availability": "available",
+      "sourcePrice": "$9.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-065",
+      "category": "Nigiri & Sashimi",
+      "name": "madai*",
+      "description": "Japanese snapper*",
+      "price": 8.55,
+      "availability": "available",
+      "sourcePrice": "$8.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-066",
+      "category": "Nigiri & Sashimi",
+      "name": "ama ebi*",
+      "description": "sweet shrimp*",
+      "price": 12.55,
+      "availability": "available",
+      "sourcePrice": "$12.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-067",
+      "category": "Nigiri & Sashimi",
+      "name": "saba*",
+      "description": "mackerel*",
+      "price": 7.55,
+      "availability": "available",
+      "sourcePrice": "$7.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-068",
+      "category": "Nigiri & Sashimi",
+      "name": "ebi",
+      "description": "shrimp",
+      "price": 6.55,
+      "availability": "available",
+      "sourcePrice": "$6.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-069",
+      "category": "Nigiri & Sashimi",
+      "name": "kani",
+      "description": "snow crab with mayonnaise",
+      "price": 16.25,
+      "availability": "available",
+      "sourcePrice": "$16.25",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-070",
+      "category": "Nigiri & Sashimi",
+      "name": "tako",
+      "description": "octopus",
+      "price": 6.55,
+      "availability": "available",
+      "sourcePrice": "$6.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-071",
+      "category": "Nigiri & Sashimi",
+      "name": "kaibashira*",
+      "description": "scallop with mayonnaise",
+      "price": 8.55,
+      "availability": "available",
+      "sourcePrice": "$8.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-072",
+      "category": "Nigiri & Sashimi",
+      "name": "unagi",
+      "description": "fresh water eel",
+      "price": 8.55,
+      "availability": "available",
+      "sourcePrice": "$8.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-073",
+      "category": "Nigiri & Sashimi",
+      "name": "ikura*",
+      "description": "salmon egg*",
+      "price": 11.55,
+      "availability": "available",
+      "sourcePrice": "$11.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-074",
+      "category": "Nigiri & Sashimi",
+      "name": "wasabi tobiko*",
+      "description": "wasabi cavair",
+      "price": 7.55,
+      "availability": "available",
+      "sourcePrice": "$7.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-075",
+      "category": "Nigiri & Sashimi",
+      "name": "masago*",
+      "description": "smelt egg*",
+      "price": 6.55,
+      "availability": "available",
+      "sourcePrice": "$6.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-076",
+      "category": "Nigiri & Sashimi",
+      "name": "tamago",
+      "description": "japanese omelette",
+      "price": 6.55,
+      "availability": "available",
+      "sourcePrice": "$6.55",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-077",
+      "category": "Nigiri & Sashimi",
+      "name": "inari",
+      "description": "sweet tofu skin",
+      "price": 6.25,
+      "availability": "available",
+      "sourcePrice": "$6.25",
+      "sourceCategory": "Nigiri & Sashimi"
+    },
+    {
+      "id": "menu-078",
+      "category": "Regular Rolls",
+      "name": "tekka maki* (6 pieces)",
+      "description": "tuna roll*",
+      "price": 7.95,
+      "availability": "available",
+      "sourcePrice": "$7.95",
+      "sourceCategory": "regular rolls"
+    },
+    {
+      "id": "menu-079",
+      "category": "Regular Rolls",
+      "name": "shake maki* (6 pieces)",
+      "description": "salmon roll*",
+      "price": 7.95,
+      "availability": "available",
+      "sourcePrice": "$7.95",
+      "sourceCategory": "regular rolls"
+    },
+    {
+      "id": "menu-080",
+      "category": "Regular Rolls",
+      "name": "negihama* (6 pieces)",
+      "description": "yellowtail and scallion roll",
+      "price": 7.95,
+      "availability": "available",
+      "sourcePrice": "$7.95",
+      "sourceCategory": "regular rolls"
+    },
+    {
+      "id": "menu-081",
+      "category": "Regular Rolls",
+      "name": "california roll (8 pieces)",
+      "description": "surimi crab, mayonnaise, cucumber, avocado, masago and sesame seeds on top",
+      "price": 7.95,
+      "availability": "available",
+      "sourcePrice": "$7.95",
+      "sourceCategory": "regular rolls"
+    },
+    {
+      "id": "menu-082",
+      "category": "Regular Rolls",
+      "name": "spicy poke* (8 pieces)",
+      "description": "tuna, negi, cucumber, avocado, masago, poke sauce and spicy mayo",
+      "price": 9.95,
+      "availability": "available",
+      "sourcePrice": "$9.95",
+      "sourceCategory": "regular rolls"
+    },
+    {
+      "id": "menu-083",
+      "category": "Regular Rolls",
+      "name": "nova lox salmon roll* (8 pieces)",
+      "description": "smoked salmon, cream cheese, cucumber, maui onion, masago",
+      "price": 9.95,
+      "availability": "available",
+      "sourcePrice": "$9.95",
+      "sourceCategory": "regular rolls"
+    },
+    {
+      "id": "menu-084",
+      "category": "Regular Rolls",
+      "name": "spicy salmon roll*",
+      "description": "(8pcs) salmon, spicy mayo, masago, cucumber, avocado",
+      "price": 9.95,
+      "availability": "available",
+      "sourcePrice": "$9.95",
+      "sourceCategory": "regular rolls"
+    },
+    {
+      "id": "menu-085",
+      "category": "Regular Rolls",
+      "name": "spicy bincho roll*",
+      "description": "(8pcs) albacore tuna with kewpie mayonnaise, negi, masago, cucumber and avocado",
+      "price": 10.95,
+      "availability": "available",
+      "sourcePrice": "$10.95",
+      "sourceCategory": "regular rolls"
+    },
+    {
+      "id": "menu-086",
+      "category": "Regular Rolls",
+      "name": "unagi cucumber roll",
+      "description": "(8pcs)",
+      "price": 10.95,
+      "availability": "available",
+      "sourcePrice": "$10.95",
+      "sourceCategory": "regular rolls"
+    },
+    {
+      "id": "menu-087",
+      "category": "Regular Rolls",
+      "name": "unagi avocado roll",
+      "description": "(8pcs)",
+      "price": 10.95,
+      "availability": "available",
+      "sourcePrice": "$10.95",
+      "sourceCategory": "regular rolls"
+    },
+    {
+      "id": "menu-088",
+      "category": "Regular Rolls",
+      "name": "spicy scallop roll*",
+      "description": "(8pcs) scallop, masago, spicy mayo with cucumber",
+      "price": 12.95,
+      "availability": "available",
+      "sourcePrice": "$12.95",
+      "sourceCategory": "regular rolls"
+    },
+    {
+      "id": "menu-089",
+      "category": "Regular Rolls",
+      "name": "negitoro*",
+      "description": "toro (fatty tuna) and negi (green onion) 6pcs or hand roll also available!",
+      "price": 13.95,
+      "availability": "available",
+      "sourcePrice": "$13.95",
+      "sourceCategory": "regular rolls"
+    },
+    {
+      "id": "menu-090",
+      "category": "Tempura Rolls",
+      "name": "chicken tempura roll (6 pieces)",
+      "description": "kaiware, ooba, cucumber, avocado, asparagus masago, japanese mayonnaise, and chicken tempura",
+      "price": 8.95,
+      "availability": "available",
+      "sourcePrice": "$8.95",
+      "sourceCategory": "tempura rolls"
+    },
+    {
+      "id": "menu-091",
+      "category": "Tempura Rolls",
+      "name": "shrimp tempura roll (6 pieces)",
+      "description": "kaiware, masago, ooba, cucumber, avocado, asparagus, japanese mayonnaise, shrimp tempura",
+      "price": 9.95,
+      "availability": "available",
+      "sourcePrice": "$9.95",
+      "sourceCategory": "tempura rolls"
+    },
+    {
+      "id": "menu-092",
+      "category": "Tempura Rolls",
+      "name": "salmon skin roll (6 pieces)",
+      "description": "salmon skin tempura with asparagus, masago, ooba, kaiware, cucumber, avocado, yamagobo, Japanese mayonnaise",
+      "price": 10.95,
+      "availability": "available",
+      "sourcePrice": "$10.95",
+      "sourceCategory": "tempura rolls"
+    },
+    {
+      "id": "menu-093",
+      "category": "Tempura Rolls",
+      "name": "white fish tempura roll (6 pieces)",
+      "description": "asparagus, masago, ooba, kaiware, cucumber, avocado, Japanese mayonnaise and white fish tempura",
+      "price": 10.95,
+      "availability": "available",
+      "sourcePrice": "$10.95",
+      "sourceCategory": "tempura rolls"
+    },
+    {
+      "id": "menu-094",
+      "category": "Tempura Rolls",
+      "name": "spider roll (6 pieces)",
+      "description": "asparagus, masago, ooba, kaiware, cucumber, avocado, mixed greens, yamagobo, Japanese mayonnaise and soft shell crab tempura",
+      "price": 12.95,
+      "availability": "available",
+      "sourcePrice": "$12.95",
+      "sourceCategory": "tempura rolls"
+    },
+    {
+      "id": "menu-095",
+      "category": "Tempura Rolls",
+      "name": "lobster tempura roll (6 pieces)",
+      "description": "asparagus, masago, ooba, kaiware, cucumber, avocado, Japaneses mayonnaise and lobster tempura",
+      "price": 16.95,
+      "availability": "available",
+      "sourcePrice": "$16.95",
+      "sourceCategory": "tempura rolls"
+    },
+    {
+      "id": "menu-096",
+      "category": "Vegetable Rolls",
+      "name": "cucumber roll (6 pieces)",
+      "description": "",
+      "price": 6.95,
+      "availability": "available",
+      "sourcePrice": "$6.95",
+      "sourceCategory": "vegetable rolls"
+    },
+    {
+      "id": "menu-097",
+      "category": "Vegetable Rolls",
+      "name": "avocado roll (6 pieces)",
+      "description": "",
+      "price": 6.95,
+      "availability": "available",
+      "sourcePrice": "$6.95",
+      "sourceCategory": "vegetable rolls"
+    },
+    {
+      "id": "menu-098",
+      "category": "Vegetable Rolls",
+      "name": "asparagus roll",
+      "description": "",
+      "price": 6.95,
+      "availability": "available",
+      "sourcePrice": "$6.95",
+      "sourceCategory": "vegetable rolls"
+    },
+    {
+      "id": "menu-099",
+      "category": "Vegetable Rolls",
+      "name": "natto shiso maki (6 pieces)",
+      "description": "fermented soybeans and shiso leaves",
+      "price": 6.95,
+      "availability": "available",
+      "sourcePrice": "$6.95",
+      "sourceCategory": "vegetable rolls"
+    },
+    {
+      "id": "menu-100",
+      "category": "Vegetable Rolls",
+      "name": "ume shiso maki (6 pieces)",
+      "description": "Japanese ume plum paste and shiso leaves",
+      "price": 6.95,
+      "availability": "available",
+      "sourcePrice": "$6.95",
+      "sourceCategory": "vegetable rolls"
+    },
+    {
+      "id": "menu-101",
+      "category": "Vegetable Rolls",
+      "name": "kanpyo maki (6 pieces)",
+      "description": "a traditional japanese sweet dried gourd, pickles",
+      "price": 7.95,
+      "availability": "available",
+      "sourcePrice": "$7.95",
+      "sourceCategory": "vegetable rolls"
+    },
+    {
+      "id": "menu-102",
+      "category": "Vegetable Rolls",
+      "name": "garden roll (6 pieces)",
+      "description": "avocado, asparagus, kaiware, cucumber, mixed greens, pickled daikon",
+      "price": 9.25,
+      "availability": "available",
+      "sourcePrice": "$9.25",
+      "sourceCategory": "vegetable rolls"
+    },
+    {
+      "id": "menu-103",
+      "category": "Vegetable Rolls",
+      "name": "veggie tempura roll (6 pieces)",
+      "description": "asparagus, Japanese pumpkin, carrot, shiso leaf and kaiware",
+      "price": 9.95,
+      "availability": "available",
+      "sourcePrice": "$9.95",
+      "sourceCategory": "vegetable rolls"
+    },
+    {
+      "id": "menu-104",
+      "category": "Vegetable Rolls",
+      "name": "green monster roll (8 pieces)",
+      "description": "Japanese pumpkin tempura, kanpyo (sweet gourd) , avocado on top with sweet tamari",
+      "price": 15.95,
+      "availability": "available",
+      "sourcePrice": "$15.95",
+      "sourceCategory": "vegetable rolls"
+    },
+    {
+      "id": "menu-105",
+      "category": "Chef's Special Rolls",
+      "name": "green hama* (8 pieces)",
+      "description": "masago, green onion, hamachi poke, spicy mayonnaise, jalapenos topped with tempura flakes and cilantro",
+      "price": 13.95,
+      "availability": "available",
+      "sourcePrice": "$13.95",
+      "sourceCategory": "chef's special rolls"
+    },
+    {
+      "id": "menu-106",
+      "category": "Chef's Special Rolls",
+      "name": "expert roll tempura (6 pieces)",
+      "description": "baked salmon, avocado, shiso, mayonnaise, unagi sauce, masago, cream cheese deep fried in tempura",
+      "price": 14.95,
+      "availability": "available",
+      "sourcePrice": "$14.95",
+      "sourceCategory": "chef's special rolls"
+    },
+    {
+      "id": "menu-107",
+      "category": "Chef's Special Rolls",
+      "name": "orange lion* (8 pieces)",
+      "description": "smoked salmon, sliced lemons, kaiware, jalapenos, cucumbers, cream cheese, yuzu sauce, wasabi mustard, gree onion",
+      "price": 15.95,
+      "availability": "available",
+      "sourcePrice": "$15.95",
+      "sourceCategory": "chef's special rolls"
+    },
+    {
+      "id": "menu-108",
+      "category": "Chef's Special Rolls",
+      "name": "snow in the mountain* (8 pieces)",
+      "description": "shrimp tempura, spicy poke, and cucumber topped with furikake, coconut and macho",
+      "price": 15.95,
+      "availability": "available",
+      "sourcePrice": "$15.95",
+      "sourceCategory": "chef's special rolls"
+    },
+    {
+      "id": "menu-109",
+      "category": "Chef's Special Rolls",
+      "name": "superior roll* (8 pieces)",
+      "description": "shrimp tempura, surimi crab mix, cucumbers, mango, with mango sauce and cilantro on top",
+      "price": 16.25,
+      "availability": "available",
+      "sourcePrice": "$16.25",
+      "sourceCategory": "chef's special rolls"
+    },
+    {
+      "id": "menu-110",
+      "category": "Chef's Special Rolls",
+      "name": "tropical coconut (10 pieces)",
+      "description": "salmon tempura, spicy aioli, jalapenos, avocado, cucumbers with roasted coconuts wrapped in soy paper",
+      "price": 16.95,
+      "availability": "available",
+      "sourcePrice": "$16.95",
+      "sourceCategory": "chef's special rolls"
+    },
+    {
+      "id": "menu-111",
+      "category": "Chef's Special Rolls",
+      "name": "when pigs swim*",
+      "description": "salmon skin, bacon with jalapeno, avocado topped with tuna, spicy miso mayonnaise and negi",
+      "price": 16.95,
+      "availability": "available",
+      "sourcePrice": "$16.95",
+      "sourceCategory": "chef's special rolls"
+    },
+    {
+      "id": "menu-112",
+      "category": "Chef's Special Rolls",
+      "name": "salmon tartar* (8 pieces)",
+      "description": "salmon poke, caper, white onion, masago, slightly torched salmon sashimi with garlic butter and fried onion on top",
+      "price": 16.95,
+      "availability": "available",
+      "sourcePrice": "$16.95",
+      "sourceCategory": "chef's special rolls"
+    },
+    {
+      "id": "menu-113",
+      "category": "Chef's Special Rolls",
+      "name": "rainbow roll* (8 pieces)",
+      "description": "California roll topped with maguro sashimi, shake sashimi, hamachi sashimi, white fish sashimi and ebi sashimi",
+      "price": 16.95,
+      "availability": "available",
+      "sourcePrice": "$16.95",
+      "sourceCategory": "chef's special rolls"
+    },
+    {
+      "id": "menu-114",
+      "category": "Chef's Special Rolls",
+      "name": "caterpillar roll (8 pieces)",
+      "description": "unagi, cucumber, covered with avocado",
+      "price": 16.95,
+      "availability": "available",
+      "sourcePrice": "$16.95",
+      "sourceCategory": "chef's special rolls"
+    },
+    {
+      "id": "menu-115",
+      "category": "Chef's Special Rolls",
+      "name": "dragon ball (8 pieces)",
+      "description": "shrimp tempura, surimi crab mix, unagi, avocado and strawberries with unagi sauce on top",
+      "price": 17.95,
+      "availability": "available",
+      "sourcePrice": "$17.95",
+      "sourceCategory": "chef's special rolls"
+    },
+    {
+      "id": "menu-116",
+      "category": "Chef's Special Rolls",
+      "name": "misaki roll* (8 pieces)",
+      "description": "tuna poke, avocado tempura, mustard yuzu sauce, negi, kaiware, spicy ponzu and maguro tataki sashimi on top",
+      "price": 17.95,
+      "availability": "available",
+      "sourcePrice": "$17.95",
+      "sourceCategory": "chef's special rolls"
+    },
+    {
+      "id": "menu-117",
+      "category": "Chef's Special Rolls",
+      "name": "meiji maguro roll* (8 pieces)",
+      "description": "cucumber, avocado, kaiware, jalapenos, topped with tuna poke and masago arare",
+      "price": 17.95,
+      "availability": "available",
+      "sourcePrice": "$17.95",
+      "sourceCategory": "chef's special rolls"
+    },
+    {
+      "id": "menu-118",
+      "category": "Chef's Special Rolls",
+      "name": "hokkaido roll* (8 pieces)",
+      "description": "spicy scallops and negi tempura topped with yellow tail and roasted jalapenos",
+      "price": 19.95,
+      "availability": "available",
+      "sourcePrice": "$19.95",
+      "sourceCategory": "chef's special rolls"
+    },
+    {
+      "id": "menu-119",
+      "category": "Chef's Special Rolls",
+      "name": "surf and turf*",
+      "description": "snow crab tempura, avocado, topped with torched tri-tip beef, garlic butter and yuzu mustard.",
+      "price": 21.95,
+      "availability": "available",
+      "sourcePrice": "$21.95",
+      "sourceCategory": "chef's special rolls"
+    },
+    {
+      "id": "menu-120",
+      "category": "Sushi Combos - Dinner",
+      "name": "moriawase*",
+      "description": "sushi of 2 pieces maguro, 1 piece of shake, 1 piece of hamachi, 1 piece of ebi, 1 piece of bincho, choice of spicy poke or nova lox salmon roll or shrimp tempura roll, comes with soup and salad!",
+      "price": 27.95,
+      "availability": "available",
+      "sourcePrice": "$27.95",
+      "sourceCategory": "Sushi Combos - Dinner"
+    },
+    {
+      "id": "menu-121",
+      "category": "Sushi Combos - Dinner",
+      "name": "beginner's combo*",
+      "description": "sushi of 2 pieces maguro, 2 pieces of shake, 2 pieces of hamachi, 2 pieces of ebi, california roll, comes with soup and salad!",
+      "price": 29.95,
+      "availability": "available",
+      "sourcePrice": "$29.95",
+      "sourceCategory": "Sushi Combos - Dinner"
+    },
+    {
+      "id": "menu-122",
+      "category": "Sushi Combos - Dinner",
+      "name": "sashimi combo*",
+      "description": "sashimi of 3 pieces maguro, 3 pieces of shake, 3 pieces of hamachi, 3 pieces of tako, 3 pieces of white fish, comes with soup and salad!",
+      "price": 34.95,
+      "availability": "available",
+      "sourcePrice": "$34.95",
+      "sourceCategory": "Sushi Combos - Dinner"
+    },
+    {
+      "id": "menu-123",
+      "category": "Sushi Combos - Dinner",
+      "name": "chirashi*",
+      "description": "bed of rice, garikan, furikake, Japanese pickles, a variety sashimi selected by the chef, comes with soup and salad!",
+      "price": 34.95,
+      "availability": "available",
+      "sourcePrice": "$34.95",
+      "sourceCategory": "Sushi Combos - Dinner"
+    },
+    {
+      "id": "menu-124",
+      "category": "Appetizers",
+      "name": "miso soup",
+      "description": "rich in seaweed, tofu and negi (green onion), that will warm your stomach, and prep you for your main course!",
+      "price": 3.25,
+      "availability": "available",
+      "sourcePrice": "$3.25",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-125",
+      "category": "Appetizers",
+      "name": "house salad",
+      "description": "spring mix of leaf greens, garnished with tomatoes and shredded potato crunches with our awesome tofu dressing!",
+      "price": 5.95,
+      "availability": "available",
+      "sourcePrice": "$5.95",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-126",
+      "category": "Appetizers",
+      "name": "seaweed salad",
+      "description": "a medley of our hiyashi wakame (green seaweed), wakame (kelp), and cucumbers, topped with a savory vinaigrette!",
+      "price": 8.25,
+      "availability": "available",
+      "sourcePrice": "$8.25",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-127",
+      "category": "Appetizers",
+      "name": "edamame (salted)",
+      "description": "sweet edamame that's lightly sprinkled with coarse sea salt!",
+      "price": 5.95,
+      "availability": "available",
+      "sourcePrice": "$5.95",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-128",
+      "category": "Appetizers",
+      "name": "edamame (spicy)",
+      "description": "sweet edamame mixed with spicy lemon garlic sriracha!",
+      "price": 6.5,
+      "availability": "available",
+      "sourcePrice": "$6.50",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-129",
+      "category": "Appetizers",
+      "name": "vegetable egg rolls",
+      "description": "3 pieces of crispy egg rolls with a side of sweet chili sauce",
+      "price": 6.25,
+      "availability": "available",
+      "sourcePrice": "$6.25",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-130",
+      "category": "Appetizers",
+      "name": "vegetable tempura",
+      "description": "10pcs of fresh vegetables select by chef with a side of house temp. sauce",
+      "price": 12.95,
+      "availability": "available",
+      "sourcePrice": "$12.95",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-131",
+      "category": "Appetizers",
+      "name": "shrimp & veggie tempura",
+      "description": "assorted 4 pieces of vegetables selected by our chefs along with 6 pieces of fresh shrimp temp. and side of dipping sauce",
+      "price": 15.95,
+      "availability": "available",
+      "sourcePrice": "$15.95",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-132",
+      "category": "Appetizers",
+      "name": "pork chashu buns",
+      "description": "3 pieces barbecued pork bellies wrapped with milky buns along with cucumber covered with special dressing and chili oil",
+      "price": 9.95,
+      "availability": "available",
+      "sourcePrice": "$9.95",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-133",
+      "category": "Appetizers",
+      "name": "shrimp shumai",
+      "description": "6 pieces of steamed shrimp dumplings garnished with masago on top",
+      "price": 6.95,
+      "availability": "available",
+      "sourcePrice": "$6.95",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-134",
+      "category": "Appetizers",
+      "name": "gyoza - chicken & pork",
+      "description": "6 pieces pan fried meat dumplings",
+      "price": 8.25,
+      "availability": "available",
+      "sourcePrice": "$8.25",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-135",
+      "category": "Appetizers",
+      "name": "gyoza - vegetable",
+      "description": "6 pieces pan fried veggie dumplings",
+      "price": 8.25,
+      "availability": "available",
+      "sourcePrice": "$8.25",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-136",
+      "category": "Appetizers",
+      "name": "baked mussels",
+      "description": "5 pieces savory mussels backed with spicy mayonnaise, unagi sauce",
+      "price": 12.95,
+      "availability": "available",
+      "sourcePrice": "$12.95",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-137",
+      "category": "Appetizers",
+      "name": "kama hama",
+      "description": "grilled yellowtail collar",
+      "price": 15.95,
+      "availability": "available",
+      "sourcePrice": "$15.95",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-138",
+      "category": "Appetizers",
+      "name": "fried calamari tentacles",
+      "description": "crispy squid tentacles served with a side of spicy mayo",
+      "price": 12.25,
+      "availability": "available",
+      "sourcePrice": "$12.25",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-139",
+      "category": "Appetizers",
+      "name": "karaage",
+      "description": "our best selling crispy fried chicken that is moist and succulent to the core! paired with a fiery spicy mayonnaise to complete its flavoring!",
+      "price": 9.95,
+      "availability": "available",
+      "sourcePrice": "$9.95",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-140",
+      "category": "Appetizers",
+      "name": "Agedashi Tofu",
+      "description": "Lightly fried tofu with bonito flakes and a side of tempura sauce",
+      "price": 7.25,
+      "availability": "unavailable",
+      "sourcePrice": "$7.25",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-141",
+      "category": "Appetizers",
+      "name": "shishito peppers",
+      "description": "grilled shishito peppers with bonito flakes, ponzu and togarashi",
+      "price": 9.95,
+      "availability": "unavailable",
+      "sourcePrice": "$9.95 - Unavailable",
+      "sourceCategory": "Appetizers"
+    },
+    {
+      "id": "menu-142",
+      "category": "Kushiyaki",
+      "name": "chicken tsukune",
+      "description": "chicken meatball on skewer, sprinkled with coarse salt and black peppers grilled to perfection",
+      "price": 6.25,
+      "availability": "available",
+      "sourcePrice": "$6.25",
+      "sourceCategory": "Kushiyaki"
+    },
+    {
+      "id": "menu-143",
+      "category": "Kushiyaki",
+      "name": "chicken teriyaki",
+      "description": "grilled chicken on skewer, side teriyaki sauce",
+      "price": 6.25,
+      "availability": "available",
+      "sourcePrice": "$6.25",
+      "sourceCategory": "Kushiyaki"
+    },
+    {
+      "id": "menu-144",
+      "category": "Kushiyaki",
+      "name": "beef teriyaki",
+      "description": "grilled beef skewer, side teriyaki sauce",
+      "price": 6.25,
+      "availability": "available",
+      "sourcePrice": "$6.25",
+      "sourceCategory": "Kushiyaki"
+    },
+    {
+      "id": "menu-145",
+      "category": "Kushiyaki",
+      "name": "salmon teriyaki",
+      "description": "grilled salmon skewer, side teriyaki sauce",
+      "price": 7.95,
+      "availability": "available",
+      "sourcePrice": "$7.95",
+      "sourceCategory": "Kushiyaki"
+    },
+    {
+      "id": "menu-146",
+      "category": "Ramen",
+      "name": "tonkotsu",
+      "description": "pork broth, naruto, negi, menma, soft poached egg, and pork bellies",
+      "price": 16.5,
+      "availability": "available",
+      "sourcePrice": "$16.50",
+      "sourceCategory": "Ramen"
+    },
+    {
+      "id": "menu-147",
+      "category": "Ramen",
+      "name": "tan tan men",
+      "description": "spicy ground pork, crispy shallots, bokchoy, negi, soft poached egg and shredded peppers.",
+      "price": 16.5,
+      "availability": "available",
+      "sourcePrice": "$16.50",
+      "sourceCategory": "Ramen"
+    },
+    {
+      "id": "menu-148",
+      "category": "Ramen",
+      "name": "vegetable ramen",
+      "description": "vegetable stock, tofu, bean sprouts, bokchoy, pickles, soft poached egg, cabbage salad, green onion with macho (roasted jalapeno)",
+      "price": 16.5,
+      "availability": "available",
+      "sourcePrice": "$16.50",
+      "sourceCategory": "Ramen"
+    }
+  ]
+}
