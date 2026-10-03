@@ -1,0 +1,32 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "xPS-SKd_EU64AXId5tsfa"
+uri = "file://.local/conversation-workspace/files/outputs/misaki-ordering/index.html"
+type = "html"
+title = "Misaki Online Ordering — Interactive Demo"
+description = "Responsive, self-contained ordering prototype with searchable menu, cart, stock limits, budget checks, validated checkout, order review and demo confirmation."
+logical_id = "22c96ba8-2459-43e2-a959-6936e1d98a9e"
+content_hash = "sha256:bb3846e803383ab9c6927b82a0f1a8513f5d4625c0c5e1f2571c32917cbb94dc"
+size = 37041
+mtime_ms = 1790993881817
+storage_uri = "gcs://replit-rams-assets-picard/rams/assets/conversation:a4a3bf17-fe0f-4f8e-b67c-f71402432475/22c96ba8-2459-43e2-a959-6936e1d98a9e/9ca9b259-b5af-4c71-bb72-aeb25e63525f"
+storage_version_token = "1790993889035314"
+content_type = "text/html"
+source_uri = "file://outputs/misaki-ordering/index.html"
+
+[[outputs]]
+id = "2TlOqckgLO3fZjEVhUQgj"
+uri = "file://.local/conversation-workspace/files/outputs/misaki-ordering-source.zip"
+type = "unspecified"
+title = "Misaki Ordering App Source + README"
+description = "ZIP containing the full HTML/CSS/JavaScript source, FBLA requirements walkthrough, and resource credits."
+logical_id = "79e4a7bd-cc9f-4119-a6ac-3c9c6afc2d37"
+content_hash = "sha256:3f17dbad90c7da17348da2a9ac3f5dfe98d5a33ee2b14aee7701d6cd1cd9db51"
+size = 14131
+mtime_ms = 1790993881824
+storage_uri = "gcs://replit-rams-assets-picard/rams/assets/conversation:a4a3bf17-fe0f-4f8e-b67c-f71402432475/79e4a7bd-cc9f-4119-a6ac-3c9c6afc2d37/c1165aca-2da7-4b60-b1ec-d935e67fa107"
+storage_version_token = "1790993889785952"
+content_type = "application/octet-stream"
+source_uri = "file://outputs/misaki-ordering-source.zip"

@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Misaki Ordering"
+description = "A responsive, installable Misaki restaurant ordering app for Mac and phone. Browse the current published menu, customize order quantities and photos, calculate totals, and review a demo order."
+version = "1.0.0"
+id = "artifacts/misaki-ordering"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20789
+
+[services.development]
+run = "pnpm --filter @workspace/misaki-ordering run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/misaki-ordering", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/misaki-ordering/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20789"
+BASE_PATH = "/"
