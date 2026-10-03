@@ -1,9 +1,12 @@
 import { createRoot } from 'react-dom/client';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import App from './App';
 import { ErrorBoundary } from '@/components/error-boundary';
 
 import './index.css';
+
+const queryClient = new QueryClient();
 
 if (import.meta.env.PROD && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -25,6 +28,8 @@ createRoot(document.getElementById('root')!, {
   },
 }).render(
   <ErrorBoundary>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <App />
+    </QueryClientProvider>
   </ErrorBoundary>,
 );

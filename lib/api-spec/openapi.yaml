@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: misaki
+    description: Published Misaki menu catalog
 paths:
   /healthz:
     get:
@@ -24,6 +26,19 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /misaki/menu:
+    get:
+      operationId: getMisakiMenu
+      tags: [misaki]
+      summary: Get the published Misaki menu
+      description: Returns the catalog maintained by the Python menu service.
+      responses:
+        "200":
+          description: The published menu and its source metadata
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MisakiMenuResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +48,56 @@ components:
           type: string
       required:
         - status
+    MisakiMenuItem:
+      type: object
+      properties:
+        id:
+          type: string
+        category:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        availability:
+          type: string
+          enum: [available, unavailable]
+        sourcePrice:
+          type: string
+        sourceCategory:
+          type: string
+        sourceName:
+          type: string
+        sourceDescription:
+          type: string
+      required:
+        - id
+        - category
+        - name
+        - description
+        - price
+        - availability
+        - sourcePrice
+        - sourceCategory
+        - sourceName
+        - sourceDescription
+    MisakiMenuResponse:
+      type: object
+      properties:
+        sourceUrl:
+          type: string
+          format: uri
+        capturedOn:
+          type: string
+          format: date
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/MisakiMenuItem"
+      required:
+        - sourceUrl
+        - capturedOn
+        - items
 

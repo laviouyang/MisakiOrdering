@@ -1,16 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Check, ChevronRight, Clock3, ImagePlus, MapPin, Minus, Plus, Search, ShoppingBag, Store, Truck, Utensils, X } from 'lucide-react';
+import { Check, ChevronRight, Clock3, ImagePlus, MapPin, Minus, Plus, Search, ShoppingBag, Store, Truck, Utensils, X, Pencil, RotateCcw, Save } from 'lucide-react';
+import { getGetMisakiMenuQueryKey, useGetMisakiMenu } from '@workspace/api-client-react';
+import type { MisakiMenuItem } from '@workspace/api-client-react';
 import menuData from '@/data/misaki-menu.json';
 
-type MenuItem = {
-  id: string;
-  category: string;
-  name: string;
-  description: string;
-  price: number;
-  availability: 'available' | 'unavailable';
-  sourcePrice: string;
-};
+type MenuItem = MisakiMenuItem;
+type LocalCopy = { brandName: string; locationCaption: string; heroHeading: string; heroDescription: string; heroNote: string };
+type ItemOverride = Partial<Pick<MenuItem, 'name' | 'description' | 'category' | 'price' | 'availability'>>;
 type CartEntry = { itemId: string; quantity: number };
 type Fulfillment = 'pickup' | 'delivery' | 'dine-in';
 type DemoOrder = {
@@ -28,14 +24,36 @@ type DemoOrder = {
   specialRequests?: string;
 };
 
-const menuItems = (menuData as { items: MenuItem[] }).items;
+const fallbackItems = (menuData as { items: Array<Omit<MenuItem, 'sourceName' | 'sourceDescription'> & { sourceName?: string; sourceDescription?: string }> }).items.map((item) => {
+  const sourceName = item.sourceName ?? item.name;
+  const sourceDescription = item.sourceDescription ?? item.description;
+  const correctedName = item.id === 'menu-011' ? 'Spicy Sriracha' : sourceName.replace(/^([a-z])/, (letter) => letter.toLocaleUpperCase());
+  let correctedDescription = sourceDescription.replace(/^([a-z])/, (letter) => letter.toLocaleUpperCase());
+  correctedDescription = correctedDescription.replace(/cavair/gi, 'caviar').replace(/\bSiracha\b/gi, 'Sriracha');
+  if (item.id === 'menu-036') correctedDescription = 'Four crisp pastries with creamy egg custard, baked until golden. Pair with chocolate or caramel dressing.';
+  return { ...item, sourceName, sourceDescription, name: correctedName, description: item.id === 'menu-074' ? 'Wasabi caviar' : correctedDescription };
+}) as MenuItem[];
 const MINIMUM = 10;
 const MAX_PER_ITEM = 10;
 const DELIVERY_FEE = 4.5;
 const TAX_RATE = 0.0885;
 const DB_NAME = 'misaki-local-photos';
 const STORE_NAME = 'item-images';
+const MASTER_KEY = 'misaki-published-catalog-v1';
+const OVERRIDES_KEY = 'misaki-device-menu-overrides-v1';
+const COPY_KEY = 'misaki-device-copy-overrides-v1';
 const money = (amount: number) => `$${amount.toFixed(2)}`;
+const defaultCopy: LocalCopy = {
+  brandName: 'Misaki',
+  locationCaption: 'Japanese Kitchen · Superior',
+  heroHeading: 'Good food.\nGood neighbors.',
+  heroDescription: 'Rolls, bowls, and all the little things we love making for Superior. Choose your favorites and we’ll take it from here.',
+  heroNote: 'Locally owned in Superior\nFreshly prepared, just for you',
+};
+
+function canonicalItems(items: MisakiMenuItem[]): MenuItem[] {
+  return items.map((item) => ({ ...item }));
+}
 
 function openPhotoDb(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
@@ -88,6 +106,19 @@ const fulfillmentLabel: Record<Fulfillment, string> = {
 };
 
 function App() {
+  const menuQuery = useGetMisakiMenu({ query: { queryKey: getGetMisakiMenuQueryKey(), staleTime: 60_000 } });
+  const [publishedItems, setPublishedItems] = useState<MenuItem[]>(fallbackItems);
+  const [overrides, setOverrides] = useState<Record<string, ItemOverride>>({});
+  const [items, setItems] = useState<MenuItem[]>(fallbackItems);
+  const [copy, setCopy] = useState<LocalCopy>(defaultCopy);
+  const [copyOverrides, setCopyOverrides] = useState<Partial<LocalCopy>>({});
+  const [editorOpen, setEditorOpen] = useState(false);
+  const [editorTab, setEditorTab] = useState<'menu' | 'copy'>('menu');
+  const [draftItems, setDraftItems] = useState<Record<string, MenuItem>>({});
+  const [draftCopy, setDraftCopy] = useState<LocalCopy>(defaultCopy);
+  const [editorSearch, setEditorSearch] = useState('');
+  const [editorError, setEditorError] = useState('');
+  const [catalogOrigin, setCatalogOrigin] = useState<'bundled' | 'cached' | 'published'>('bundled');
   const [category, setCategory] = useState('All items');
   const [search, setSearch] = useState('');
   const [fulfillment, setFulfillment] = useState<Fulfillment>('pickup');
@@ -108,8 +139,41 @@ function App() {
   const [quantityNotice, setQuantityNotice] = useState('');
   const fileRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const photoUrlsRef = useRef<Record<string, string>>({});
-  const categories = useMemo(() => ['All items', ...Array.from(new Set(menuItems.map((item) => item.category)))], []);
-  const itemMap = useMemo(() => new Map(menuItems.map((item) => [item.id, item])), []);
+  const categories = useMemo(() => ['All items', ...Array.from(new Set(items.map((item) => item.category)))], [items]);
+  const itemMap = useMemo(() => new Map(items.map((item) => [item.id, item])), [items]);
+
+  useEffect(() => {
+    try {
+      const cached = localStorage.getItem(MASTER_KEY);
+      if (cached) {
+        const decoded = JSON.parse(cached) as MenuItem[];
+        if (Array.isArray(decoded) && decoded.length) {
+          setPublishedItems(decoded);
+          setCatalogOrigin('cached');
+        }
+      }
+      const savedOverrides = localStorage.getItem(OVERRIDES_KEY);
+      if (savedOverrides) setOverrides(JSON.parse(savedOverrides) as Record<string, ItemOverride>);
+      const savedCopy = localStorage.getItem(COPY_KEY);
+      if (savedCopy) setCopyOverrides(JSON.parse(savedCopy) as Partial<LocalCopy>);
+    } catch { /* Continue with bundled catalog when local storage is unavailable or malformed. */ }
+  }, []);
+
+  useEffect(() => {
+    if (!menuQuery.data?.items?.length) return;
+    const fresh = canonicalItems(menuQuery.data.items);
+    setPublishedItems(fresh);
+    setCatalogOrigin('published');
+    try { localStorage.setItem(MASTER_KEY, JSON.stringify(fresh)); } catch { /* The live catalog remains usable without a cache. */ }
+  }, [menuQuery.data]);
+
+  useEffect(() => {
+    setItems(publishedItems.map((item) => ({ ...item, ...(overrides[item.id] ?? {}) })));
+  }, [publishedItems, overrides]);
+
+  useEffect(() => {
+    setCopy({ ...defaultCopy, ...copyOverrides });
+  }, [copyOverrides]);
 
   useEffect(() => {
     try {
@@ -132,12 +196,12 @@ function App() {
 
   const visibleItems = useMemo(() => {
     const needle = search.trim().toLocaleLowerCase();
-    return menuItems.filter((item) => {
+    return items.filter((item) => {
       const matchesCategory = category === 'All items' || item.category === category;
       const matchesSearch = !needle || `${item.name} ${item.description} ${item.category}`.toLocaleLowerCase().includes(needle);
       return matchesCategory && matchesSearch;
     });
-  }, [category, search]);
+  }, [category, search, items]);
   const subtotal = cart.reduce((sum, entry) => sum + (itemMap.get(entry.itemId)?.price ?? 0) * entry.quantity, 0);
   const tax = Number((subtotal * TAX_RATE).toFixed(2));
   const deliveryFee = fulfillment === 'delivery' && cart.length > 0 ? DELIVERY_FEE : 0;
@@ -146,7 +210,75 @@ function App() {
   const budgetNumber = budget.trim() ? Number(budget) : null;
   const exceedsBudget = budgetNumber !== null && Number.isFinite(budgetNumber) && total > budgetNumber;
 
+  const openEditor = () => {
+    setDraftItems(Object.fromEntries(items.map((item) => [item.id, { ...item }])));
+    setDraftCopy({ ...copy });
+    setEditorError('');
+    setEditorSearch('');
+    setEditorTab('menu');
+    setEditorOpen(true);
+  };
+
+  const updateDraftItem = (id: string, field: keyof MenuItem, value: string | number | MenuItem['availability']) => {
+    setDraftItems((current) => ({ ...current, [id]: { ...current[id], [field]: value } }));
+  };
+
+  const saveEditor = () => {
+    const nextOverrides: Record<string, ItemOverride> = {};
+    for (const published of publishedItems) {
+      const draft = draftItems[published.id];
+      if (!draft) continue;
+      if (!draft.name.trim() || !draft.category.trim()) {
+        setEditorError(`Add a name and category for ${published.name}.`);
+        return;
+      }
+      if (!Number.isFinite(Number(draft.price)) || Number(draft.price) < 0) {
+        setEditorError(`Enter a non-negative price for ${draft.name}.`);
+        return;
+      }
+      const changed: ItemOverride = {};
+      if (draft.name !== published.name) changed.name = draft.name.trim();
+      if (draft.description !== published.description) changed.description = draft.description.trim();
+      if (draft.category !== published.category) changed.category = draft.category.trim();
+      if (Number(draft.price) !== published.price) changed.price = Number(draft.price);
+      if (draft.availability !== published.availability) changed.availability = draft.availability;
+      if (Object.keys(changed).length) nextOverrides[published.id] = changed;
+    }
+    const nextCopyOverrides: Partial<LocalCopy> = {};
+    (Object.keys(defaultCopy) as Array<keyof LocalCopy>).forEach((key) => {
+      if (draftCopy[key] !== defaultCopy[key]) nextCopyOverrides[key] = draftCopy[key];
+    });
+    try {
+      localStorage.setItem(OVERRIDES_KEY, JSON.stringify(nextOverrides));
+      localStorage.setItem(COPY_KEY, JSON.stringify(nextCopyOverrides));
+    } catch {
+      setEditorError('Could not save local edits in this browser. Check available device storage and try again.');
+      return;
+    }
+    setOverrides(nextOverrides);
+    setCopyOverrides(nextCopyOverrides);
+    setCart((current) => current.filter((entry) => draftItems[entry.itemId]?.availability === 'available'));
+    setEditorOpen(false);
+    setEditorError('');
+  };
+
+  const resetToPublished = () => {
+    try {
+      localStorage.removeItem(OVERRIDES_KEY);
+      localStorage.removeItem(COPY_KEY);
+    } catch {
+      setEditorError('Could not clear local edits in this browser.');
+      return;
+    }
+    setOverrides({});
+    setCopyOverrides({});
+    setDraftItems(Object.fromEntries(publishedItems.map((item) => [item.id, { ...item }])));
+    setDraftCopy({ ...defaultCopy });
+    setEditorError('');
+  };
+
   const changeQuantity = (itemId: string, delta: number) => {
+    if (delta > 0 && itemMap.get(itemId)?.availability !== 'available') return;
     const selectedQuantity = cart.find((entry) => entry.itemId === itemId)?.quantity ?? 0;
     if (delta > 0 && selectedQuantity >= MAX_PER_ITEM) {
       setQuantityNotice(`The demo limit is ${MAX_PER_ITEM} of each menu item.`);
@@ -263,7 +395,7 @@ function App() {
       <header className="topbar">
         <a className="brand" href="/" aria-label="Misaki Ordering home" data-testid="link-home">
           <span className="brand-mark" aria-hidden="true">美</span>
-          <span><span className="brand-name">Misaki</span><span className="brand-caption">Japanese Kitchen · Superior</span></span>
+          <span><span className="brand-name">{copy.brandName}</span><span className="brand-caption">{copy.locationCaption}</span></span>
         </a>
         <div className="topbar-right">
           <span><MapPin size={15} /> Superior, Colorado</span>
@@ -271,6 +403,7 @@ function App() {
           <button className="cart-jump" onClick={scrollToCart} data-testid="button-view-cart" aria-label={`View cart, ${cartCount} items`}>
             <ShoppingBag size={16} /> Your order <span className="cart-count" data-testid="text-cart-count">{cartCount}</span>
           </button>
+          <button className="editor-launch" type="button" onClick={openEditor} data-testid="button-open-editor"><Pencil size={14} /> Edit menu</button>
         </div>
       </header>
 
@@ -278,14 +411,25 @@ function App() {
         <div className="hero-inner">
           <div>
             <div className="eyebrow">A little taste of Japan, close to home</div>
-            <h1>Good food.<br />Good neighbors.</h1>
-            <p>Rolls, bowls, and all the little things we love making for Superior. Choose your favorites and we’ll take it from here.</p>
+            <h1>{copy.heroHeading.split('\n').map((line, index) => <span key={`${line}-${index}`}>{index > 0 && <br />}{line}</span>)}</h1>
+            <p>{copy.heroDescription}</p>
           </div>
-          <div className="hero-note">Locally owned in Superior<br />Freshly prepared, just for you</div>
+          <div className="hero-note">{copy.heroNote.split('\n').map((line, index) => <span key={`${line}-${index}`}>{index > 0 && <br />}{line}</span>)}</div>
         </div>
       </section>
 
       <main className="content-wrap">
+        {(menuQuery.isLoading || menuQuery.isError || catalogOrigin !== 'published') && (
+          <div className={`catalog-status${menuQuery.isError ? ' is-error' : ''}`} role={menuQuery.isError ? 'alert' : 'status'} data-testid="status-catalog-source">
+            <span className="catalog-status-dot" />
+            <span>{menuQuery.isError
+              ? `Published menu unavailable. Showing ${catalogOrigin === 'cached' ? 'the last saved catalog' : 'the bundled offline catalog'}${menuQuery.error instanceof Error ? ` · ${menuQuery.error.message}` : ''}.`
+              : menuQuery.isLoading
+                ? `Connecting to Misaki’s published menu. Showing ${catalogOrigin === 'cached' ? 'the last saved catalog' : 'the bundled offline catalog'} meanwhile.`
+                : 'Showing an offline catalog snapshot.'}</span>
+            {menuQuery.isError && <button type="button" className="catalog-retry" onClick={() => void menuQuery.refetch()} data-testid="button-retry-catalog">Try again</button>}
+          </div>
+        )}
         {orderForReceipt && (
           <section className="confirm-card" data-testid="status-last-order">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
@@ -430,6 +574,61 @@ function App() {
       {cart.length > 0 && <div className="mobile-cart-bar">
         <div><span>{cartCount} {cartCount === 1 ? 'item' : 'items'} in your order</span><br /><strong>{money(total)}</strong></div>
         <button onClick={scrollToCart} data-testid="button-mobile-view-cart">View order <ChevronRight size={14} /></button>
+      </div>}
+
+      {editorOpen && <div className="overlay editor-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setEditorOpen(false); }}>
+        <section className="editor-modal" role="dialog" aria-modal="true" aria-labelledby="editor-title" data-testid="dialog-local-editor">
+          <div className="editor-head">
+            <div>
+              <div className="eyebrow editor-eyebrow">This device only</div>
+              <h2 id="editor-title">Menu &amp; shop details</h2>
+              <p>Changes stay in this browser. The published Misaki catalog is never changed.</p>
+            </div>
+            <button className="close-btn" type="button" aria-label="Close editor" onClick={() => setEditorOpen(false)} data-testid="button-close-editor"><X size={18} /></button>
+          </div>
+          <div className="editor-tabs" role="tablist" aria-label="Editor sections">
+            <button type="button" role="tab" aria-selected={editorTab === 'menu'} className={editorTab === 'menu' ? 'active' : ''} onClick={() => setEditorTab('menu')} data-testid="tab-edit-menu">Menu items <span>{items.length}</span></button>
+            <button type="button" role="tab" aria-selected={editorTab === 'copy'} className={editorTab === 'copy' ? 'active' : ''} onClick={() => setEditorTab('copy')} data-testid="tab-edit-copy">Restaurant copy</button>
+          </div>
+          {editorTab === 'menu' ? <>
+            <div className="editor-toolbar">
+              <label className="search-box editor-search"><Search size={15} /><input value={editorSearch} onChange={(event) => setEditorSearch(event.target.value)} placeholder="Find a dish to edit" aria-label="Search editor menu" data-testid="input-editor-search" /></label>
+              <span className="editor-local-label">Local override</span>
+            </div>
+            <div className="editor-list" data-testid="list-editor-items">
+              {Object.values(draftItems).filter((item) => `${item.name} ${item.category}`.toLocaleLowerCase().includes(editorSearch.trim().toLocaleLowerCase())).map((item) => (
+                <article className="editor-item" key={item.id} data-testid={`editor-item-${item.id}`}>
+                  <div className="editor-item-top">
+                    <div><strong>{item.name}</strong><span>{item.id} · Published: {item.sourceName}</span></div>
+                    <label className={`availability-toggle${item.availability === 'available' ? ' available' : ''}`}>
+                      <input type="checkbox" checked={item.availability === 'available'} onChange={(event) => updateDraftItem(item.id, 'availability', event.target.checked ? 'available' : 'unavailable')} data-testid={`input-availability-${item.id}`} />
+                      <span>{item.availability === 'available' ? 'Available' : 'Sold out'}</span>
+                    </label>
+                  </div>
+                  <div className="editor-fields">
+                    <label>Name<input value={item.name} onChange={(event) => updateDraftItem(item.id, 'name', event.target.value)} data-testid={`input-editor-name-${item.id}`} /></label>
+                    <label>Category<input value={item.category} onChange={(event) => updateDraftItem(item.id, 'category', event.target.value)} data-testid={`input-editor-category-${item.id}`} /></label>
+                    <label>Price<input type="number" min="0" step="0.01" value={item.price} onChange={(event) => updateDraftItem(item.id, 'price', event.target.value === '' ? Number.NaN : Number(event.target.value))} data-testid={`input-editor-price-${item.id}`} /></label>
+                    <label className="editor-description">Description<textarea value={item.description} onChange={(event) => updateDraftItem(item.id, 'description', event.target.value)} data-testid={`input-editor-description-${item.id}`} /></label>
+                  </div>
+                  <div className="editor-source">Published wording: “{item.sourceDescription || 'No description'}”</div>
+                </article>
+              ))}
+            </div>
+          </> : <div className="copy-editor" data-testid="form-editor-copy">
+            <p className="copy-editor-intro">Give the ordering page a familiar local voice. These details only change on this device.</p>
+            <label>Restaurant name<input value={draftCopy.brandName} onChange={(event) => setDraftCopy((current) => ({ ...current, brandName: event.target.value }))} data-testid="input-copy-brand-name" /></label>
+            <label>Location caption<input value={draftCopy.locationCaption} onChange={(event) => setDraftCopy((current) => ({ ...current, locationCaption: event.target.value }))} data-testid="input-copy-location" /></label>
+            <label>Hero heading<textarea rows={2} value={draftCopy.heroHeading} onChange={(event) => setDraftCopy((current) => ({ ...current, heroHeading: event.target.value }))} data-testid="input-copy-hero-heading" /></label>
+            <label>Hero description<textarea rows={3} value={draftCopy.heroDescription} onChange={(event) => setDraftCopy((current) => ({ ...current, heroDescription: event.target.value }))} data-testid="input-copy-hero-description" /></label>
+            <label>Hero note<textarea rows={2} value={draftCopy.heroNote} onChange={(event) => setDraftCopy((current) => ({ ...current, heroNote: event.target.value }))} data-testid="input-copy-hero-note" /></label>
+          </div>}
+          {editorError && <div className="editor-error" role="alert" data-testid="status-editor-error">{editorError}</div>}
+          <div className="editor-actions">
+            <button type="button" className="editor-reset" onClick={resetToPublished} data-testid="button-reset-published"><RotateCcw size={14} /> Reset to published</button>
+            <div><button type="button" className="plain-btn" onClick={() => { setEditorOpen(false); setEditorError(''); }} data-testid="button-cancel-editor">Cancel</button><button type="button" className="editor-save" onClick={saveEditor} data-testid="button-save-editor"><Save size={15} /> Save on this device</button></div>
+          </div>
+        </section>
       </div>}
 
       {checkoutOpen && <div className="overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setCheckoutOpen(false); }}>
