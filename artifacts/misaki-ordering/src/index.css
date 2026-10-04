@@ -199,6 +199,10 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 .copy-editor label { font-size:11px;margin-bottom:14px; }
 .copy-editor input,.copy-editor textarea { font-size:13px;padding:10px 11px; }
 .copy-editor textarea { resize:vertical; }
+.editor-rules { border-top:1px solid #e5dece;margin-top:18px;padding-top:16px; }
+.editor-rules h3 { color:#294637;font:600 17px var(--app-font-serif);margin:0 0 7px; }
+.editor-rules p { color:#7b8278;font-size:11px;line-height:1.5;margin:9px 0 0; }
+.editor-rules .editor-fields { grid-template-columns:repeat(2,minmax(0,1fr)); }
 .editor-actions { display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid #e5dece;padding-top:14px;margin-top:8px; }
 .editor-actions>div { display:flex;gap:8px; }
 .editor-reset,.editor-save { display:flex;align-items:center;justify-content:center;gap:7px;border-radius:9px;padding:10px 13px;font-size:11px;font-weight:700; }

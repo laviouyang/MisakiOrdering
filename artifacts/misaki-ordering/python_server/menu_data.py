@@ -11,23 +11,32 @@ from typing import Any
 MENU_PATH = Path(__file__).resolve().parents[1] / "src" / "data" / "misaki-menu.json"
 
 NAME_FIXUPS = {
-    "unagi sauce2oz": "Unagi Sauce (2 oz)",
-    "spicy mayonnaise2oz": "Spicy Mayonnaise (2 oz)",
-    "teriyaki sauce2oz": "Teriyaki Sauce (2 oz)",
-    "ponzu sauce2oz": "Ponzu Sauce (2 oz)",
-    "ginger2oz": "Ginger (2 oz)",
-    "wasabi2oz": "Wasabi (2 oz)",
     "spicy siracha": "Spicy Sriracha",
-    "st. pellegrino500ml": "San Pellegrino (500 mL)",
+    "st. pellegrino": "San Pellegrino",
     "kanpa hama trio": "Kampachi Hama Trio",
     "maguro tataki* app. (seared tuna)": "Maguro Tataki* Appetizer (Seared Tuna)",
 }
 
 DESCRIPTION_FIXUPS = {
     "yuzu shiso soda": "A refreshing house-made Japanese citrus soda with shiso leaves.",
+    "raspberry sake": "Yaegaki Reiko sake with raspberry flavor (14 fl oz).",
     "egg custard tarts": (
-        "Crisp pastry filled with creamy egg custard and baked until golden. "
+        "4 crisp pastries filled with creamy egg custard and baked until golden. "
         "Add chocolate or caramel sauce if desired."
+    ),
+    "★ kuruma ebi (black tiger prawn)": (
+        "Cooked, super-premium giant tiger shrimp topped with our house-special "
+        "spicy sauce."
+    ),
+    "chuka idako (baby octopus)": (
+        "Cooked, sweetly marinated baby octopus. 2 pieces per order."
+    ),
+    "kanpa hama trio": (
+        "2 pieces of kampachi (amberjack) nigiri and 2 pieces of hamachi "
+        "(yellowtail) sashimi, served with a negihama maki."
+    ),
+    "sashimi appetizer*": (
+        "Includes 2 pieces each of maguro, shake, and hamachi sashimi."
     ),
     "miso soup": (
         "Seaweed, tofu, and negi (green onion) make this soup a warming start "
@@ -67,6 +76,47 @@ DESCRIPTION_FIXUPS = {
     "chicken teriyaki": "Grilled chicken on a skewer, served with teriyaki sauce.",
     "beef teriyaki": "Grilled beef on a skewer, served with teriyaki sauce.",
     "salmon teriyaki": "Grilled salmon on a skewer, served with teriyaki sauce.",
+    "negitoro*": (
+        "Toro (fatty tuna) and negi (green onion). Available as a 6-piece roll "
+        "or hand roll."
+    ),
+    "moriawase*": (
+        "Includes 2 pieces of maguro, 1 piece of shake, 1 piece of hamachi, "
+        "1 piece of ebi, 1 piece of bincho, and your choice of spicy poke, "
+        "Nova Lox salmon roll, or shrimp tempura roll. Served with soup and salad."
+    ),
+    "beginner's combo*": (
+        "Includes 2 pieces each of maguro, shake, hamachi, and ebi, plus a "
+        "California roll. Served with soup and salad."
+    ),
+    "sashimi combo*": (
+        "Includes 3 pieces each of maguro, shake, hamachi, tako, and white fish. "
+        "Served with soup and salad."
+    ),
+    "chirashi*": (
+        "A bed of rice with garikan, furikake, Japanese pickles, and a variety "
+        "of sashimi selected by the chef. Served with soup and salad."
+    ),
+    "vegetable egg rolls": (
+        "3 crispy vegetable egg rolls served with a side of sweet chili sauce."
+    ),
+    "gyoza - chicken & pork": "6 pan-fried chicken and pork dumplings.",
+    "gyoza - vegetable": "6 pan-fried vegetable dumplings.",
+    "kanpyo maki (6 pieces)": (
+        "Sweet pickled dried gourd, a traditional Japanese maki roll."
+    ),
+    "expert roll tempura (6 pieces)": (
+        "Baked salmon, avocado, shiso, mayonnaise, unagi sauce, masago, and "
+        "cream cheese, deep-fried in tempura."
+    ),
+    "when pigs swim*": (
+        "Salmon skin and bacon with jalapeño and avocado, topped with tuna, "
+        "spicy miso mayonnaise, and negi."
+    ),
+    "surf and turf*": (
+        "Snow crab tempura and avocado, topped with torched tri-tip beef, "
+        "garlic butter, and yuzu mustard."
+    ),
     "tonkotsu": (
         "Pork broth, naruto, negi, menma, soft-poached egg, and pork belly."
     ),
@@ -82,9 +132,13 @@ DESCRIPTION_FIXUPS = {
 
 TEXT_FIXUPS = (
     (r"\bJapaneses\b", "Japanese"),
+    (r"\bjapanese\b", "Japanese"),
     (r"\bgree onion\b", "green onion"),
     (r"\bcavair\b", "caviar"),
     (r"\bbokchoy\b", "bok choy"),
+    (r"\bsriracha\b", "Sriracha"),
+    (r"\bkewpie\b", "Kewpie"),
+    (r"\bmaui\b", "Maui"),
     (r"\bblack peppers\b", "black pepper"),
     (r"\bfresh water eel\b", "freshwater eel"),
     (r"\byellow tail\b", "yellowtail"),
@@ -93,10 +147,18 @@ TEXT_FIXUPS = (
     (r"\bselected by chef\b", "selected by the chef"),
     (r"\bif desire\b", "if desired"),
     (r"\bchef special\b", "chef's special"),
+    (r"\bhouse made\b", "house-made"),
+    (r"\bhouse special\b", "house-special"),
+    (r"\bsweet marinated\b", "sweetly marinated"),
     (r"\bhouse temp\.\s*sauce\b", "house tempura sauce"),
     (r"\btemp\.\s*sauce\b", "tempura sauce"),
+    (r"\bjalapenos\b", "jalapeños"),
     (r"\bjalapeno\b", "jalapeño"),
     (r"\b(\d+)\s*pcs\b", r"\1 pieces"),
+)
+SMALL_NAME_WORDS = {"and", "for", "in", "of", "on", "the", "to", "with"}
+SMALL_NAME_WORD_PATTERN = re.compile(
+    r"\b(" + "|".join(sorted(word.title() for word in SMALL_NAME_WORDS)) + r")\b"
 )
 
 
@@ -113,12 +175,35 @@ def _capitalize_sentences(text: str) -> str:
     )
 
 
-def normalize_name(source_name: str) -> str:
+def normalize_name(source_name: str, source_description: str = "") -> str:
     compact = re.sub(r"\s+", " ", source_name).strip()
+    compact = re.sub(r"(\d+)\s*pcs\b", r"\1 pieces", compact, flags=re.I)
     fixed = NAME_FIXUPS.get(compact.casefold())
-    if fixed:
-        return fixed
-    return compact.title()
+    base_name = fixed if fixed else compact.title()
+    size = re.fullmatch(r"(\d+(?:\.\d+)?)\s*(oz|ml)", source_description.strip(), re.I)
+    if size:
+        unit = "mL" if size.group(2).casefold() == "ml" else "oz"
+        return f"{base_name} ({size.group(1)} {unit})"
+    base_name = SMALL_NAME_WORD_PATTERN.sub(
+        lambda match: match.group(1).lower(), base_name
+    )
+    first_word = re.search(r"[A-Za-zÀ-ÖØ-öø-ÿ]+", base_name)
+    if first_word:
+        base_name = (
+            base_name[: first_word.start()]
+            + first_word.group(0)[0].upper()
+            + base_name[first_word.start() + 1 :]
+        )
+    base_name = re.sub(r"\bjalapeno\b", "Jalapeño", base_name, flags=re.I)
+    base_name = re.sub(
+        r"(?<=[A-Za-z])'([A-Z])",
+        lambda match: "'" + match.group(1).lower(),
+        base_name,
+    )
+    base_name = re.sub(r"\s+\*", "*", base_name)
+    base_name = re.sub(r"\*(\()", r"* \1", base_name)
+    base_name = re.sub(r"\((\d+)\s+Pieces\)", r"(\1 pieces)", base_name)
+    return base_name
 
 
 def normalize_description(source_description: str, source_name: str) -> str:
@@ -130,6 +215,12 @@ def normalize_description(source_description: str, source_name: str) -> str:
     if fixed:
         return fixed
 
+    compact = re.sub(
+        r"\b(\d+)\s*(?:pcs|pieces)\s*/\s*order\b",
+        r"\1 pieces per order",
+        compact,
+        flags=re.IGNORECASE,
+    )
     for pattern, replacement in TEXT_FIXUPS:
         compact = re.sub(pattern, replacement, compact, flags=re.IGNORECASE)
     compact = _capitalize_sentences(compact)
@@ -155,9 +246,14 @@ def normalize_catalog(catalog: dict[str, Any]) -> dict[str, Any]:
                 "sourceName": source_name,
                 "sourceDescription": source_description,
                 "sourceCategory": source_category,
-                "name": normalize_name(source_name),
+                "name": normalize_name(source_name, source_description),
                 "description": normalize_description(
-                    source_description, source_name
+                    "" if re.fullmatch(
+                        r"\d+(?:\.\d+)?\s*(?:oz|ml)",
+                        source_description.strip(),
+                        re.I,
+                    ) else source_description,
+                    source_name,
                 ),
             }
         )

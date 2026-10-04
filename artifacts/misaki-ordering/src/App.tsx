@@ -5,7 +5,24 @@ import type { MisakiMenuItem } from '@workspace/api-client-react';
 import menuData from '@/data/misaki-menu.json';
 
 type MenuItem = MisakiMenuItem;
-type LocalCopy = { brandName: string; locationCaption: string; heroHeading: string; heroDescription: string; heroNote: string };
+type LocalCopy = {
+  brandName: string;
+  locationCaption: string;
+  topbarLocation: string;
+  topbarStatus: string;
+  pickupHint: string;
+  deliveryHint: string;
+  dineInHint: string;
+  heroEyebrow: string;
+  heroHeading: string;
+  heroDescription: string;
+  heroNote: string;
+  menuHeading: string;
+  menuDescription: string;
+  footerRestaurant: string;
+  footerInstallNote: string;
+};
+type LocalRules = { minimumOrder: number; taxRate: number; deliveryFee: number; maxPerItem: number };
 type ItemOverride = Partial<Pick<MenuItem, 'name' | 'description' | 'category' | 'price' | 'availability'>>;
 type CartEntry = { itemId: string; quantity: number };
 type Fulfillment = 'pickup' | 'delivery' | 'dine-in';
@@ -24,35 +41,47 @@ type DemoOrder = {
   specialRequests?: string;
 };
 
-const fallbackItems = (menuData as { items: Array<Omit<MenuItem, 'sourceName' | 'sourceDescription'> & { sourceName?: string; sourceDescription?: string }> }).items.map((item) => {
-  const sourceName = item.sourceName ?? item.name;
-  const sourceDescription = item.sourceDescription ?? item.description;
-  const correctedName = item.id === 'menu-011' ? 'Spicy Sriracha' : sourceName.replace(/^([a-z])/, (letter) => letter.toLocaleUpperCase());
-  let correctedDescription = sourceDescription.replace(/^([a-z])/, (letter) => letter.toLocaleUpperCase());
-  correctedDescription = correctedDescription.replace(/cavair/gi, 'caviar').replace(/\bSiracha\b/gi, 'Sriracha');
-  if (item.id === 'menu-036') correctedDescription = 'Four crisp pastries with creamy egg custard, baked until golden. Pair with chocolate or caramel dressing.';
-  return { ...item, sourceName, sourceDescription, name: correctedName, description: item.id === 'menu-074' ? 'Wasabi caviar' : correctedDescription };
-}) as MenuItem[];
-const MINIMUM = 10;
-const MAX_PER_ITEM = 10;
-const DELIVERY_FEE = 4.5;
-const TAX_RATE = 0.0885;
+const fallbackItems = (menuData as { items: MenuItem[] }).items.map((item) => ({
+  ...item,
+  sourceName: item.sourceName ?? item.name,
+  sourceDescription: item.sourceDescription ?? item.description,
+  sourceCategory: item.sourceCategory ?? item.category,
+  sourcePrice: item.sourcePrice ?? `$${item.price.toFixed(2)}`,
+}));
 const DB_NAME = 'misaki-local-photos';
 const STORE_NAME = 'item-images';
-const MASTER_KEY = 'misaki-published-catalog-v1';
+const MASTER_KEY = 'misaki-published-catalog-v2';
 const OVERRIDES_KEY = 'misaki-device-menu-overrides-v1';
 const COPY_KEY = 'misaki-device-copy-overrides-v1';
+const RULES_KEY = 'misaki-device-order-rules-v1';
 const money = (amount: number) => `$${amount.toFixed(2)}`;
 const defaultCopy: LocalCopy = {
   brandName: 'Misaki',
   locationCaption: 'Japanese Kitchen · Superior',
+  topbarLocation: 'Superior, Colorado',
+  topbarStatus: 'Made fresh to order',
+  pickupHint: 'Pick up when it suits you',
+  deliveryHint: 'Address required for delivery',
+  dineInHint: 'We’ll have a table ready',
+  heroEyebrow: 'A little taste of Japan, close to home',
   heroHeading: 'Good food.\nGood neighbors.',
   heroDescription: 'Rolls, bowls, and all the little things we love making for Superior. Choose your favorites and we’ll take it from here.',
   heroNote: 'Locally owned in Superior\nFreshly prepared, just for you',
+  menuHeading: 'Explore the menu',
+  menuDescription: 'All the favorites, made here in Superior.',
+  footerRestaurant: 'Misaki @ Superior · Superior, Colorado',
+  footerInstallNote: 'On iPhone, use Share → Add to Home Screen. On Mac, use your browser’s Install or Add to Dock option.',
 };
+const defaultRules: LocalRules = { minimumOrder: 10, taxRate: 8.85, deliveryFee: 4.5, maxPerItem: 10 };
 
 function canonicalItems(items: MisakiMenuItem[]): MenuItem[] {
-  return items.map((item) => ({ ...item }));
+  return items.map((item) => ({
+    ...item,
+    sourceName: item.sourceName ?? item.name,
+    sourceDescription: item.sourceDescription ?? item.description,
+    sourceCategory: item.sourceCategory ?? item.category,
+    sourcePrice: item.sourcePrice ?? `$${item.price.toFixed(2)}`,
+  }));
 }
 
 function openPhotoDb(): Promise<IDBDatabase> {
@@ -112,10 +141,13 @@ function App() {
   const [items, setItems] = useState<MenuItem[]>(fallbackItems);
   const [copy, setCopy] = useState<LocalCopy>(defaultCopy);
   const [copyOverrides, setCopyOverrides] = useState<Partial<LocalCopy>>({});
+  const [rules, setRules] = useState<LocalRules>(defaultRules);
+  const [rulesOverrides, setRulesOverrides] = useState<Partial<LocalRules>>({});
   const [editorOpen, setEditorOpen] = useState(false);
   const [editorTab, setEditorTab] = useState<'menu' | 'copy'>('menu');
   const [draftItems, setDraftItems] = useState<Record<string, MenuItem>>({});
   const [draftCopy, setDraftCopy] = useState<LocalCopy>(defaultCopy);
+  const [draftRules, setDraftRules] = useState<LocalRules>(defaultRules);
   const [editorSearch, setEditorSearch] = useState('');
   const [editorError, setEditorError] = useState('');
   const [catalogOrigin, setCatalogOrigin] = useState<'bundled' | 'cached' | 'published'>('bundled');
@@ -148,7 +180,7 @@ function App() {
       if (cached) {
         const decoded = JSON.parse(cached) as MenuItem[];
         if (Array.isArray(decoded) && decoded.length) {
-          setPublishedItems(decoded);
+          setPublishedItems(canonicalItems(decoded));
           setCatalogOrigin('cached');
         }
       }
@@ -156,6 +188,8 @@ function App() {
       if (savedOverrides) setOverrides(JSON.parse(savedOverrides) as Record<string, ItemOverride>);
       const savedCopy = localStorage.getItem(COPY_KEY);
       if (savedCopy) setCopyOverrides(JSON.parse(savedCopy) as Partial<LocalCopy>);
+      const savedRules = localStorage.getItem(RULES_KEY);
+      if (savedRules) setRulesOverrides(JSON.parse(savedRules) as Partial<LocalRules>);
     } catch { /* Continue with bundled catalog when local storage is unavailable or malformed. */ }
   }, []);
 
@@ -174,6 +208,10 @@ function App() {
   useEffect(() => {
     setCopy({ ...defaultCopy, ...copyOverrides });
   }, [copyOverrides]);
+
+  useEffect(() => {
+    setRules({ ...defaultRules, ...rulesOverrides });
+  }, [rulesOverrides]);
 
   useEffect(() => {
     try {
@@ -203,8 +241,8 @@ function App() {
     });
   }, [category, search, items]);
   const subtotal = cart.reduce((sum, entry) => sum + (itemMap.get(entry.itemId)?.price ?? 0) * entry.quantity, 0);
-  const tax = Number((subtotal * TAX_RATE).toFixed(2));
-  const deliveryFee = fulfillment === 'delivery' && cart.length > 0 ? DELIVERY_FEE : 0;
+  const tax = Number((subtotal * rules.taxRate / 100).toFixed(2));
+  const deliveryFee = fulfillment === 'delivery' && cart.length > 0 ? rules.deliveryFee : 0;
   const total = Number((subtotal + tax + deliveryFee).toFixed(2));
   const cartCount = cart.reduce((sum, entry) => sum + entry.quantity, 0);
   const budgetNumber = budget.trim() ? Number(budget) : null;
@@ -213,6 +251,7 @@ function App() {
   const openEditor = () => {
     setDraftItems(Object.fromEntries(items.map((item) => [item.id, { ...item }])));
     setDraftCopy({ ...copy });
+    setDraftRules({ ...rules });
     setEditorError('');
     setEditorSearch('');
     setEditorTab('menu');
@@ -224,6 +263,26 @@ function App() {
   };
 
   const saveEditor = () => {
+    if (!Number.isFinite(draftRules.minimumOrder) || draftRules.minimumOrder < 0) {
+      setEditorError('Enter a non-negative minimum order amount.');
+      setEditorTab('copy');
+      return;
+    }
+    if (!Number.isFinite(draftRules.deliveryFee) || draftRules.deliveryFee < 0) {
+      setEditorError('Enter a non-negative delivery estimate.');
+      setEditorTab('copy');
+      return;
+    }
+    if (!Number.isFinite(draftRules.taxRate) || draftRules.taxRate < 0 || draftRules.taxRate > 100) {
+      setEditorError('Enter a tax estimate between 0% and 100%.');
+      setEditorTab('copy');
+      return;
+    }
+    if (!Number.isInteger(draftRules.maxPerItem) || draftRules.maxPerItem < 1 || draftRules.maxPerItem > 99) {
+      setEditorError('Set the per-item demo limit to a whole number from 1 to 99.');
+      setEditorTab('copy');
+      return;
+    }
     const nextOverrides: Record<string, ItemOverride> = {};
     for (const published of publishedItems) {
       const draft = draftItems[published.id];
@@ -248,16 +307,24 @@ function App() {
     (Object.keys(defaultCopy) as Array<keyof LocalCopy>).forEach((key) => {
       if (draftCopy[key] !== defaultCopy[key]) nextCopyOverrides[key] = draftCopy[key];
     });
+    const nextRulesOverrides: Partial<LocalRules> = {};
+    (Object.keys(defaultRules) as Array<keyof LocalRules>).forEach((key) => {
+      if (draftRules[key] !== defaultRules[key]) nextRulesOverrides[key] = draftRules[key];
+    });
     try {
       localStorage.setItem(OVERRIDES_KEY, JSON.stringify(nextOverrides));
       localStorage.setItem(COPY_KEY, JSON.stringify(nextCopyOverrides));
+      localStorage.setItem(RULES_KEY, JSON.stringify(nextRulesOverrides));
     } catch {
       setEditorError('Could not save local edits in this browser. Check available device storage and try again.');
       return;
     }
     setOverrides(nextOverrides);
     setCopyOverrides(nextCopyOverrides);
-    setCart((current) => current.filter((entry) => draftItems[entry.itemId]?.availability === 'available'));
+    setRulesOverrides(nextRulesOverrides);
+    setCart((current) => current
+      .filter((entry) => draftItems[entry.itemId]?.availability === 'available')
+      .map((entry) => ({ ...entry, quantity: Math.min(entry.quantity, draftRules.maxPerItem) })));
     setEditorOpen(false);
     setEditorError('');
   };
@@ -266,28 +333,31 @@ function App() {
     try {
       localStorage.removeItem(OVERRIDES_KEY);
       localStorage.removeItem(COPY_KEY);
+      localStorage.removeItem(RULES_KEY);
     } catch {
       setEditorError('Could not clear local edits in this browser.');
       return;
     }
     setOverrides({});
     setCopyOverrides({});
+    setRulesOverrides({});
     setDraftItems(Object.fromEntries(publishedItems.map((item) => [item.id, { ...item }])));
     setDraftCopy({ ...defaultCopy });
+    setDraftRules({ ...defaultRules });
     setEditorError('');
   };
 
   const changeQuantity = (itemId: string, delta: number) => {
     if (delta > 0 && itemMap.get(itemId)?.availability !== 'available') return;
     const selectedQuantity = cart.find((entry) => entry.itemId === itemId)?.quantity ?? 0;
-    if (delta > 0 && selectedQuantity >= MAX_PER_ITEM) {
-      setQuantityNotice(`The demo limit is ${MAX_PER_ITEM} of each menu item.`);
+    if (delta > 0 && selectedQuantity >= rules.maxPerItem) {
+      setQuantityNotice(`The demo limit is ${rules.maxPerItem} of each menu item.`);
       return;
     }
     setQuantityNotice('');
     setCart((current) => {
       const found = current.find((entry) => entry.itemId === itemId);
-      if (delta > 0 && (found?.quantity ?? 0) >= MAX_PER_ITEM) return current;
+      if (delta > 0 && (found?.quantity ?? 0) >= rules.maxPerItem) return current;
       if (!found && delta > 0) return [...current, { itemId, quantity: 1 }];
       return current.map((entry) => entry.itemId === itemId ? { ...entry, quantity: entry.quantity + delta } : entry)
         .filter((entry) => entry.quantity > 0);
@@ -339,7 +409,7 @@ function App() {
     if (digits.length < 10 || digits.length > 15) next.phone = 'Enter a valid phone number.';
     if (fulfillment === 'delivery' && address.trim().length < 6) next.address = 'Please enter a complete delivery address.';
     if (budget.trim() && (!Number.isFinite(Number(budget)) || Number(budget) <= 0)) next.budget = 'Enter a valid budget amount.';
-    if (subtotal < MINIMUM) next.cart = `The published minimum is ${money(MINIMUM)} before tax.`;
+    if (subtotal < rules.minimumOrder) next.cart = `The minimum set on this device is ${money(rules.minimumOrder)} before tax.`;
     if (exceedsBudget) next.budget = 'Your current total is above this budget. Adjust your order or budget to continue.';
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -398,8 +468,8 @@ function App() {
           <span><span className="brand-name">{copy.brandName}</span><span className="brand-caption">{copy.locationCaption}</span></span>
         </a>
         <div className="topbar-right">
-          <span><MapPin size={15} /> Superior, Colorado</span>
-          <span><Clock3 size={15} /> Made fresh to order</span>
+          <span><MapPin size={15} /> {copy.topbarLocation}</span>
+          <span><Clock3 size={15} /> {copy.topbarStatus}</span>
           <button className="cart-jump" onClick={scrollToCart} data-testid="button-view-cart" aria-label={`View cart, ${cartCount} items`}>
             <ShoppingBag size={16} /> Your order <span className="cart-count" data-testid="text-cart-count">{cartCount}</span>
           </button>
@@ -410,7 +480,7 @@ function App() {
       <section className="hero">
         <div className="hero-inner">
           <div>
-            <div className="eyebrow">A little taste of Japan, close to home</div>
+            <div className="eyebrow">{copy.heroEyebrow}</div>
             <h1>{copy.heroHeading.split('\n').map((line, index) => <span key={`${line}-${index}`}>{index > 0 && <br />}{line}</span>)}</h1>
             <p>{copy.heroDescription}</p>
           </div>
@@ -457,13 +527,13 @@ function App() {
               </button>
             ))}
           </div>
-          <div className="fulfillment-hint">{fulfillment === 'delivery' ? 'Demo delivery estimate: $4.50 · address required' : fulfillment === 'dine-in' ? 'We’ll have a table ready' : 'Pick up when it suits you'}</div>
+          <div className="fulfillment-hint">{fulfillment === 'delivery' ? `${money(rules.deliveryFee)} demo delivery estimate · ${copy.deliveryHint}` : fulfillment === 'dine-in' ? copy.dineInHint : copy.pickupHint}</div>
         </section>
 
         <div className="browse-layout">
           <section className="browse-main" aria-label="Menu">
             <div className="menu-heading">
-              <div><h2>Explore the menu</h2><p>All the favorites, made here in Superior.</p></div>
+              <div><h2>{copy.menuHeading}</h2><p>{copy.menuDescription}</p></div>
               <label className="search-box"><Search size={16} aria-hidden="true" /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search dishes…" aria-label="Search menu" data-testid="input-menu-search" /></label>
             </div>
             <div className="category-tabs" role="tablist" aria-label="Menu categories">
@@ -516,7 +586,7 @@ function App() {
                             <div className="qty-control" aria-label={`${item.name} quantity`}>
                               <button onClick={() => changeQuantity(item.id, -1)} aria-label={`Remove one ${item.name}`} data-testid={`button-decrease-${item.id}`}><Minus size={13} /></button>
                               <span data-testid={`text-quantity-${item.id}`}>{quantity}</span>
-                              <button disabled={quantity >= MAX_PER_ITEM} onClick={() => changeQuantity(item.id, 1)} aria-label={`Add one ${item.name}`} title={quantity >= MAX_PER_ITEM ? `Demo limit: ${MAX_PER_ITEM} per item` : undefined} data-testid={`button-increase-${item.id}`}><Plus size={13} /></button>
+                               <button disabled={quantity >= rules.maxPerItem} onClick={() => changeQuantity(item.id, 1)} aria-label={`Add one ${item.name}`} title={quantity >= rules.maxPerItem ? `Demo limit: ${rules.maxPerItem} per item` : undefined} data-testid={`button-increase-${item.id}`}><Plus size={13} /></button>
                             </div> :
                             <button className="add-button" type="button" onClick={() => changeQuantity(item.id, 1)} data-testid={`button-add-${item.id}`}><Plus size={13} /> Add</button>}
                       </div>
@@ -539,7 +609,7 @@ function App() {
                   if (!item) return null;
                   return <div className="cart-row" key={entry.itemId} data-testid={`row-cart-item-${entry.itemId}`}>
                     <div><div className="cart-row-name">{item.name}</div><div className="cart-row-price">{money(item.price)} each · {money(item.price * entry.quantity)}</div></div>
-                    <div className="qty-control"><button onClick={() => changeQuantity(item.id, -1)} aria-label={`Remove one ${item.name}`} data-testid={`button-cart-decrease-${item.id}`}><Minus size={13} /></button><span>{entry.quantity}</span><button disabled={entry.quantity >= MAX_PER_ITEM} onClick={() => changeQuantity(item.id, 1)} aria-label={`Add one ${item.name}`} title={entry.quantity >= MAX_PER_ITEM ? `Demo limit: ${MAX_PER_ITEM} per item` : undefined} data-testid={`button-cart-increase-${item.id}`}><Plus size={13} /></button></div>
+                    <div className="qty-control"><button onClick={() => changeQuantity(item.id, -1)} aria-label={`Remove one ${item.name}`} data-testid={`button-cart-decrease-${item.id}`}><Minus size={13} /></button><span>{entry.quantity}</span><button disabled={entry.quantity >= rules.maxPerItem} onClick={() => changeQuantity(item.id, 1)} aria-label={`Add one ${item.name}`} title={entry.quantity >= rules.maxPerItem ? `Demo limit: ${rules.maxPerItem} per item` : undefined} data-testid={`button-cart-increase-${item.id}`}><Plus size={13} /></button></div>
                   </div>;
                 })}
               </div>
@@ -550,14 +620,14 @@ function App() {
               {fulfillment === 'delivery' && <div className="total-line"><span>Delivery fee (demo estimate)</span><span data-testid="text-delivery-fee">{money(deliveryFee)}</span></div>}
               <div className="total-line total"><span>Total</span><span data-testid="text-total">{money(total)}</span></div>
             </div>
-            <div className={`min-notice${subtotal >= MINIMUM ? ' met' : ''}`} data-testid="status-order-minimum">
-              {subtotal >= MINIMUM ? <><Check size={13} style={{ verticalAlign: 'middle', marginRight: 5 }} />Minimum met · published minimum is $10 before tax</> :
-                <>Published $10 minimum before tax. Add {money(MINIMUM - subtotal)} to continue.</>}
+            <div className={`min-notice${subtotal >= rules.minimumOrder ? ' met' : ''}`} data-testid="status-order-minimum">
+              {subtotal >= rules.minimumOrder ? <><Check size={13} style={{ verticalAlign: 'middle', marginRight: 5 }} />Minimum met · local minimum is {money(rules.minimumOrder)} before tax</> :
+                <>Local minimum is {money(rules.minimumOrder)} before tax. Add {money(rules.minimumOrder - subtotal)} to continue.</>}
             </div>
-            <p className="quantity-cap-note">Demo order limit: up to {MAX_PER_ITEM} of each available menu item.</p>
+            <p className="quantity-cap-note">Demo order limit: up to {rules.maxPerItem} of each available menu item.</p>
             {quantityNotice && <div className="error-msg" role="status" data-testid="status-quantity-limit">{quantityNotice}</div>}
             {errors.cart && <div className="error-msg" role="alert" data-testid="status-cart-error">{errors.cart}</div>}
-            <button className="checkout-button" disabled={cart.length === 0 || subtotal < MINIMUM} onClick={startCheckout} data-testid="button-checkout">
+            <button className="checkout-button" disabled={cart.length === 0 || subtotal < rules.minimumOrder} onClick={startCheckout} data-testid="button-checkout">
               Continue to checkout <ChevronRight size={16} />
             </button>
             <p className="photo-note"><ImagePlus size={14} /> Menu photos you add are stored privately on this device only, in your browser.</p>
@@ -567,8 +637,8 @@ function App() {
       </main>
 
       <footer className="footer">
-        <span>Misaki @ Superior · Superior, Colorado · <a href="https://www.misakiatsuperior.com/online-ordering-1" target="_blank" rel="noreferrer" data-testid="link-official-menu">View the official menu</a></span>
-        <span>On iPhone, use Share → Add to Home Screen. On Mac, use your browser’s Install or Add to Dock option.</span>
+        <span>{copy.footerRestaurant} · <a href="https://www.misakiatsuperior.com/online-ordering-1" target="_blank" rel="noreferrer" data-testid="link-official-menu">View the official menu</a></span>
+        <span>{copy.footerInstallNote}</span>
       </footer>
 
       {cart.length > 0 && <div className="mobile-cart-bar">
@@ -586,9 +656,9 @@ function App() {
             </div>
             <button className="close-btn" type="button" aria-label="Close editor" onClick={() => setEditorOpen(false)} data-testid="button-close-editor"><X size={18} /></button>
           </div>
-          <div className="editor-tabs" role="tablist" aria-label="Editor sections">
+           <div className="editor-tabs" role="tablist" aria-label="Editor sections">
             <button type="button" role="tab" aria-selected={editorTab === 'menu'} className={editorTab === 'menu' ? 'active' : ''} onClick={() => setEditorTab('menu')} data-testid="tab-edit-menu">Menu items <span>{items.length}</span></button>
-            <button type="button" role="tab" aria-selected={editorTab === 'copy'} className={editorTab === 'copy' ? 'active' : ''} onClick={() => setEditorTab('copy')} data-testid="tab-edit-copy">Restaurant copy</button>
+             <button type="button" role="tab" aria-selected={editorTab === 'copy'} className={editorTab === 'copy' ? 'active' : ''} onClick={() => setEditorTab('copy')} data-testid="tab-edit-copy">Shop details</button>
           </div>
           {editorTab === 'menu' ? <>
             <div className="editor-toolbar">
@@ -615,13 +685,33 @@ function App() {
                 </article>
               ))}
             </div>
-          </> : <div className="copy-editor" data-testid="form-editor-copy">
-            <p className="copy-editor-intro">Give the ordering page a familiar local voice. These details only change on this device.</p>
+           </> : <div className="copy-editor" data-testid="form-editor-copy">
+             <p className="copy-editor-intro">Edit the visible restaurant copy and local order estimates. These details only change on this device.</p>
             <label>Restaurant name<input value={draftCopy.brandName} onChange={(event) => setDraftCopy((current) => ({ ...current, brandName: event.target.value }))} data-testid="input-copy-brand-name" /></label>
             <label>Location caption<input value={draftCopy.locationCaption} onChange={(event) => setDraftCopy((current) => ({ ...current, locationCaption: event.target.value }))} data-testid="input-copy-location" /></label>
+             <label>Top bar location<input value={draftCopy.topbarLocation} onChange={(event) => setDraftCopy((current) => ({ ...current, topbarLocation: event.target.value }))} data-testid="input-copy-topbar-location" /></label>
+             <label>Top bar note<input value={draftCopy.topbarStatus} onChange={(event) => setDraftCopy((current) => ({ ...current, topbarStatus: event.target.value }))} data-testid="input-copy-topbar-status" /></label>
+             <label>Pickup note<input value={draftCopy.pickupHint} onChange={(event) => setDraftCopy((current) => ({ ...current, pickupHint: event.target.value }))} data-testid="input-copy-pickup-hint" /></label>
+             <label>Delivery note<input value={draftCopy.deliveryHint} onChange={(event) => setDraftCopy((current) => ({ ...current, deliveryHint: event.target.value }))} data-testid="input-copy-delivery-hint" /></label>
+             <label>Dine-in note<input value={draftCopy.dineInHint} onChange={(event) => setDraftCopy((current) => ({ ...current, dineInHint: event.target.value }))} data-testid="input-copy-dine-in-hint" /></label>
+             <label>Hero eyebrow<input value={draftCopy.heroEyebrow} onChange={(event) => setDraftCopy((current) => ({ ...current, heroEyebrow: event.target.value }))} data-testid="input-copy-hero-eyebrow" /></label>
             <label>Hero heading<textarea rows={2} value={draftCopy.heroHeading} onChange={(event) => setDraftCopy((current) => ({ ...current, heroHeading: event.target.value }))} data-testid="input-copy-hero-heading" /></label>
             <label>Hero description<textarea rows={3} value={draftCopy.heroDescription} onChange={(event) => setDraftCopy((current) => ({ ...current, heroDescription: event.target.value }))} data-testid="input-copy-hero-description" /></label>
             <label>Hero note<textarea rows={2} value={draftCopy.heroNote} onChange={(event) => setDraftCopy((current) => ({ ...current, heroNote: event.target.value }))} data-testid="input-copy-hero-note" /></label>
+             <label>Menu heading<input value={draftCopy.menuHeading} onChange={(event) => setDraftCopy((current) => ({ ...current, menuHeading: event.target.value }))} data-testid="input-copy-menu-heading" /></label>
+             <label>Menu introduction<textarea rows={2} value={draftCopy.menuDescription} onChange={(event) => setDraftCopy((current) => ({ ...current, menuDescription: event.target.value }))} data-testid="input-copy-menu-description" /></label>
+             <label>Footer restaurant line<input value={draftCopy.footerRestaurant} onChange={(event) => setDraftCopy((current) => ({ ...current, footerRestaurant: event.target.value }))} data-testid="input-copy-footer-restaurant" /></label>
+             <label>Footer install note<textarea rows={2} value={draftCopy.footerInstallNote} onChange={(event) => setDraftCopy((current) => ({ ...current, footerInstallNote: event.target.value }))} data-testid="input-copy-footer-install-note" /></label>
+             <section className="editor-rules" aria-labelledby="editor-rules-title">
+               <h3 id="editor-rules-title">Local order estimates</h3>
+               <div className="editor-fields">
+                 <label>Minimum before tax ($)<input type="number" min="0" step="0.01" value={draftRules.minimumOrder} onChange={(event) => setDraftRules((current) => ({ ...current, minimumOrder: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-minimum" /></label>
+                 <label>Tax estimate (%)<input type="number" min="0" max="100" step="0.01" value={draftRules.taxRate} onChange={(event) => setDraftRules((current) => ({ ...current, taxRate: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-tax" /></label>
+                 <label>Delivery estimate ($)<input type="number" min="0" step="0.01" value={draftRules.deliveryFee} onChange={(event) => setDraftRules((current) => ({ ...current, deliveryFee: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-delivery" /></label>
+                 <label>Demo limit per item<input type="number" min="1" max="99" step="1" value={draftRules.maxPerItem} onChange={(event) => setDraftRules((current) => ({ ...current, maxPerItem: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-max-per-item" /></label>
+               </div>
+               <p>Tax, delivery, and minimum-order figures are estimates for this demo only. They do not change Misaki’s actual prices or policies.</p>
+             </section>
           </div>}
           {editorError && <div className="editor-error" role="alert" data-testid="status-editor-error">{editorError}</div>}
           <div className="editor-actions">

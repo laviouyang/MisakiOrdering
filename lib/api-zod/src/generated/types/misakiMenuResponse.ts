@@ -9,6 +9,6 @@ import type { MisakiMenuItem } from './misakiMenuItem';
 
 export interface MisakiMenuResponse {
   sourceUrl: string;
-  capturedOn: Date;
+  capturedOn: string;
   items: MisakiMenuItem[];
 }

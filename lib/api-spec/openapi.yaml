@@ -91,7 +91,6 @@ components:
           format: uri
         capturedOn:
           type: string
-          format: date
         items:
           type: array
           items:

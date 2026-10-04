@@ -7,10 +7,19 @@ class MenuCopyTests(unittest.TestCase):
     def test_corrects_clear_name_typos_and_capitalization(self) -> None:
         self.assertEqual(normalize_name("spicy Siracha"), "Spicy Sriracha")
         self.assertEqual(
-            normalize_name("St. Pellegrino500ml"),
+            normalize_name("St. Pellegrino", "500ml"),
             "San Pellegrino (500 mL)",
         )
-        self.assertEqual(normalize_name("cucumber roll (6 pieces)"), "Cucumber Roll (6 Pieces)")
+        self.assertEqual(
+            normalize_name("cucumber roll (6 pieces)"),
+            "Cucumber Roll (6 pieces)",
+        )
+        self.assertEqual(normalize_name("fly of bluefin*"), "Fly of Bluefin*")
+        self.assertEqual(normalize_name("★ uni *"), "★ Uni*")
+        self.assertEqual(
+            normalize_name("beginner's combo*"),
+            "Beginner's Combo*",
+        )
 
     def test_corrects_description_casing_and_common_typos(self) -> None:
         self.assertEqual(

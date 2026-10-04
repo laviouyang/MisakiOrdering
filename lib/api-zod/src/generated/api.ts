@@ -23,7 +23,7 @@ export const HealthCheckResponse = zod.object({
  */
 export const GetMisakiMenuResponse = zod.object({
   "sourceUrl": zod.string().url(),
-  "capturedOn": zod.coerce.date(),
+  "capturedOn": zod.string(),
   "items": zod.array(zod.object({
   "id": zod.string(),
   "category": zod.string(),
