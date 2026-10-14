@@ -13,6 +13,16 @@
     "@replit/connectors-sdk": "^0.4.3"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/ios": "^8.5.2",
+    "@esbuild/darwin-arm64": "^0.28.2",
+    "@replit/vite-plugin-dev-banner": "catalog:",
+    "@rollup/rollup-darwin-arm64": "^4.64.0",
+    "@tailwindcss/oxide-darwin-arm64": "^4.3.3",
+    "@vitejs/plugin-react": "catalog:",
+    "lightningcss": "^1.33.0",
+    "lightningcss-darwin-arm64": "^1.33.0",
     "prettier": "^3.9.6",
     "typescript": "~5.9.3"
   }
