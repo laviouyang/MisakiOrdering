@@ -16,29 +16,25 @@ jobs:
         include:
           - os: macos-latest
             target: desktop:mac
-            files: artifacts/misaki-ordering/release/*.dmg
+            files: release/*.dmg
             name: misaki-ordering-mac
           - os: windows-latest
             target: desktop:win
-            files: artifacts/misaki-ordering/release/*.exe
+            files: release/*.exe
             name: misaki-ordering-windows
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
-
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 22
 
       - name: Install packages
-        run: pnpm install --no-frozen-lockfile
+        run: npm install
 
       - name: Build installer
-        run: pnpm run ${{ matrix.target }}
+        run: npm run ${{ matrix.target }}
         env:
           # The app isn't code-signed yet, so don't look for a signing certificate.
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'

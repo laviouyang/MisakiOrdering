@@ -1,28 +1,35 @@
 {
-  "name": "workspace",
-  "version": "0.0.0",
-  "license": "MIT",
-  "scripts": {
-    "preinstall": "node -e \"for (const f of ['package-lock.json','yarn.lock']) { try { require('fs').rmSync(f) } catch {} } if (!(process.env.npm_config_user_agent||'').startsWith('pnpm/')) { console.error('Use pnpm instead'); process.exit(1) }\"",
-    "build": "pnpm run typecheck && pnpm -r --if-present run build",
-    "typecheck:libs": "tsc --build",
-    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck",
-    "desktop": "pnpm --filter @workspace/misaki-ordering run desktop",
-    "desktop:mac": "pnpm --filter @workspace/misaki-ordering run desktop:mac",
-    "desktop:win": "pnpm --filter @workspace/misaki-ordering run desktop:win"
-  },
+  "name": "misaki-ordering",
+  "version": "1.0.0",
   "private": true,
+  "type": "module",
+  "description": "Ordering app for Misaki @ Superior: web, Mac, Windows and iPhone.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "tsc --noEmit",
+    "desktop": "vite build && node electron/stage.mjs && electron electron",
+    "desktop:mac": "vite build && node electron/stage.mjs && electron-builder --mac --publish never",
+    "desktop:win": "vite build && node electron/stage.mjs && electron-builder --win --publish never",
+    "ios": "vite build && cap sync ios && cap open ios"
+  },
   "dependencies": {
-    "@replit/connectors-sdk": "^0.4.3"
+    "@capacitor/core": "8.5.2",
+    "lucide-react": "0.545.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
   },
   "devDependencies": {
-    "@capacitor/cli": "^8.5.2",
-    "@capacitor/core": "^8.5.2",
-    "@capacitor/ios": "^8.5.2",
-    "@replit/vite-plugin-dev-banner": "catalog:",
-    "@vitejs/plugin-react": "catalog:",
-    "lightningcss": "^1.33.0",
-    "prettier": "^3.9.6",
-    "typescript": "~5.9.3"
+    "@capacitor/cli": "8.5.2",
+    "@capacitor/ios": "8.5.2",
+    "@types/node": "^25.0.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "electron": "^38.0.0",
+    "electron-builder": "^26.0.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.3.6"
   }
 }
