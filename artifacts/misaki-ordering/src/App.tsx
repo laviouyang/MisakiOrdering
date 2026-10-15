@@ -504,8 +504,8 @@ function App() {
           <section className="confirm-card" data-testid="status-last-order">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
               <div>
-                <strong style={{ color: '#315740', display: 'flex', gap: 8, alignItems: 'center' }}><Check size={17} /> {order ? 'Demo order saved on this device' : 'Your last demo order'}</strong>
-                <div style={{ color: '#718075', fontSize: 12, marginTop: 5 }}>{orderForReceipt.id} · {fulfillmentLabel[orderForReceipt.fulfillment]} · {money(orderForReceipt.total)}</div>
+                <strong style={{ color: '#1c2954', display: 'flex', gap: 8, alignItems: 'center' }}><Check size={17} /> {order ? 'Demo order saved on this device' : 'Your last demo order'}</strong>
+                <div style={{ color: '#5c6378', fontSize: 12, marginTop: 5 }}>{orderForReceipt.id} · {fulfillmentLabel[orderForReceipt.fulfillment]} · {money(orderForReceipt.total)}</div>
               </div>
               <button className="plain-btn" onClick={beginFreshOrder} data-testid="button-start-new-order">Start a new order</button>
             </div>
@@ -729,7 +729,7 @@ function App() {
             <div className="order-id" data-testid="text-demo-order-id">{order.id}</div>
             <div className="demo-callout">Demo only · this is not a real restaurant order confirmation.</div>
           </div> : <>
-            <div className="modal-head"><div><div className="eyebrow" style={{ color: '#bd674d', marginBottom: 8 }}>Almost there</div><h2 id="checkout-title">{step === 1 ? 'Your details' : 'Review your order'}</h2><p>{step === 1 ? 'A few details, then one last look.' : 'Please check everything before saving your demo order.'}</p></div>
+            <div className="modal-head"><div><div className="eyebrow" style={{ color: '#8f6410', marginBottom: 8 }}>Almost there</div><h2 id="checkout-title">{step === 1 ? 'Your details' : 'Review your order'}</h2><p>{step === 1 ? 'A few details, then one last look.' : 'Please check everything before saving your demo order.'}</p></div>
               <button className="close-btn" aria-label="Close checkout" onClick={() => setCheckoutOpen(false)} data-testid="button-close-checkout"><X size={18} /></button></div>
             <div className="step-indicator"><span className="step-pill active" /><span className={`step-pill${step === 2 ? ' active' : ''}`} /></div>
             {step === 1 ? <>
