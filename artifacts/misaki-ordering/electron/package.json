@@ -1,0 +1,9 @@
+{
+  "name": "misaki-ordering-desktop",
+  "productName": "Misaki Ordering",
+  "version": "1.0.0",
+  "description": "Misaki @ Superior ordering app for Mac and Windows",
+  "author": "laviouyang",
+  "private": true,
+  "main": "main.cjs"
+}

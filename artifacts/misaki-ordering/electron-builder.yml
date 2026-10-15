@@ -1,0 +1,35 @@
+# Packages the desktop app. The app folder is ./electron, which has no npm
+# dependencies of its own, so nothing from the pnpm workspace gets bundled.
+appId: com.misaki.ordering
+productName: Misaki Ordering
+copyright: Misaki @ Superior
+directories:
+  app: electron
+  output: release
+files:
+  - main.cjs
+  - package.json
+  - web/**/*
+npmRebuild: false
+asar: true
+
+mac:
+  category: public.app-category.food-and-drink
+  icon: public/icons/icon-512.png
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+  artifactName: Misaki-Ordering-${version}-mac-${arch}.${ext}
+
+win:
+  icon: public/icons/icon-512.png
+  target:
+    - target: nsis
+      arch: [x64]
+  artifactName: Misaki-Ordering-${version}-windows-setup.${ext}
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  shortcutName: Misaki Ordering

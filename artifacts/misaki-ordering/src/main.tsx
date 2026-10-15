@@ -8,7 +8,7 @@ import './index.css';
 
 const queryClient = new QueryClient();
 
-if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+if (import.meta.env.PROD && 'serviceWorker' in navigator && /^https?:$/.test(window.location.protocol)) {
   window.addEventListener('load', () => {
     const basePath = import.meta.env.BASE_URL.endsWith('/')
       ? import.meta.env.BASE_URL

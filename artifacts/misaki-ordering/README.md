@@ -12,6 +12,24 @@ Open the Replit app preview while developing. For an installable copy on a phone
 
 The service worker caches the app shell for subsequent offline launches. The catalog is bundled with the app.
 
+## Desktop app (Mac and Windows)
+
+The desktop app is the same web app inside Electron. From the project folder:
+
+```bash
+pnpm install          # first time, or after pulling changes
+pnpm desktop          # build and open the app
+pnpm desktop:mac      # make a .dmg installer in artifacts/misaki-ordering/release
+pnpm desktop:win      # make a Windows installer (run this on a Windows PC)
+```
+
+To get both installers without a Windows PC, open the repo on GitHub, go to
+**Actions → Build desktop apps → Run workflow**, and download them from the
+finished run's **Artifacts** section.
+
+The app isn't code-signed yet. On a Mac, right-click the app and choose **Open**
+the first time. On Windows, click **More info → Run anyway** if SmartScreen warns.
+
 ## Menu source and verification
 
 `src/data/misaki-menu.json` contains 148 products transcribed from Misaki's public online ordering page, captured October 2, 2026. Names, descriptions, prices, item availability and source menu sections are included. Seven entries were marked unavailable by the published page at capture time. The `Sake (21+)` category is age-restricted in the prototype.

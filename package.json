@@ -3,10 +3,13 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
+    "preinstall": "node -e \"for (const f of ['package-lock.json','yarn.lock']) { try { require('fs').rmSync(f) } catch {} } if (!(process.env.npm_config_user_agent||'').startsWith('pnpm/')) { console.error('Use pnpm instead'); process.exit(1) }\"",
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
     "typecheck:libs": "tsc --build",
-    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
+    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck",
+    "desktop": "pnpm --filter @workspace/misaki-ordering run desktop",
+    "desktop:mac": "pnpm --filter @workspace/misaki-ordering run desktop:mac",
+    "desktop:win": "pnpm --filter @workspace/misaki-ordering run desktop:win"
   },
   "private": true,
   "dependencies": {
@@ -16,13 +19,9 @@
     "@capacitor/cli": "^8.5.2",
     "@capacitor/core": "^8.5.2",
     "@capacitor/ios": "^8.5.2",
-    "@esbuild/darwin-arm64": "^0.28.2",
     "@replit/vite-plugin-dev-banner": "catalog:",
-    "@rollup/rollup-darwin-arm64": "^4.64.0",
-    "@tailwindcss/oxide-darwin-arm64": "^4.3.3",
     "@vitejs/plugin-react": "catalog:",
     "lightningcss": "^1.33.0",
-    "lightningcss-darwin-arm64": "^1.33.0",
     "prettier": "^3.9.6",
     "typescript": "~5.9.3"
   }
