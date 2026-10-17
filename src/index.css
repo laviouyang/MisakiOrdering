@@ -161,7 +161,7 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 .review-meta strong { font-size:13px;color:#202f5f; }
 .review-line { display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid #e1e4ee;font-size:12px; }
 .review-line strong { color:#202f5f; }
-.demo-callout { background:#f8e8dd;border:1px solid #efd1c1;color:#86513f;border-radius:10px;padding:12px;font-size:11px;line-height:1.5;margin-top:14px; }
+.order-note { background:#eef1f8;border:1px solid #d9deeb;color:#2c3a66;border-radius:10px;padding:12px;font-size:11px;line-height:1.5;margin-top:14px; }
 .success-view { text-align:center;padding:14px 8px 4px; }
 .success-icon { margin:0 auto 17px;width:65px;height:65px;border-radius:50%;display:grid;place-items:center;background:#e2e5ee;color:#233369; }
 .success-view h2 { font:600 32px var(--app-font-serif);margin:0 0 9px;color:#1c2953; }
@@ -229,4 +229,5 @@ button:disabled { cursor: not-allowed; opacity: .48; }
   .editor-modal{height:96dvh;max-height:96dvh;border-radius:18px 18px 0 0;padding:19px 14px calc(14px + env(safe-area-inset-bottom));}
   .editor-head h2{font-size:24px}.editor-head p{max-width:270px}.editor-tabs{margin-top:14px}.editor-tabs button{padding:10px 8px;font-size:11px}.editor-toolbar{padding:10px 0}.editor-fields{grid-template-columns:1fr 1fr;}.editor-description{grid-column:1/-1}.editor-item{padding:11px}.editor-item-top{align-items:flex-start}.editor-item-top>div>span{max-width:210px;line-height:1.4}.editor-actions{align-items:stretch}.editor-actions>div{flex:1}.editor-actions>div button{flex:1;padding:10px 7px;font-size:10px}.editor-reset{padding:8px;font-size:0;flex:none}.editor-reset svg{width:16px;height:16px}
 }
-@media(prefers-reduced-motion:reduce) { *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important} }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important} }.order-note a { color:inherit;font-weight:700;text-underline-offset:2px; }
+.receipt { text-align:left;margin:0 0 16px; }

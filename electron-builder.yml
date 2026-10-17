@@ -15,14 +15,14 @@ asar: true
 
 mac:
   category: public.app-category.food-and-drink
-  icon: public/icons/icon-512.png
+  icon: public/icons/icon-1024.png
   target:
     - target: dmg
       arch: [arm64, x64]
   artifactName: Misaki-Ordering-${version}-mac-${arch}.${ext}
 
 win:
-  icon: public/icons/icon-512.png
+  icon: public/icons/icon-1024.png
   target:
     - target: nsis
       arch: [x64]

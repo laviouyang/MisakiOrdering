@@ -10,7 +10,7 @@ iPhone app — all from the same code.
 | --- | --- |
 | `src/App.tsx` | The whole app: menu, cart, checkout and the menu editor |
 | `src/index.css` | All the colors, fonts and layout |
-| `src/data/misaki-menu.json` | The menu: every dish, price and category |
+| `src/data/misaki-menu.json` | The menu: every dish, price and category, in the order they appear |
 | `src/main.tsx` | Starts the app (you rarely need to touch this) |
 | `src/ErrorBoundary.tsx` | Shows a message instead of a blank page if something crashes |
 | `public/` | App icons and offline support for the website |
@@ -68,6 +68,7 @@ Prices change, so check them with Misaki before taking real orders.
 
 - Dish photos and menu edits are saved on the device they were made on. They
   don't sync to other devices.
-- Orders are demos saved on the device. The app doesn't send orders to the
-  restaurant or take payment yet.
+- Saved orders stay on the customer's device. To place one, the customer calls
+  Misaki or shows the order at the counter, and pays at the restaurant. Add the
+  restaurant's phone number in **Edit menu → Shop details** so it shows after ordering.
 - Tax and delivery fees are estimates until the restaurant confirms its rules.

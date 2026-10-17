@@ -31,12 +31,13 @@ type LocalCopy = {
   menuDescription: string;
   footerRestaurant: string;
   footerInstallNote: string;
+  restaurantPhone: string;
 };
 type LocalRules = { minimumOrder: number; taxRate: number; deliveryFee: number; maxPerItem: number };
 type ItemOverride = Partial<Pick<MenuItem, 'name' | 'description' | 'category' | 'price' | 'availability'>>;
 type CartEntry = { itemId: string; quantity: number };
 type Fulfillment = 'pickup' | 'delivery' | 'dine-in';
-type DemoOrder = {
+type SavedOrder = {
   id: string;
   createdAt: string;
   fulfillment: Fulfillment;
@@ -79,7 +80,8 @@ const defaultCopy: LocalCopy = {
   menuHeading: 'Explore the menu',
   menuDescription: 'All the favorites, made here in Superior.',
   footerRestaurant: 'Misaki @ Superior · Superior, Colorado',
-  footerInstallNote: 'On iPhone, use Share → Add to Home Screen. On Mac, use your browser’s Install or Add to Dock option.',
+  footerInstallNote: 'On iPhone, tap Share → Add to Home Screen to keep Misaki on your phone.',
+  restaurantPhone: '',
 };
 const defaultRules: LocalRules = { minimumOrder: 10, taxRate: 8.85, deliveryFee: 4.5, maxPerItem: 10 };
 
@@ -161,8 +163,8 @@ function App() {
   const [budget, setBudget] = useState('');
   const [specialRequests, setSpecialRequests] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [order, setOrder] = useState<DemoOrder | null>(null);
-  const [storedOrder, setStoredOrder] = useState<DemoOrder | null>(null);
+  const [order, setOrder] = useState<SavedOrder | null>(null);
+  const [storedOrder, setStoredOrder] = useState<SavedOrder | null>(null);
   const [idbError, setIdbError] = useState(false);
   const [quantityNotice, setQuantityNotice] = useState('');
   const fileRefs = useRef<Record<string, HTMLInputElement | null>>({});
@@ -195,8 +197,8 @@ function App() {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem('misaki-last-demo-order');
-      if (saved) setStoredOrder(JSON.parse(saved) as DemoOrder);
+      const saved = localStorage.getItem('misaki-last-order');
+      if (saved) setStoredOrder(JSON.parse(saved) as SavedOrder);
     } catch { /* Local order history is optional in private browsing. */ }
     if (!('indexedDB' in window)) { setIdbError(true); return; }
     readPhotos().then((photos) => {
@@ -259,7 +261,7 @@ function App() {
       return;
     }
     if (!Number.isInteger(draftRules.maxPerItem) || draftRules.maxPerItem < 1 || draftRules.maxPerItem > 99) {
-      setEditorError('Set the per-item demo limit to a whole number from 1 to 99.');
+      setEditorError('Set the per-item limit to a whole number from 1 to 99.');
       setEditorTab('copy');
       return;
     }
@@ -331,7 +333,7 @@ function App() {
     if (delta > 0 && itemMap.get(itemId)?.availability !== 'available') return;
     const selectedQuantity = cart.find((entry) => entry.itemId === itemId)?.quantity ?? 0;
     if (delta > 0 && selectedQuantity >= rules.maxPerItem) {
-      setQuantityNotice(`The demo limit is ${rules.maxPerItem} of each menu item.`);
+      setQuantityNotice(`You can order up to ${rules.maxPerItem} of each item.`);
       return;
     }
     setQuantityNotice('');
@@ -389,13 +391,14 @@ function App() {
     if (digits.length < 10 || digits.length > 15) next.phone = 'Enter a valid phone number.';
     if (fulfillment === 'delivery' && address.trim().length < 6) next.address = 'Please enter a complete delivery address.';
     if (budget.trim() && (!Number.isFinite(Number(budget)) || Number(budget) <= 0)) next.budget = 'Enter a valid budget amount.';
-    if (subtotal < rules.minimumOrder) next.cart = `The minimum set on this device is ${money(rules.minimumOrder)} before tax.`;
+    if (subtotal < rules.minimumOrder) next.cart = `The minimum order is ${money(rules.minimumOrder)} before tax.`;
     if (exceedsBudget) next.budget = 'Your current total is above this budget. Adjust your order or budget to continue.';
     setErrors(next);
     return Object.keys(next).length === 0;
   };
 
   const startCheckout = () => {
+    setOrder(null); // a new checkout starts at the form, not the last thank-you screen
     setCheckoutOpen(true);
     setStep(1);
     setErrors({});
@@ -405,8 +408,8 @@ function App() {
     if (validateDetails()) setStep(2);
   };
 
-  const confirmDemoOrder = () => {
-    const demoOrder: DemoOrder = {
+  const confirmOrder = () => {
+    const savedOrder: SavedOrder = {
       id: `MIS-${Date.now().toString(36).toUpperCase()}`,
       createdAt: new Date().toISOString(),
       fulfillment,
@@ -420,11 +423,11 @@ function App() {
       total,
       ...(specialRequests.trim() ? { specialRequests: specialRequests.trim() } : {}),
     };
-    try { localStorage.setItem('misaki-last-demo-order', JSON.stringify(demoOrder)); } catch { /* Keep the confirmation visible even if storage is unavailable. */ }
-    setOrder(demoOrder);
-    setStoredOrder(demoOrder);
+    try { localStorage.setItem('misaki-last-order', JSON.stringify(savedOrder)); } catch { /* Keep the confirmation visible even if storage is unavailable. */ }
+    setOrder(savedOrder);
+    setStoredOrder(savedOrder);
     setCart([]);
-    setCheckoutOpen(false);
+    // Stay open on the "Thank you" screen so the customer sees their saved order.
   };
 
   const beginFreshOrder = () => {
@@ -473,12 +476,12 @@ function App() {
           <section className="confirm-card" data-testid="status-last-order">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
               <div>
-                <strong style={{ color: '#1c2954', display: 'flex', gap: 8, alignItems: 'center' }}><Check size={17} /> {order ? 'Demo order saved on this device' : 'Your last demo order'}</strong>
+                <strong style={{ color: '#1c2954', display: 'flex', gap: 8, alignItems: 'center' }}><Check size={17} /> {order ? 'Order saved' : 'Your last order'}</strong>
                 <div style={{ color: '#5c6378', fontSize: 12, marginTop: 5 }}>{orderForReceipt.id} · {fulfillmentLabel[orderForReceipt.fulfillment]} · {money(orderForReceipt.total)}</div>
               </div>
               <button className="plain-btn" onClick={beginFreshOrder} data-testid="button-start-new-order">Start a new order</button>
             </div>
-            <div className="demo-callout">This prototype does not send orders to the restaurant or process payment. This demo record is saved locally on this device only.</div>
+            <div className="order-note">{copy.restaurantPhone.trim() ? <>Call <a href={`tel:${copy.restaurantPhone.replace(/[^\d+]/g, '')}`}>{copy.restaurantPhone}</a> to place it, or show this at the counter.</> : 'To place it, call Misaki or show this at the counter.'}</div>
           </section>
         )}
 
@@ -496,7 +499,7 @@ function App() {
               </button>
             ))}
           </div>
-          <div className="fulfillment-hint">{fulfillment === 'delivery' ? `${money(rules.deliveryFee)} demo delivery estimate · ${copy.deliveryHint}` : fulfillment === 'dine-in' ? copy.dineInHint : copy.pickupHint}</div>
+          <div className="fulfillment-hint">{fulfillment === 'delivery' ? `${money(rules.deliveryFee)} delivery fee · ${copy.deliveryHint}` : fulfillment === 'dine-in' ? copy.dineInHint : copy.pickupHint}</div>
         </section>
 
         <div className="browse-layout">
@@ -517,7 +520,7 @@ function App() {
             </div>
             {category.toLocaleLowerCase().includes('sake') && (
               <div className="sake-warning" role="note" data-testid="status-sake-age-restriction">
-                <strong>Age-restricted menu · 21+ only.</strong> Alcohol sales require valid ID and applicable local law. This prototype cannot verify age, accept payment, or process a real alcohol sale.
+                <strong>21+ only.</strong> Please bring a valid ID when you pick up or dine in.
               </div>
             )}
             <div className="menu-safety" role="note" data-testid="notice-menu-safety">
@@ -555,7 +558,7 @@ function App() {
                             <div className="qty-control" aria-label={`${item.name} quantity`}>
                               <button onClick={() => changeQuantity(item.id, -1)} aria-label={`Remove one ${item.name}`} data-testid={`button-decrease-${item.id}`}><Minus size={13} /></button>
                               <span data-testid={`text-quantity-${item.id}`}>{quantity}</span>
-                               <button disabled={quantity >= rules.maxPerItem} onClick={() => changeQuantity(item.id, 1)} aria-label={`Add one ${item.name}`} title={quantity >= rules.maxPerItem ? `Demo limit: ${rules.maxPerItem} per item` : undefined} data-testid={`button-increase-${item.id}`}><Plus size={13} /></button>
+                               <button disabled={quantity >= rules.maxPerItem} onClick={() => changeQuantity(item.id, 1)} aria-label={`Add one ${item.name}`} title={quantity >= rules.maxPerItem ? `Limit: ${rules.maxPerItem} per item` : undefined} data-testid={`button-increase-${item.id}`}><Plus size={13} /></button>
                             </div> :
                             <button className="add-button" type="button" onClick={() => changeQuantity(item.id, 1)} data-testid={`button-add-${item.id}`}><Plus size={13} /> Add</button>}
                       </div>
@@ -578,22 +581,22 @@ function App() {
                   if (!item) return null;
                   return <div className="cart-row" key={entry.itemId} data-testid={`row-cart-item-${entry.itemId}`}>
                     <div><div className="cart-row-name">{item.name}</div><div className="cart-row-price">{money(item.price)} each · {money(item.price * entry.quantity)}</div></div>
-                    <div className="qty-control"><button onClick={() => changeQuantity(item.id, -1)} aria-label={`Remove one ${item.name}`} data-testid={`button-cart-decrease-${item.id}`}><Minus size={13} /></button><span>{entry.quantity}</span><button disabled={entry.quantity >= rules.maxPerItem} onClick={() => changeQuantity(item.id, 1)} aria-label={`Add one ${item.name}`} title={entry.quantity >= rules.maxPerItem ? `Demo limit: ${rules.maxPerItem} per item` : undefined} data-testid={`button-cart-increase-${item.id}`}><Plus size={13} /></button></div>
+                    <div className="qty-control"><button onClick={() => changeQuantity(item.id, -1)} aria-label={`Remove one ${item.name}`} data-testid={`button-cart-decrease-${item.id}`}><Minus size={13} /></button><span>{entry.quantity}</span><button disabled={entry.quantity >= rules.maxPerItem} onClick={() => changeQuantity(item.id, 1)} aria-label={`Add one ${item.name}`} title={entry.quantity >= rules.maxPerItem ? `Limit: ${rules.maxPerItem} per item` : undefined} data-testid={`button-cart-increase-${item.id}`}><Plus size={13} /></button></div>
                   </div>;
                 })}
               </div>
             )}
             <div className="totals">
               <div className="total-line"><span>Subtotal</span><span data-testid="text-subtotal">{money(subtotal)}</span></div>
-              <div className="total-line"><span>Estimated tax (demo rate)</span><span data-testid="text-tax">{money(tax)}</span></div>
-              {fulfillment === 'delivery' && <div className="total-line"><span>Delivery fee (demo estimate)</span><span data-testid="text-delivery-fee">{money(deliveryFee)}</span></div>}
+              <div className="total-line"><span>Estimated tax</span><span data-testid="text-tax">{money(tax)}</span></div>
+              {fulfillment === 'delivery' && <div className="total-line"><span>Delivery fee</span><span data-testid="text-delivery-fee">{money(deliveryFee)}</span></div>}
               <div className="total-line total"><span>Total</span><span data-testid="text-total">{money(total)}</span></div>
             </div>
             <div className={`min-notice${subtotal >= rules.minimumOrder ? ' met' : ''}`} data-testid="status-order-minimum">
               {subtotal >= rules.minimumOrder ? <><Check size={13} style={{ verticalAlign: 'middle', marginRight: 5 }} />Minimum met · local minimum is {money(rules.minimumOrder)} before tax</> :
                 <>Local minimum is {money(rules.minimumOrder)} before tax. Add {money(rules.minimumOrder - subtotal)} to continue.</>}
             </div>
-            <p className="quantity-cap-note">Demo order limit: up to {rules.maxPerItem} of each available menu item.</p>
+            <p className="quantity-cap-note">Up to {rules.maxPerItem} of each item per order.</p>
             {quantityNotice && <div className="error-msg" role="status" data-testid="status-quantity-limit">{quantityNotice}</div>}
             {errors.cart && <div className="error-msg" role="alert" data-testid="status-cart-error">{errors.cart}</div>}
             <button className="checkout-button" disabled={cart.length === 0 || subtotal < rules.minimumOrder} onClick={startCheckout} data-testid="button-checkout">
@@ -655,7 +658,7 @@ function App() {
               ))}
             </div>
            </> : <div className="copy-editor" data-testid="form-editor-copy">
-             <p className="copy-editor-intro">Edit the visible restaurant copy and local order estimates. These details only change on this device.</p>
+             <p className="copy-editor-intro">Edit the restaurant’s wording and order settings. Changes are saved on this device.</p>
             <label>Restaurant name<input value={draftCopy.brandName} onChange={(event) => setDraftCopy((current) => ({ ...current, brandName: event.target.value }))} data-testid="input-copy-brand-name" /></label>
             <label>Location caption<input value={draftCopy.locationCaption} onChange={(event) => setDraftCopy((current) => ({ ...current, locationCaption: event.target.value }))} data-testid="input-copy-location" /></label>
              <label>Top bar location<input value={draftCopy.topbarLocation} onChange={(event) => setDraftCopy((current) => ({ ...current, topbarLocation: event.target.value }))} data-testid="input-copy-topbar-location" /></label>
@@ -670,16 +673,17 @@ function App() {
              <label>Menu heading<input value={draftCopy.menuHeading} onChange={(event) => setDraftCopy((current) => ({ ...current, menuHeading: event.target.value }))} data-testid="input-copy-menu-heading" /></label>
              <label>Menu introduction<textarea rows={2} value={draftCopy.menuDescription} onChange={(event) => setDraftCopy((current) => ({ ...current, menuDescription: event.target.value }))} data-testid="input-copy-menu-description" /></label>
              <label>Footer restaurant line<input value={draftCopy.footerRestaurant} onChange={(event) => setDraftCopy((current) => ({ ...current, footerRestaurant: event.target.value }))} data-testid="input-copy-footer-restaurant" /></label>
+             <label>Restaurant phone (shown after ordering)<input type="tel" value={draftCopy.restaurantPhone} placeholder="(303) 555-0123" onChange={(event) => setDraftCopy((current) => ({ ...current, restaurantPhone: event.target.value }))} data-testid="input-copy-restaurant-phone" /></label>
              <label>Footer install note<textarea rows={2} value={draftCopy.footerInstallNote} onChange={(event) => setDraftCopy((current) => ({ ...current, footerInstallNote: event.target.value }))} data-testid="input-copy-footer-install-note" /></label>
              <section className="editor-rules" aria-labelledby="editor-rules-title">
-               <h3 id="editor-rules-title">Local order estimates</h3>
+               <h3 id="editor-rules-title">Order settings</h3>
                <div className="editor-fields">
                  <label>Minimum before tax ($)<input type="number" min="0" step="0.01" value={draftRules.minimumOrder} onChange={(event) => setDraftRules((current) => ({ ...current, minimumOrder: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-minimum" /></label>
                  <label>Tax estimate (%)<input type="number" min="0" max="100" step="0.01" value={draftRules.taxRate} onChange={(event) => setDraftRules((current) => ({ ...current, taxRate: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-tax" /></label>
                  <label>Delivery estimate ($)<input type="number" min="0" step="0.01" value={draftRules.deliveryFee} onChange={(event) => setDraftRules((current) => ({ ...current, deliveryFee: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-delivery" /></label>
-                 <label>Demo limit per item<input type="number" min="1" max="99" step="1" value={draftRules.maxPerItem} onChange={(event) => setDraftRules((current) => ({ ...current, maxPerItem: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-max-per-item" /></label>
+                 <label>Limit per item<input type="number" min="1" max="99" step="1" value={draftRules.maxPerItem} onChange={(event) => setDraftRules((current) => ({ ...current, maxPerItem: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-max-per-item" /></label>
                </div>
-               <p>Tax, delivery, and minimum-order figures are estimates for this demo only. They do not change Misaki’s actual prices or policies.</p>
+               <p>Check the tax rate, delivery fee and minimum with Misaki before sharing the app.</p>
              </section>
           </div>}
           {editorError && <div className="editor-error" role="alert" data-testid="status-editor-error">{editorError}</div>}
@@ -694,11 +698,19 @@ function App() {
         <section className="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkout-title" data-testid="dialog-checkout">
           {order ? <div className="success-view">
             <div className="success-icon"><Check size={29} /></div><h2>Thank you, {order.customerName}.</h2>
-            <p>Your demo order has been saved locally. Nothing was sent to the restaurant and no payment was taken.</p>
-            <div className="order-id" data-testid="text-demo-order-id">{order.id}</div>
-            <div className="demo-callout">Demo only · this is not a real restaurant order confirmation.</div>
+            <p>Your order is saved. {copy.restaurantPhone.trim() ? <>Call <a href={`tel:${copy.restaurantPhone.replace(/[^\d+]/g, '')}`}>{copy.restaurantPhone}</a> to place it, or show this at the counter.</> : 'To place it, call Misaki or show this at the counter.'}</p>
+            <div className="order-id" data-testid="text-order-id">{order.id}</div>
+            <div className="confirm-card receipt" data-testid="list-saved-order">
+              <div className="review-meta"><div><span>Order for</span><strong>{fulfillmentLabel[order.fulfillment]}</strong></div><div><span>Total</span><strong>{money(order.total)}</strong></div></div>
+              {order.items.map((entry) => {
+                const item = itemMap.get(entry.itemId);
+                return item ? <div className="review-line" key={entry.itemId}><span>{entry.quantity} × {item.name}</span><strong>{money(item.price * entry.quantity)}</strong></div> : null;
+              })}
+              {order.specialRequests && <div className="review-line"><span>Special request</span><strong>{order.specialRequests}</strong></div>}
+            </div>
+            <button className="checkout-button secondary" onClick={() => setCheckoutOpen(false)} data-testid="button-done">Done</button>
           </div> : <>
-            <div className="modal-head"><div><div className="eyebrow" style={{ color: '#8f6410', marginBottom: 8 }}>Almost there</div><h2 id="checkout-title">{step === 1 ? 'Your details' : 'Review your order'}</h2><p>{step === 1 ? 'A few details, then one last look.' : 'Please check everything before saving your demo order.'}</p></div>
+            <div className="modal-head"><div><div className="eyebrow" style={{ color: '#8f6410', marginBottom: 8 }}>Almost there</div><h2 id="checkout-title">{step === 1 ? 'Your details' : 'Review your order'}</h2><p>{step === 1 ? 'A few details, then one last look.' : 'Check everything before saving your order.'}</p></div>
               <button className="close-btn" aria-label="Close checkout" onClick={() => setCheckoutOpen(false)} data-testid="button-close-checkout"><X size={18} /></button></div>
             <div className="step-indicator"><span className="step-pill active" /><span className={`step-pill${step === 2 ? ' active' : ''}`} /></div>
             {step === 1 ? <>
@@ -723,10 +735,10 @@ function App() {
                 <div className="review-line"><span>Estimated tax</span><strong>{money(tax)}</strong></div>
                 {fulfillment === 'delivery' && <div className="review-line"><span>Delivery fee</span><strong>{money(deliveryFee)}</strong></div>}
                 <div className="review-line" style={{ fontSize: 15 }}><strong>Estimated total</strong><strong>{money(total)}</strong></div>
-                {cart.some((entry) => itemMap.get(entry.itemId)?.category.toLocaleLowerCase().includes('sake')) && <div className="age-notice">Includes age-restricted alcohol. 21+ only; valid ID and applicable law apply. This demo cannot verify age or process a real alcohol sale.</div>}
+                {cart.some((entry) => itemMap.get(entry.itemId)?.category.toLocaleLowerCase().includes('sake')) && <div className="age-notice">Includes alcohol. 21+ only. Please bring a valid ID.</div>}
               </div>
-              <div className="demo-callout"><strong>Demo order only.</strong> This prototype does not send the order to Misaki, reserve a table, arrange delivery, or accept payment. Confirming saves a local record on this device only.</div>
-              <div className="modal-actions"><button className="plain-btn" onClick={() => setStep(1)} data-testid="button-back-to-details">Back to details</button><button className="checkout-button" style={{ width: 'auto' }} onClick={confirmDemoOrder} data-testid="button-confirm-demo-order">Save demo order <Check size={15} /></button></div>
+              <div className="order-note">Saving keeps your order on this device so you can place it with Misaki. Payment is made at the restaurant.</div>
+              <div className="modal-actions"><button className="plain-btn" onClick={() => setStep(1)} data-testid="button-back-to-details">Back to details</button><button className="checkout-button" style={{ width: 'auto' }} onClick={confirmOrder} data-testid="button-confirm-order">Save order <Check size={15} /></button></div>
             </>}
           </>}
         </section>
