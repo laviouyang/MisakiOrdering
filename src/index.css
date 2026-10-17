@@ -46,7 +46,8 @@ button, input, textarea { font: inherit; }
 button { cursor: pointer; }
 button:disabled { cursor: not-allowed; opacity: .48; }
 ::selection { background:#f6dc9a; }
-.app-shell { min-height: 100dvh; }
+.app-shell { min-height: 100dvh; display:flex; flex-direction:column; }
+.app-shell > .footer { margin-top:auto; }
 .topbar { position: sticky; top: 0; z-index: 20; height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(18px, 4vw, 64px); background: rgba(239,241,249,.94); backdrop-filter: blur(14px); border-bottom: 1px solid #ccd0de; }
 .brand { display:flex; align-items:center; gap:12px; color:inherit; text-decoration:none; }
 .brand-mark { width:39px;height:39px;border-radius:50%;display:grid;place-items:center;background:#1c2954;color:#ffffff;font-family:var(--app-font-serif);font-weight:700;font-size:19px;box-shadow:inset 0 0 0 2px #1c2954,inset 0 0 0 4px #ffffff; }
@@ -231,3 +232,80 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 }
 @media(prefers-reduced-motion:reduce) { *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important} }.order-note a { color:inherit;font-weight:700;text-underline-offset:2px; }
 .receipt { text-align:left;margin:0 0 16px; }
+
+/* ---------- Section tabs (Menu / Rewards / About) ---------- */
+.page-nav { display:flex;justify-content:center;gap:4px;padding:0 clamp(12px,4vw,64px);background:#f8f9fc;border-bottom:1px solid #dde1ea; }
+.page-nav button { position:relative;border:0;background:transparent;color:#5c6378;padding:13px 18px 12px;font-size:14px;font-weight:700;border-bottom:3px solid transparent;margin-bottom:-1px; }
+.page-nav button:hover { color:#1c2954; }
+.page-nav button.active { color:#1c2954;border-bottom-color:#e8b33a; }
+.page-nav button:focus-visible, .note-add:focus-visible, .note-chip:focus-visible, .stamp-earned:focus-visible, .visit-row:focus-visible { outline:3px solid #e8b33a;outline-offset:2px;border-radius:6px; }
+.nav-dot { position:absolute;top:10px;right:8px;width:8px;height:8px;border-radius:50%;background:#e8b33a; }
+
+/* ---------- Shared page layout ---------- */
+.page { max-width:1040px; }
+.page-head h1, .about-story h1 { font:700 clamp(32px,4.4vw,46px)/1.08 var(--app-font-serif);color:#1c2954;margin:6px 0 10px;letter-spacing:-.01em; }
+.page-head p { color:#5c6378;font-size:15px;line-height:1.6;max-width:520px;margin:0 0 26px; }
+.page-actions { display:flex;flex-wrap:wrap;gap:10px;margin-top:22px; }
+.page-actions .checkout-button { width:auto;padding:12px 20px; }
+.page-footnote { color:#7a8092;font-size:12px;margin-top:16px; }
+.with-icon { display:inline-flex;align-items:center;gap:7px; }
+
+/* ---------- Rewards stamp card ---------- */
+.stamp-card { position:relative;background:#ffffff;border:1px solid #d9deeb;border-radius:18px;padding:22px clamp(18px,3vw,30px) 26px;box-shadow:0 1px 0 #ffffff inset,0 14px 34px -22px #1c295466;max-width:480px; }
+.stamp-card::before { content:"";position:absolute;inset:7px;border:1px dashed #d4d9e6;border-radius:13px;pointer-events:none; }
+.stamp-card.is-ready { border-color:#e8b33a;box-shadow:0 0 0 3px #f6dc9a,0 14px 34px -22px #1c295466; }
+.stamp-card-head { position:relative;display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:22px; }
+.stamp-card-name { display:block;color:#7a8092;font-size:12px;margin-bottom:4px; }
+.stamp-card-head strong { font:700 24px/1.1 var(--app-font-serif);color:#1c2954; }
+.stamp-card-status { color:#5c6378;font-size:13px;font-weight:700;white-space:nowrap; }
+.is-ready .stamp-card-status { color:#8f6410; }
+.stamp-grid { position:relative;list-style:none;display:grid;gap:clamp(10px,2.4vw,18px); }
+.stamp { width:100%;max-width:76px;justify-self:center;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;border:2px dashed #c9cfdf;color:#a3a9bb;font-size:13px;font-weight:700; }
+.stamp.stamped { border:0;background:#1c2954;color:#ffffff;font:700 clamp(20px,4vw,30px)/1 var(--app-font-serif);box-shadow:inset 0 0 0 3px #1c2954,inset 0 0 0 5px #ffffff;animation:stamp-in .28s ease-out both; }
+.stamp.stamped:nth-child(3n+1) { transform:rotate(-8deg); }
+.stamp.stamped:nth-child(3n+2) { transform:rotate(5deg); }
+.stamp.stamped:nth-child(3n) { transform:rotate(-3deg); }
+@keyframes stamp-in { from { scale:1.25;opacity:0; } to { scale:1;opacity:1; } }
+.reward-ready { position:relative;display:flex;align-items:center;gap:12px;margin-top:22px;padding:14px 16px;border-radius:12px;background:#fdf3d8;color:#5b4108; }
+.reward-ready > div { flex:1; }
+.reward-ready strong { display:block;font-size:15px; }
+.reward-ready span { font-size:13px; }
+.reward-ready .plain-btn { background:#ffffff; }
+
+/* ---------- About page ---------- */
+.about-layout { display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(24px,5vw,64px);align-items:start; }
+.about-story p { color:#3b4260;font-size:16px;line-height:1.75;margin:0 0 14px;max-width:560px; }
+.about-story .about-menu-line { color:#5c6378;font-size:14px; }
+.about-cta { width:auto;margin-top:10px;padding:12px 20px; }
+.about-visit { background:#ffffff;border:1px solid #d9deeb;border-radius:16px;padding:20px; }
+.about-visit h2 { font:700 22px var(--app-font-serif);color:#1c2954;margin:0 0 10px; }
+.visit-row { display:flex;gap:12px;align-items:flex-start;padding:12px 4px;border-top:1px solid #eceff5;color:#5c6378;font-size:13px;line-height:1.5; }
+.visit-row:first-of-type { border-top:0; }
+.visit-row svg { flex:none;margin-top:2px;color:#1c2954; }
+.visit-row strong { display:block;color:#1c2954;font-size:14px; }
+.visit-line { display:block; }
+a.visit-row:hover strong { text-decoration:underline;text-underline-offset:3px; }
+
+/* ---------- Item notes ---------- */
+.note-add, .note-chip { border:0;background:transparent;padding:0;margin-top:5px;font-size:11px;font-weight:700;color:#3a4a85;display:inline-flex;align-items:center;gap:5px; }
+.note-add:hover { text-decoration:underline;text-underline-offset:2px; }
+.note-chip { color:#5b4108;background:#fdf3d8;border-radius:6px;padding:3px 7px;font-weight:600;font-style:italic;text-align:left; }
+.note-edit { display:flex;gap:6px;margin-top:6px; }
+.note-edit input { flex:1;min-width:0;border:1px solid #c9cfdf;background:#ffffff;border-radius:7px;padding:6px 8px;font-size:12px;outline:none; }
+.note-edit input:focus { border-color:#3a4a85;box-shadow:0 0 0 2px #3a4a8522; }
+.note-edit button { border:0;border-radius:7px;background:#1c2954;color:#ffffff;font-size:11px;font-weight:700;padding:0 10px; }
+.line-note { display:block;color:#7a6020;font-size:11px;font-style:italic;margin-top:2px; }
+
+/* ---------- Order again + stamp on thank-you ---------- */
+.banner-actions { display:flex;gap:8px;flex-wrap:wrap; }
+.stamp-earned { display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:1px dashed #c9cfdf;background:#ffffff;border-radius:12px;padding:10px 12px;margin:0 0 12px;color:#3b4260;font-size:13px; }
+.stamp-earned:hover { border-color:#3a4a85; }
+.stamp-mini { width:30px;height:30px;flex:none;border-radius:50%;display:grid;place-items:center;background:#1c2954;color:#ffffff;font:700 15px var(--app-font-serif);transform:rotate(-8deg);box-shadow:inset 0 0 0 2px #1c2954,inset 0 0 0 3px #ffffff; }
+
+@media(max-width:800px) { .about-layout{grid-template-columns:1fr} }
+@media(max-width:600px) {
+  .page-nav{justify-content:space-around;padding:0 8px}.page-nav button{flex:1;padding:12px 6px 11px;font-size:13px}
+  .stamp-card-head{flex-direction:column;align-items:flex-start;gap:4px}
+  .reward-ready{flex-wrap:wrap}.reward-ready .plain-btn{width:100%}
+  .page-actions .checkout-button,.page-actions .plain-btn{width:100%;justify-content:center}
+}

@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Check, ChevronRight, Clock3, ImagePlus, MapPin, Minus, Plus, Search, ShoppingBag, Store, Truck, Utensils, X, Pencil, RotateCcw, Save } from 'lucide-react';
+import { Check, ChevronRight, Clock3, ImagePlus, MapPin, MessageSquare, Minus, Plus, Repeat, Search, ShoppingBag, Store, Truck, Utensils, X, Pencil, RotateCcw, Save } from 'lucide-react';
 import menuData from './data/misaki-menu.json';
+import RewardsPage, { type Rewards } from './RewardsPage';
+import AboutPage from './AboutPage';
 
 // One dish on the menu. The full menu lives in src/data/misaki-menu.json.
 type MenuItem = {
@@ -32,10 +34,14 @@ type LocalCopy = {
   footerRestaurant: string;
   footerInstallNote: string;
   restaurantPhone: string;
+  aboutStory: string;
+  aboutHours: string;
+  rewardPrize: string;
 };
-type LocalRules = { minimumOrder: number; taxRate: number; deliveryFee: number; maxPerItem: number };
+type LocalRules = { minimumOrder: number; taxRate: number; deliveryFee: number; maxPerItem: number; rewardGoal: number };
 type ItemOverride = Partial<Pick<MenuItem, 'name' | 'description' | 'category' | 'price' | 'availability'>>;
-type CartEntry = { itemId: string; quantity: number };
+type CartEntry = { itemId: string; quantity: number; note?: string };
+type Page = 'menu' | 'rewards' | 'about';
 type Fulfillment = 'pickup' | 'delivery' | 'dine-in';
 type SavedOrder = {
   id: string;
@@ -82,8 +88,13 @@ const defaultCopy: LocalCopy = {
   footerRestaurant: 'Misaki @ Superior · Superior, Colorado',
   footerInstallNote: 'On iPhone, tap Share → Add to Home Screen to keep Misaki on your phone.',
   restaurantPhone: '',
+  aboutStory: 'Misaki is a family-owned Japanese kitchen in Superior, Colorado, serving sushi, rolls, ramen and more, made fresh to order.\nCome in for dinner, or order ahead and pick it up on your way home.',
+  aboutHours: '',
+  rewardPrize: 'a free dessert',
 };
-const defaultRules: LocalRules = { minimumOrder: 10, taxRate: 8.85, deliveryFee: 4.5, maxPerItem: 10 };
+const defaultRules: LocalRules = { minimumOrder: 10, taxRate: 8.85, deliveryFee: 4.5, maxPerItem: 10, rewardGoal: 8 };
+const REWARDS_KEY = 'misaki-rewards-v1';
+const NOTE_MAX = 80;
 
 function openPhotoDb(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
@@ -167,6 +178,9 @@ function App() {
   const [storedOrder, setStoredOrder] = useState<SavedOrder | null>(null);
   const [idbError, setIdbError] = useState(false);
   const [quantityNotice, setQuantityNotice] = useState('');
+  const [page, setPage] = useState<Page>('menu');
+  const [rewards, setRewards] = useState<Rewards>({ stamps: 0, redeemed: 0 });
+  const [noteOpen, setNoteOpen] = useState<string | null>(null);
   const fileRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const photoUrlsRef = useRef<Record<string, string>>({});
   const categories = useMemo(() => ['All items', ...Array.from(new Set(items.map((item) => item.category)))], [items]);
@@ -199,6 +213,8 @@ function App() {
     try {
       const saved = localStorage.getItem('misaki-last-order');
       if (saved) setStoredOrder(JSON.parse(saved) as SavedOrder);
+      const savedRewards = localStorage.getItem(REWARDS_KEY);
+      if (savedRewards) setRewards({ stamps: 0, redeemed: 0, ...(JSON.parse(savedRewards) as Partial<Rewards>) });
     } catch { /* Local order history is optional in private browsing. */ }
     if (!('indexedDB' in window)) { setIdbError(true); return; }
     readPhotos().then((photos) => {
@@ -262,6 +278,11 @@ function App() {
     }
     if (!Number.isInteger(draftRules.maxPerItem) || draftRules.maxPerItem < 1 || draftRules.maxPerItem > 99) {
       setEditorError('Set the per-item limit to a whole number from 1 to 99.');
+      setEditorTab('copy');
+      return;
+    }
+    if (!Number.isInteger(draftRules.rewardGoal) || draftRules.rewardGoal < 2 || draftRules.rewardGoal > 20) {
+      setEditorError('Set the stamps needed for a reward to a whole number from 2 to 20.');
       setEditorTab('copy');
       return;
     }
@@ -416,7 +437,7 @@ function App() {
       customerName: customerName.trim(),
       phone: phone.trim(),
       ...(fulfillment === 'delivery' ? { address: address.trim() } : {}),
-      items: cart.map(({ itemId, quantity }) => ({ itemId, quantity })),
+      items: cart.map(({ itemId, quantity, note }) => ({ itemId, quantity, ...(note?.trim() ? { note: note.trim() } : {}) })),
       subtotal: Number(subtotal.toFixed(2)),
       tax,
       deliveryFee,
@@ -427,7 +448,49 @@ function App() {
     setOrder(savedOrder);
     setStoredOrder(savedOrder);
     setCart([]);
+    setNoteOpen(null);
+    saveRewards({ ...rewards, stamps: rewards.stamps + 1 });
     // Stay open on the "Thank you" screen so the customer sees their saved order.
+  };
+
+  const saveRewards = (next: Rewards) => {
+    setRewards(next);
+    try { localStorage.setItem(REWARDS_KEY, JSON.stringify(next)); } catch { /* Stamps still show for this visit. */ }
+  };
+
+  const redeemReward = () => {
+    if (rewards.stamps < rules.rewardGoal) return;
+    saveRewards({ stamps: rewards.stamps - rules.rewardGoal, redeemed: rewards.redeemed + 1 });
+  };
+
+  // Item notes, like "no cucumber". Saved with the cart and shown on the order.
+  const setNote = (itemId: string, note: string) => {
+    setCart((current) => current.map((entry) => entry.itemId === itemId ? { ...entry, note: note.slice(0, NOTE_MAX) } : entry));
+  };
+
+  // "Order again": rebuild the cart from a saved order, skipping sold-out dishes.
+  const orderAgain = (previous: SavedOrder) => {
+    const skipped: string[] = [];
+    const next: CartEntry[] = [];
+    previous.items.forEach((entry) => {
+      const item = itemMap.get(entry.itemId);
+      if (!item || item.availability !== 'available') { if (item) skipped.push(item.name); return; }
+      next.push({ itemId: entry.itemId, quantity: Math.min(entry.quantity, rules.maxPerItem), ...(entry.note ? { note: entry.note } : {}) });
+    });
+    setCart(next);
+    setFulfillment(previous.fulfillment);
+    setOrder(null);
+    setCheckoutOpen(false);
+    setQuantityNotice(skipped.length ? `${skipped.join(', ')} ${skipped.length === 1 ? 'is' : 'are'} sold out right now, so ${skipped.length === 1 ? 'it wasn’t' : 'they weren’t'} added.` : '');
+    goToPage('menu', true);
+  };
+
+  const goToPage = (next: Page, showCart = false) => {
+    setPage(next);
+    window.setTimeout(() => {
+      if (showCart) document.getElementById('cart-panel')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      else window.scrollTo({ top: 0 });
+    }, 30);
   };
 
   const beginFreshOrder = () => {
@@ -453,13 +516,28 @@ function App() {
         <div className="topbar-right">
           <span><MapPin size={15} /> {copy.topbarLocation}</span>
           <span><Clock3 size={15} /> {copy.topbarStatus}</span>
-          <button className="cart-jump" onClick={scrollToCart} data-testid="button-view-cart" aria-label={`View cart, ${cartCount} items`}>
+          <button className="cart-jump" onClick={() => (page === 'menu' ? scrollToCart() : goToPage('menu', true))} data-testid="button-view-cart" aria-label={`View cart, ${cartCount} items`}>
             <ShoppingBag size={16} /> Your order <span className="cart-count" data-testid="text-cart-count">{cartCount}</span>
           </button>
           <button className="editor-launch" type="button" onClick={openEditor} data-testid="button-open-editor"><Pencil size={14} /> Edit menu</button>
         </div>
       </header>
 
+      <nav className="page-nav" aria-label="Sections">
+        {([['menu', 'Menu'], ['rewards', 'Rewards'], ['about', 'About']] as const).map(([id, label]) => (
+          <button key={id} type="button" className={page === id ? 'active' : ''} aria-current={page === id ? 'page' : undefined} onClick={() => goToPage(id)} data-testid={`nav-${id}`}>
+            {label}{id === 'rewards' && rewards.stamps >= rules.rewardGoal && <span className="nav-dot" aria-label="reward ready" />}
+          </button>
+        ))}
+      </nav>
+
+      {page === 'rewards' && <RewardsPage rewards={rewards} goal={rules.rewardGoal} prize={copy.rewardPrize} restaurantName={copy.brandName}
+        hasLastOrder={Boolean(orderForReceipt)} onOrderAgain={() => orderForReceipt && orderAgain(orderForReceipt)} onStartOrder={() => goToPage('menu')} onRedeem={redeemReward} />}
+
+      {page === 'about' && <AboutPage restaurantName={copy.brandName} location={copy.topbarLocation} story={copy.aboutStory} hours={copy.aboutHours}
+        phone={copy.restaurantPhone} dishCount={items.length} categoryCount={categories.length - 1} onStartOrder={() => goToPage('menu')} />}
+
+      {page === 'menu' && <>
       <section className="hero">
         <div className="hero-inner">
           <div>
@@ -479,7 +557,10 @@ function App() {
                 <strong style={{ color: '#1c2954', display: 'flex', gap: 8, alignItems: 'center' }}><Check size={17} /> {order ? 'Order saved' : 'Your last order'}</strong>
                 <div style={{ color: '#5c6378', fontSize: 12, marginTop: 5 }}>{orderForReceipt.id} · {fulfillmentLabel[orderForReceipt.fulfillment]} · {money(orderForReceipt.total)}</div>
               </div>
-              <button className="plain-btn" onClick={beginFreshOrder} data-testid="button-start-new-order">Start a new order</button>
+              <div className="banner-actions">
+                <button className="plain-btn with-icon" onClick={() => orderAgain(orderForReceipt)} data-testid="button-order-again"><Repeat size={14} /> Order again</button>
+                <button className="plain-btn" onClick={beginFreshOrder} data-testid="button-start-new-order">Start a new order</button>
+              </div>
             </div>
             <div className="order-note">{copy.restaurantPhone.trim() ? <>Call <a href={`tel:${copy.restaurantPhone.replace(/[^\d+]/g, '')}`}>{copy.restaurantPhone}</a> to place it, or show this at the counter.</> : 'To place it, call Misaki or show this at the counter.'}</div>
           </section>
@@ -580,7 +661,20 @@ function App() {
                   const item = itemMap.get(entry.itemId);
                   if (!item) return null;
                   return <div className="cart-row" key={entry.itemId} data-testid={`row-cart-item-${entry.itemId}`}>
-                    <div><div className="cart-row-name">{item.name}</div><div className="cart-row-price">{money(item.price)} each · {money(item.price * entry.quantity)}</div></div>
+                    <div><div className="cart-row-name">{item.name}</div><div className="cart-row-price">{money(item.price)} each · {money(item.price * entry.quantity)}</div>
+                      {noteOpen === entry.itemId ? (
+                        <div className="note-edit">
+                          <input autoFocus value={entry.note ?? ''} maxLength={NOTE_MAX} placeholder="e.g. no cucumber"
+                            aria-label={`Note for ${item.name}`} onChange={(event) => setNote(entry.itemId, event.target.value)}
+                            onKeyDown={(event) => { if (event.key === 'Enter' || event.key === 'Escape') setNoteOpen(null); }} data-testid={`input-note-${item.id}`} />
+                          <button type="button" onClick={() => setNoteOpen(null)} data-testid={`button-note-done-${item.id}`}>Done</button>
+                        </div>
+                      ) : entry.note?.trim() ? (
+                        <button type="button" className="note-chip" onClick={() => setNoteOpen(entry.itemId)} aria-label={`Edit note for ${item.name}: ${entry.note}`} data-testid={`button-edit-note-${item.id}`}>“{entry.note}”</button>
+                      ) : (
+                        <button type="button" className="note-add" onClick={() => setNoteOpen(entry.itemId)} data-testid={`button-add-note-${item.id}`}><MessageSquare size={12} /> Add note</button>
+                      )}
+                    </div>
                     <div className="qty-control"><button onClick={() => changeQuantity(item.id, -1)} aria-label={`Remove one ${item.name}`} data-testid={`button-cart-decrease-${item.id}`}><Minus size={13} /></button><span>{entry.quantity}</span><button disabled={entry.quantity >= rules.maxPerItem} onClick={() => changeQuantity(item.id, 1)} aria-label={`Add one ${item.name}`} title={entry.quantity >= rules.maxPerItem ? `Limit: ${rules.maxPerItem} per item` : undefined} data-testid={`button-cart-increase-${item.id}`}><Plus size={13} /></button></div>
                   </div>;
                 })}
@@ -607,6 +701,7 @@ function App() {
           </aside>
         </div>
       </main>
+      </>}
 
       <footer className="footer">
         <span>{copy.footerRestaurant} · <a href="https://www.misakiatsuperior.com/online-ordering-1" target="_blank" rel="noreferrer" data-testid="link-official-menu">View the official menu</a></span>
@@ -674,6 +769,9 @@ function App() {
              <label>Menu introduction<textarea rows={2} value={draftCopy.menuDescription} onChange={(event) => setDraftCopy((current) => ({ ...current, menuDescription: event.target.value }))} data-testid="input-copy-menu-description" /></label>
              <label>Footer restaurant line<input value={draftCopy.footerRestaurant} onChange={(event) => setDraftCopy((current) => ({ ...current, footerRestaurant: event.target.value }))} data-testid="input-copy-footer-restaurant" /></label>
              <label>Restaurant phone (shown after ordering)<input type="tel" value={draftCopy.restaurantPhone} placeholder="(303) 555-0123" onChange={(event) => setDraftCopy((current) => ({ ...current, restaurantPhone: event.target.value }))} data-testid="input-copy-restaurant-phone" /></label>
+             <label>About page story<textarea rows={4} value={draftCopy.aboutStory} onChange={(event) => setDraftCopy((current) => ({ ...current, aboutStory: event.target.value }))} data-testid="input-copy-about-story" /></label>
+             <label>Hours (one line per day or range; leave blank to hide)<textarea rows={3} value={draftCopy.aboutHours} placeholder={'Mon–Thu 11am–9pm\nFri–Sat 11am–10pm'} onChange={(event) => setDraftCopy((current) => ({ ...current, aboutHours: event.target.value }))} data-testid="input-copy-about-hours" /></label>
+             <label>Reward prize<input value={draftCopy.rewardPrize} onChange={(event) => setDraftCopy((current) => ({ ...current, rewardPrize: event.target.value }))} data-testid="input-copy-reward-prize" /></label>
              <label>Footer install note<textarea rows={2} value={draftCopy.footerInstallNote} onChange={(event) => setDraftCopy((current) => ({ ...current, footerInstallNote: event.target.value }))} data-testid="input-copy-footer-install-note" /></label>
              <section className="editor-rules" aria-labelledby="editor-rules-title">
                <h3 id="editor-rules-title">Order settings</h3>
@@ -681,6 +779,7 @@ function App() {
                  <label>Minimum before tax ($)<input type="number" min="0" step="0.01" value={draftRules.minimumOrder} onChange={(event) => setDraftRules((current) => ({ ...current, minimumOrder: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-minimum" /></label>
                  <label>Tax estimate (%)<input type="number" min="0" max="100" step="0.01" value={draftRules.taxRate} onChange={(event) => setDraftRules((current) => ({ ...current, taxRate: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-tax" /></label>
                  <label>Delivery estimate ($)<input type="number" min="0" step="0.01" value={draftRules.deliveryFee} onChange={(event) => setDraftRules((current) => ({ ...current, deliveryFee: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-delivery" /></label>
+                 <label>Stamps for a reward<input type="number" min="2" max="20" step="1" value={draftRules.rewardGoal} onChange={(event) => setDraftRules((current) => ({ ...current, rewardGoal: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-reward-goal" /></label>
                  <label>Limit per item<input type="number" min="1" max="99" step="1" value={draftRules.maxPerItem} onChange={(event) => setDraftRules((current) => ({ ...current, maxPerItem: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-max-per-item" /></label>
                </div>
                <p>Check the tax rate, delivery fee and minimum with Misaki before sharing the app.</p>
@@ -704,10 +803,14 @@ function App() {
               <div className="review-meta"><div><span>Order for</span><strong>{fulfillmentLabel[order.fulfillment]}</strong></div><div><span>Total</span><strong>{money(order.total)}</strong></div></div>
               {order.items.map((entry) => {
                 const item = itemMap.get(entry.itemId);
-                return item ? <div className="review-line" key={entry.itemId}><span>{entry.quantity} × {item.name}</span><strong>{money(item.price * entry.quantity)}</strong></div> : null;
+                return item ? <div className="review-line" key={entry.itemId}><span>{entry.quantity} × {item.name}{entry.note && <em className="line-note">“{entry.note}”</em>}</span><strong>{money(item.price * entry.quantity)}</strong></div> : null;
               })}
               {order.specialRequests && <div className="review-line"><span>Special request</span><strong>{order.specialRequests}</strong></div>}
             </div>
+            <button type="button" className="stamp-earned" onClick={() => { setCheckoutOpen(false); goToPage('rewards'); }} data-testid="button-stamp-earned">
+              <span className="stamp-mini" aria-hidden="true">美</span>
+              {rewards.stamps >= rules.rewardGoal ? <>You earned a stamp. <strong>Your reward is ready!</strong></> : <>You earned a stamp: <strong>{rewards.stamps} of {rules.rewardGoal}</strong></>}
+            </button>
             <button className="checkout-button secondary" onClick={() => setCheckoutOpen(false)} data-testid="button-done">Done</button>
           </div> : <>
             <div className="modal-head"><div><div className="eyebrow" style={{ color: '#8f6410', marginBottom: 8 }}>Almost there</div><h2 id="checkout-title">{step === 1 ? 'Your details' : 'Review your order'}</h2><p>{step === 1 ? 'A few details, then one last look.' : 'Check everything before saving your order.'}</p></div>
@@ -728,7 +831,7 @@ function App() {
                 <div className="review-meta"><div><span>Fulfillment</span><strong>{fulfillmentLabel[fulfillment]}</strong></div><div><span>Order for</span><strong>{customerName}</strong></div><div><span>Phone</span><strong>{phone}</strong></div>{fulfillment === 'delivery' && <div><span>Deliver to</span><strong>{address}</strong></div>}</div>
                 {cart.map((entry) => {
                   const item = itemMap.get(entry.itemId);
-                  return item ? <div className="review-line" key={entry.itemId} data-testid={`row-review-item-${item.id}`}><span>{entry.quantity} × {item.name}</span><strong>{money(item.price * entry.quantity)}</strong></div> : null;
+                  return item ? <div className="review-line" key={entry.itemId} data-testid={`row-review-item-${item.id}`}><span>{entry.quantity} × {item.name}{entry.note?.trim() && <em className="line-note">“{entry.note.trim()}”</em>}</span><strong>{money(item.price * entry.quantity)}</strong></div> : null;
                 })}
                 {specialRequests.trim() && <div className="review-line"><span>Special request</span><strong>{specialRequests}</strong></div>}
                 <div className="review-line"><span>Subtotal</span><strong>{money(subtotal)}</strong></div>

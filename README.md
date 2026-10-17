@@ -8,7 +8,9 @@ iPhone app — all from the same code.
 
 | File or folder | What it is |
 | --- | --- |
-| `src/App.tsx` | The whole app: menu, cart, checkout and the menu editor |
+| `src/App.tsx` | The main app: menu, cart, item notes, checkout, "Order again" and the menu editor |
+| `src/RewardsPage.tsx` | The Rewards page and its stamp card |
+| `src/AboutPage.tsx` | The About page: the restaurant's story and how to find it |
 | `src/index.css` | All the colors, fonts and layout |
 | `src/data/misaki-menu.json` | The menu: every dish, price and category, in the order they appear |
 | `src/main.tsx` | Starts the app (you rarely need to touch this) |
@@ -72,3 +74,9 @@ Prices change, so check them with Misaki before taking real orders.
   Misaki or shows the order at the counter, and pays at the restaurant. Add the
   restaurant's phone number in **Edit menu → Shop details** so it shows after ordering.
 - Tax and delivery fees are estimates until the restaurant confirms its rules.
+- Rewards: each saved order earns one stamp. With a full card (8 stamps by
+  default), the customer shows the Rewards page at the counter. Stamps are saved
+  on the customer's device. Change the prize and number of stamps in
+  **Edit menu → Shop details**, after checking with Misaki.
+- The About page story, hours and phone number are also set in
+  **Edit menu → Shop details**. Hours stay hidden until you fill them in.
