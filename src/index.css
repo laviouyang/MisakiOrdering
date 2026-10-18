@@ -309,3 +309,23 @@ a.visit-row:hover strong { text-decoration:underline;text-underline-offset:3px; 
   .reward-ready{flex-wrap:wrap}.reward-ready .plain-btn{width:100%}
   .page-actions .checkout-button,.page-actions .plain-btn{width:100%;justify-content:center}
 }
+
+/* ---------- Scratch card ---------- */
+.scratch-card { position:relative;max-width:560px;background:#1c2954;color:#fbfbfd;border-radius:22px;padding:24px;box-shadow:0 18px 40px -24px #1c2954aa; }
+.scratch-card::before { content:"";position:absolute;inset:8px;border:1px solid #ffffff24;border-radius:16px;pointer-events:none; }
+.scratch-card-head { position:relative;display:flex;align-items:center;gap:14px;margin-bottom:18px; }
+.scratch-card-head strong { display:block;font:700 22px/1.15 var(--app-font-serif); }
+.scratch-card-head div > span { display:block;color:#c9cfe2;font-size:13px;margin-top:3px; }
+.scratch-crest { width:44px;height:44px;flex:none;border-radius:50%;display:grid;place-items:center;background:#fbfbfd;color:#1c2954;font:700 22px var(--app-font-serif);box-shadow:inset 0 0 0 3px #fbfbfd,inset 0 0 0 5px #1c2954; }
+.scratch-area { position:relative;aspect-ratio:8 / 3;border-radius:14px;overflow:hidden;background:#e8b33a; }
+.scratch-prize { position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#1c2954; }
+.scratch-prize strong { font:700 clamp(44px,9vw,64px)/1 var(--app-font-serif); }
+.scratch-prize span { font-size:15px;font-weight:700;margin-top:6px; }
+.scratch-cover { position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab; }
+.scratch-reveal-btn { position:absolute;right:10px;bottom:10px;border:0;border-radius:8px;background:#1c2954e6;color:#ffffff;font-size:12px;font-weight:700;padding:7px 10px; }
+.scratch-reveal-btn:focus-visible { outline:3px solid #e8b33a;outline-offset:2px; }
+.is-revealed .scratch-area { animation:prize-in .35s ease-out both; }
+@keyframes prize-in { from { transform:scale(.96); } to { transform:scale(1); } }
+.scratch-empty { display:flex;align-items:center;gap:10px;max-width:560px;background:#ffffff;border:1px dashed #c9cfdf;border-radius:14px;padding:18px;color:#3b4260; }
+.discount-line, .discount-line span, .discount-line strong { color:#8f6410; }
+.saved-discount { color:#8f6410 !important;font-weight:700; }

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Check, ChevronRight, Clock3, ImagePlus, MapPin, MessageSquare, Minus, Plus, Repeat, Search, ShoppingBag, Store, Truck, Utensils, X, Pencil, RotateCcw, Save } from 'lucide-react';
 import menuData from './data/misaki-menu.json';
-import RewardsPage, { type Rewards } from './RewardsPage';
+import RewardsPage, { drawCard, type ScratchCard } from './RewardsPage';
 import AboutPage from './AboutPage';
 
 // One dish on the menu. The full menu lives in src/data/misaki-menu.json.
@@ -36,9 +36,8 @@ type LocalCopy = {
   restaurantPhone: string;
   aboutStory: string;
   aboutHours: string;
-  rewardPrize: string;
 };
-type LocalRules = { minimumOrder: number; taxRate: number; deliveryFee: number; maxPerItem: number; rewardGoal: number };
+type LocalRules = { minimumOrder: number; taxRate: number; deliveryFee: number; maxPerItem: number };
 type ItemOverride = Partial<Pick<MenuItem, 'name' | 'description' | 'category' | 'price' | 'availability'>>;
 type CartEntry = { itemId: string; quantity: number; note?: string };
 type Page = 'menu' | 'rewards' | 'about';
@@ -55,6 +54,9 @@ type SavedOrder = {
   tax: number;
   deliveryFee: number;
   total: number;
+  discountPercent?: number;
+  discount?: number;
+  newCard?: boolean;
   specialRequests?: string;
 };
 
@@ -90,10 +92,9 @@ const defaultCopy: LocalCopy = {
   restaurantPhone: '',
   aboutStory: 'Misaki is a family-owned Japanese kitchen in Superior, Colorado, serving sushi, rolls, ramen and more, made fresh to order.\nCome in for dinner, or order ahead and pick it up on your way home.',
   aboutHours: '',
-  rewardPrize: 'a free dessert',
 };
-const defaultRules: LocalRules = { minimumOrder: 10, taxRate: 8.85, deliveryFee: 4.5, maxPerItem: 10, rewardGoal: 8 };
-const REWARDS_KEY = 'misaki-rewards-v1';
+const defaultRules: LocalRules = { minimumOrder: 10, taxRate: 8.85, deliveryFee: 4.5, maxPerItem: 10 };
+const CARD_KEY = 'misaki-scratch-card-v1';
 const NOTE_MAX = 80;
 
 function openPhotoDb(): Promise<IDBDatabase> {
@@ -179,7 +180,7 @@ function App() {
   const [idbError, setIdbError] = useState(false);
   const [quantityNotice, setQuantityNotice] = useState('');
   const [page, setPage] = useState<Page>('menu');
-  const [rewards, setRewards] = useState<Rewards>({ stamps: 0, redeemed: 0 });
+  const [scratchCard, setScratchCard] = useState<ScratchCard | null>(null);
   const [noteOpen, setNoteOpen] = useState<string | null>(null);
   const fileRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const photoUrlsRef = useRef<Record<string, string>>({});
@@ -213,8 +214,10 @@ function App() {
     try {
       const saved = localStorage.getItem('misaki-last-order');
       if (saved) setStoredOrder(JSON.parse(saved) as SavedOrder);
-      const savedRewards = localStorage.getItem(REWARDS_KEY);
-      if (savedRewards) setRewards({ stamps: 0, redeemed: 0, ...(JSON.parse(savedRewards) as Partial<Rewards>) });
+      // First visit: hand the customer a scratch card to try.
+      const savedCard = localStorage.getItem(CARD_KEY);
+      if (savedCard === null) saveCard(drawCard());
+      else setScratchCard(JSON.parse(savedCard) as ScratchCard | null);
     } catch { /* Local order history is optional in private browsing. */ }
     if (!('indexedDB' in window)) { setIdbError(true); return; }
     readPhotos().then((photos) => {
@@ -239,9 +242,12 @@ function App() {
     });
   }, [category, search, items]);
   const subtotal = cart.reduce((sum, entry) => sum + (itemMap.get(entry.itemId)?.price ?? 0) * entry.quantity, 0);
-  const tax = Number((subtotal * rules.taxRate / 100).toFixed(2));
+  // A revealed scratch card takes its percentage off the food, before tax.
+  const discountPercent = scratchCard?.scratched && cart.length > 0 ? scratchCard.percent : 0;
+  const discount = Number((subtotal * discountPercent / 100).toFixed(2));
+  const tax = Number(((subtotal - discount) * rules.taxRate / 100).toFixed(2));
   const deliveryFee = fulfillment === 'delivery' && cart.length > 0 ? rules.deliveryFee : 0;
-  const total = Number((subtotal + tax + deliveryFee).toFixed(2));
+  const total = Number((subtotal - discount + tax + deliveryFee).toFixed(2));
   const cartCount = cart.reduce((sum, entry) => sum + entry.quantity, 0);
   const budgetNumber = budget.trim() ? Number(budget) : null;
   const exceedsBudget = budgetNumber !== null && Number.isFinite(budgetNumber) && total > budgetNumber;
@@ -278,11 +284,6 @@ function App() {
     }
     if (!Number.isInteger(draftRules.maxPerItem) || draftRules.maxPerItem < 1 || draftRules.maxPerItem > 99) {
       setEditorError('Set the per-item limit to a whole number from 1 to 99.');
-      setEditorTab('copy');
-      return;
-    }
-    if (!Number.isInteger(draftRules.rewardGoal) || draftRules.rewardGoal < 2 || draftRules.rewardGoal > 20) {
-      setEditorError('Set the stamps needed for a reward to a whole number from 2 to 20.');
       setEditorTab('copy');
       return;
     }
@@ -442,6 +443,8 @@ function App() {
       tax,
       deliveryFee,
       total,
+      ...(discount > 0 ? { discountPercent, discount } : {}),
+      ...(discount > 0 || !scratchCard ? { newCard: true } : {}),
       ...(specialRequests.trim() ? { specialRequests: specialRequests.trim() } : {}),
     };
     try { localStorage.setItem('misaki-last-order', JSON.stringify(savedOrder)); } catch { /* Keep the confirmation visible even if storage is unavailable. */ }
@@ -449,18 +452,18 @@ function App() {
     setStoredOrder(savedOrder);
     setCart([]);
     setNoteOpen(null);
-    saveRewards({ ...rewards, stamps: rewards.stamps + 1 });
+    // A used card is spent, and every saved order earns a new card.
+    if (discount > 0 || !scratchCard) saveCard(drawCard());
     // Stay open on the "Thank you" screen so the customer sees their saved order.
   };
 
-  const saveRewards = (next: Rewards) => {
-    setRewards(next);
-    try { localStorage.setItem(REWARDS_KEY, JSON.stringify(next)); } catch { /* Stamps still show for this visit. */ }
-  };
+  function saveCard(next: ScratchCard | null) {
+    setScratchCard(next);
+    try { localStorage.setItem(CARD_KEY, JSON.stringify(next)); } catch { /* The card still works for this visit. */ }
+  }
 
-  const redeemReward = () => {
-    if (rewards.stamps < rules.rewardGoal) return;
-    saveRewards({ stamps: rewards.stamps - rules.rewardGoal, redeemed: rewards.redeemed + 1 });
+  const revealCard = () => {
+    if (scratchCard && !scratchCard.scratched) saveCard({ ...scratchCard, scratched: true });
   };
 
   // Item notes, like "no cucumber". Saved with the cart and shown on the order.
@@ -524,15 +527,15 @@ function App() {
       </header>
 
       <nav className="page-nav" aria-label="Sections">
-        {([['menu', 'Menu'], ['rewards', 'Rewards'], ['about', 'About']] as const).map(([id, label]) => (
+        {([['menu', 'Menu'], ['rewards', 'Scratch card'], ['about', 'About']] as const).map(([id, label]) => (
           <button key={id} type="button" className={page === id ? 'active' : ''} aria-current={page === id ? 'page' : undefined} onClick={() => goToPage(id)} data-testid={`nav-${id}`}>
-            {label}{id === 'rewards' && rewards.stamps >= rules.rewardGoal && <span className="nav-dot" aria-label="reward ready" />}
+            {label}{id === 'rewards' && scratchCard && !scratchCard.scratched && <span className="nav-dot" aria-label="new scratch card" />}
           </button>
         ))}
       </nav>
 
-      {page === 'rewards' && <RewardsPage rewards={rewards} goal={rules.rewardGoal} prize={copy.rewardPrize} restaurantName={copy.brandName}
-        hasLastOrder={Boolean(orderForReceipt)} onOrderAgain={() => orderForReceipt && orderAgain(orderForReceipt)} onStartOrder={() => goToPage('menu')} onRedeem={redeemReward} />}
+      {page === 'rewards' && <RewardsPage card={scratchCard} restaurantName={copy.brandName} hasLastOrder={Boolean(orderForReceipt)}
+        onReveal={revealCard} onOrderAgain={() => orderForReceipt && orderAgain(orderForReceipt)} onStartOrder={() => goToPage('menu')} />}
 
       {page === 'about' && <AboutPage restaurantName={copy.brandName} location={copy.topbarLocation} story={copy.aboutStory} hours={copy.aboutHours}
         phone={copy.restaurantPhone} dishCount={items.length} categoryCount={categories.length - 1} onStartOrder={() => goToPage('menu')} />}
@@ -682,6 +685,7 @@ function App() {
             )}
             <div className="totals">
               <div className="total-line"><span>Subtotal</span><span data-testid="text-subtotal">{money(subtotal)}</span></div>
+              {discount > 0 && <div className="total-line discount-line"><span>Scratch card ({discountPercent}% off)</span><span data-testid="text-discount">−{money(discount)}</span></div>}
               <div className="total-line"><span>Estimated tax</span><span data-testid="text-tax">{money(tax)}</span></div>
               {fulfillment === 'delivery' && <div className="total-line"><span>Delivery fee</span><span data-testid="text-delivery-fee">{money(deliveryFee)}</span></div>}
               <div className="total-line total"><span>Total</span><span data-testid="text-total">{money(total)}</span></div>
@@ -771,7 +775,6 @@ function App() {
              <label>Restaurant phone (shown after ordering)<input type="tel" value={draftCopy.restaurantPhone} placeholder="(303) 555-0123" onChange={(event) => setDraftCopy((current) => ({ ...current, restaurantPhone: event.target.value }))} data-testid="input-copy-restaurant-phone" /></label>
              <label>About page story<textarea rows={4} value={draftCopy.aboutStory} onChange={(event) => setDraftCopy((current) => ({ ...current, aboutStory: event.target.value }))} data-testid="input-copy-about-story" /></label>
              <label>Hours (one line per day or range; leave blank to hide)<textarea rows={3} value={draftCopy.aboutHours} placeholder={'Mon–Thu 11am–9pm\nFri–Sat 11am–10pm'} onChange={(event) => setDraftCopy((current) => ({ ...current, aboutHours: event.target.value }))} data-testid="input-copy-about-hours" /></label>
-             <label>Reward prize<input value={draftCopy.rewardPrize} onChange={(event) => setDraftCopy((current) => ({ ...current, rewardPrize: event.target.value }))} data-testid="input-copy-reward-prize" /></label>
              <label>Footer install note<textarea rows={2} value={draftCopy.footerInstallNote} onChange={(event) => setDraftCopy((current) => ({ ...current, footerInstallNote: event.target.value }))} data-testid="input-copy-footer-install-note" /></label>
              <section className="editor-rules" aria-labelledby="editor-rules-title">
                <h3 id="editor-rules-title">Order settings</h3>
@@ -779,7 +782,6 @@ function App() {
                  <label>Minimum before tax ($)<input type="number" min="0" step="0.01" value={draftRules.minimumOrder} onChange={(event) => setDraftRules((current) => ({ ...current, minimumOrder: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-minimum" /></label>
                  <label>Tax estimate (%)<input type="number" min="0" max="100" step="0.01" value={draftRules.taxRate} onChange={(event) => setDraftRules((current) => ({ ...current, taxRate: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-tax" /></label>
                  <label>Delivery estimate ($)<input type="number" min="0" step="0.01" value={draftRules.deliveryFee} onChange={(event) => setDraftRules((current) => ({ ...current, deliveryFee: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-delivery" /></label>
-                 <label>Stamps for a reward<input type="number" min="2" max="20" step="1" value={draftRules.rewardGoal} onChange={(event) => setDraftRules((current) => ({ ...current, rewardGoal: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-reward-goal" /></label>
                  <label>Limit per item<input type="number" min="1" max="99" step="1" value={draftRules.maxPerItem} onChange={(event) => setDraftRules((current) => ({ ...current, maxPerItem: event.target.value === '' ? Number.NaN : Number(event.target.value) }))} data-testid="input-rule-max-per-item" /></label>
                </div>
                <p>Check the tax rate, delivery fee and minimum with Misaki before sharing the app.</p>
@@ -807,10 +809,11 @@ function App() {
               })}
               {order.specialRequests && <div className="review-line"><span>Special request</span><strong>{order.specialRequests}</strong></div>}
             </div>
-            <button type="button" className="stamp-earned" onClick={() => { setCheckoutOpen(false); goToPage('rewards'); }} data-testid="button-stamp-earned">
+            {order.discount ? <p className="saved-discount" data-testid="text-saved-discount">You saved {money(order.discount)} with your {order.discountPercent}% scratch card.</p> : null}
+            {scratchCard && !scratchCard.scratched && <button type="button" className="stamp-earned" onClick={() => { setCheckoutOpen(false); goToPage('rewards'); }} data-testid="button-new-card">
               <span className="stamp-mini" aria-hidden="true">美</span>
-              {rewards.stamps >= rules.rewardGoal ? <>You earned a stamp. <strong>Your reward is ready!</strong></> : <>You earned a stamp: <strong>{rewards.stamps} of {rules.rewardGoal}</strong></>}
-            </button>
+              <span>{order.newCard ? 'You got a new scratch card.' : 'You still have a scratch card.'} <strong>Scratch it now</strong></span>
+            </button>}
             <button className="checkout-button secondary" onClick={() => setCheckoutOpen(false)} data-testid="button-done">Done</button>
           </div> : <>
             <div className="modal-head"><div><div className="eyebrow" style={{ color: '#8f6410', marginBottom: 8 }}>Almost there</div><h2 id="checkout-title">{step === 1 ? 'Your details' : 'Review your order'}</h2><p>{step === 1 ? 'A few details, then one last look.' : 'Check everything before saving your order.'}</p></div>
@@ -835,6 +838,7 @@ function App() {
                 })}
                 {specialRequests.trim() && <div className="review-line"><span>Special request</span><strong>{specialRequests}</strong></div>}
                 <div className="review-line"><span>Subtotal</span><strong>{money(subtotal)}</strong></div>
+                {discount > 0 && <div className="review-line discount-line"><span>Scratch card ({discountPercent}% off)</span><strong>−{money(discount)}</strong></div>}
                 <div className="review-line"><span>Estimated tax</span><strong>{money(tax)}</strong></div>
                 {fulfillment === 'delivery' && <div className="review-line"><span>Delivery fee</span><strong>{money(deliveryFee)}</strong></div>}
                 <div className="review-line" style={{ fontSize: 15 }}><strong>Estimated total</strong><strong>{money(total)}</strong></div>
