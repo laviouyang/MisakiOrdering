@@ -329,3 +329,10 @@ a.visit-row:hover strong { text-decoration:underline;text-underline-offset:3px; 
 .scratch-empty { display:flex;align-items:center;gap:10px;max-width:560px;background:#ffffff;border:1px dashed #c9cfdf;border-radius:14px;padding:18px;color:#3b4260; }
 .discount-line, .discount-line span, .discount-line strong { color:#8f6410; }
 .saved-discount { color:#8f6410 !important;font-weight:700; }
+.code-form { max-width:560px;display:flex;flex-direction:column;gap:10px;background:#ffffff;border:1px solid #d9deeb;border-radius:18px;padding:22px; }
+.code-form label { display:flex;align-items:center;gap:8px;font-weight:700;color:#1c2954; }
+.code-row { display:flex;gap:10px; }
+.code-row input { flex:1;min-width:0;border:1px solid #c9cfdf;background:#fbfbfd;border-radius:10px;padding:12px 14px;font-size:16px;letter-spacing:.08em;text-transform:uppercase;outline:none; }
+.code-row input:focus { border-color:#3a4a85;box-shadow:0 0 0 3px #3a4a8522; }
+.code-row .checkout-button { width:auto;white-space:nowrap; }
+@media(max-width:600px) { .code-row{flex-direction:column}.code-row .checkout-button{width:100%} }

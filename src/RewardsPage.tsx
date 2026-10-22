@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Gift } from 'lucide-react';
 
 // The friends & family scratch card. A digital version of the scratch cards
-// Misaki hands out: scratch to reveal 5–40% off your next order.
-// Each saved order earns a new card. Cards are saved on the customer's device
-// (see `scratchCard` in App.tsx).
+// Misaki hands out: scratch to reveal 5–40% off.
+// Customers unlock a card with the friends & family code the restaurant gives
+// them (set in Edit menu → Shop details). A scratched discount is good for this
+// visit only (see `scratchCard` in App.tsx).
 
 export type ScratchCard = { percent: number; scratched: boolean };
 
@@ -37,16 +38,28 @@ type Props = {
   restaurantName: string;
   hasLastOrder: boolean;
   onReveal: () => void;
+  /** Checks a friends & family code. Returns an error message, or null if a card was given. */
+  onRedeemCode: (code: string) => string | null;
   onOrderAgain: () => void;
   onStartOrder: () => void;
 };
 
-export default function RewardsPage({ card, restaurantName, hasLastOrder, onReveal, onOrderAgain, onStartOrder }: Props) {
+export default function RewardsPage({ card, restaurantName, hasLastOrder, onReveal, onRedeemCode, onOrderAgain, onStartOrder }: Props) {
+  const [code, setCode] = useState('');
+  const [codeError, setCodeError] = useState('');
+
+  const submitCode = (event: FormEvent) => {
+    event.preventDefault();
+    const error = onRedeemCode(code);
+    setCodeError(error ?? '');
+    if (!error) setCode('');
+  };
+
   return (
     <main className="content-wrap page" data-testid="page-rewards">
       <div className="page-head">
         <h1>Scratch card</h1>
-        <p>Friends &amp; family get a scratch card for 5–40% off. Every order you save earns a new card for next time.</p>
+        <p>Friends &amp; family of {restaurantName} get a scratch card for 5–40% off. Enter the code the family gave you to get yours.</p>
       </div>
 
       {card ? (
@@ -55,16 +68,21 @@ export default function RewardsPage({ card, restaurantName, hasLastOrder, onReve
             <span className="scratch-crest" aria-hidden="true">美</span>
             <div>
               <strong>{restaurantName} friends &amp; family</strong>
-              <span>{card.scratched ? 'Applied to your next order' : 'Scratch the silver area'}</span>
+              <span>{card.scratched ? 'Applied to this order. Good for this visit only.' : 'Scratch the silver area'}</span>
             </div>
           </div>
           <ScratchArea percent={card.percent} scratched={card.scratched} onReveal={onReveal} />
         </section>
       ) : (
-        <div className="scratch-empty" data-testid="status-no-card">
-          <Gift size={22} />
-          <span>Save an order to get a scratch card.</span>
-        </div>
+        <form className="code-form" onSubmit={submitCode} data-testid="form-family-code">
+          <label htmlFor="family-code"><Gift size={18} aria-hidden="true" /> Friends &amp; family code</label>
+          <div className="code-row">
+            <input id="family-code" value={code} onChange={(event) => setCode(event.target.value)} placeholder="Enter your code"
+              autoComplete="off" autoCapitalize="characters" aria-invalid={Boolean(codeError)} aria-describedby={codeError ? 'family-code-error' : undefined} data-testid="input-family-code" />
+            <button type="submit" className="checkout-button secondary" data-testid="button-redeem-code">Get my card</button>
+          </div>
+          {codeError && <p id="family-code-error" className="error-msg" role="alert" data-testid="error-family-code">{codeError}</p>}
+        </form>
       )}
 
       <div className="page-actions">
@@ -72,7 +90,7 @@ export default function RewardsPage({ card, restaurantName, hasLastOrder, onReve
         {hasLastOrder && <button type="button" className="plain-btn with-icon" onClick={onOrderAgain} data-testid="button-rewards-order-again">Order your last meal again</button>}
       </div>
 
-      <p className="page-footnote">Cards are saved on this device. One discount per order.</p>
+      <p className="page-footnote">One card per code on each device. A scratched discount is good for this visit only.</p>
     </main>
   );
 }

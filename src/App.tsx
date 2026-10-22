@@ -34,6 +34,7 @@ type LocalCopy = {
   footerRestaurant: string;
   footerInstallNote: string;
   restaurantPhone: string;
+  familyCode: string;
   aboutStory: string;
   aboutHours: string;
 };
@@ -56,7 +57,6 @@ type SavedOrder = {
   total: number;
   discountPercent?: number;
   discount?: number;
-  newCard?: boolean;
   specialRequests?: string;
 };
 
@@ -90,11 +90,14 @@ const defaultCopy: LocalCopy = {
   footerRestaurant: 'Misaki @ Superior · Superior, Colorado',
   footerInstallNote: 'On iPhone, tap Share → Add to Home Screen to keep Misaki on your phone.',
   restaurantPhone: '',
+  familyCode: 'MISAKI',
   aboutStory: 'Misaki is a family-owned Japanese kitchen in Superior, Colorado, serving sushi, rolls, ramen and more, made fresh to order.\nCome in for dinner, or order ahead and pick it up on your way home.',
   aboutHours: '',
 };
 const defaultRules: LocalRules = { minimumOrder: 10, taxRate: 8.85, deliveryFee: 4.5, maxPerItem: 10 };
 const CARD_KEY = 'misaki-scratch-card-v1';
+const USED_CODES_KEY = 'misaki-used-family-codes-v1';
+const LAST_ORDER_KEY = 'misaki-last-order';
 const NOTE_MAX = 80;
 
 function openPhotoDb(): Promise<IDBDatabase> {
@@ -212,12 +215,13 @@ function App() {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem('misaki-last-order');
+      const saved = localStorage.getItem(LAST_ORDER_KEY);
       if (saved) setStoredOrder(JSON.parse(saved) as SavedOrder);
-      // First visit: hand the customer a scratch card to try.
+      // Only an unscratched card is kept between visits.
       const savedCard = localStorage.getItem(CARD_KEY);
-      if (savedCard === null) saveCard(drawCard());
-      else setScratchCard(JSON.parse(savedCard) as ScratchCard | null);
+      const card = savedCard ? JSON.parse(savedCard) as ScratchCard | null : null;
+      if (card && !card.scratched) setScratchCard(card);
+      else localStorage.removeItem(CARD_KEY);
     } catch { /* Local order history is optional in private browsing. */ }
     if (!('indexedDB' in window)) { setIdbError(true); return; }
     readPhotos().then((photos) => {
@@ -444,26 +448,56 @@ function App() {
       deliveryFee,
       total,
       ...(discount > 0 ? { discountPercent, discount } : {}),
-      ...(discount > 0 || !scratchCard ? { newCard: true } : {}),
       ...(specialRequests.trim() ? { specialRequests: specialRequests.trim() } : {}),
     };
-    try { localStorage.setItem('misaki-last-order', JSON.stringify(savedOrder)); } catch { /* Keep the confirmation visible even if storage is unavailable. */ }
+    try { localStorage.setItem(LAST_ORDER_KEY, JSON.stringify(savedOrder)); } catch { /* Keep the confirmation visible even if storage is unavailable. */ }
     setOrder(savedOrder);
     setStoredOrder(savedOrder);
     setCart([]);
     setNoteOpen(null);
-    // A used card is spent, and every saved order earns a new card.
-    if (discount > 0 || !scratchCard) saveCard(drawCard());
+    // A used card is spent. New cards come only from a friends & family code.
+    if (discount > 0) saveCard(null);
     // Stay open on the "Thank you" screen so the customer sees their saved order.
   };
 
+  // Saves the card on the device, but only until it's scratched: a revealed
+  // discount lasts for this visit and is gone the next time the app opens.
   function saveCard(next: ScratchCard | null) {
     setScratchCard(next);
-    try { localStorage.setItem(CARD_KEY, JSON.stringify(next)); } catch { /* The card still works for this visit. */ }
+    try {
+      if (next && !next.scratched) localStorage.setItem(CARD_KEY, JSON.stringify(next));
+      else localStorage.removeItem(CARD_KEY);
+    } catch { /* The card still works for this visit. */ }
   }
 
   const revealCard = () => {
     if (scratchCard && !scratchCard.scratched) saveCard({ ...scratchCard, scratched: true });
+  };
+
+  // Gives a card for a correct friends & family code, once per code on this device.
+  const redeemFamilyCode = (entered: string): string | null => {
+    const code = entered.trim().toUpperCase();
+    if (!code) return 'Enter the code the Misaki family gave you.';
+    if (scratchCard) return 'You already have a card. Use it before getting another.';
+    if (code !== copy.familyCode.trim().toUpperCase()) return 'That code doesn’t match. Ask the Misaki family for the current code.';
+    let used: string[] = [];
+    try { used = JSON.parse(localStorage.getItem(USED_CODES_KEY) ?? '[]') as string[]; } catch { /* Treat as unused. */ }
+    if (used.includes(code)) return 'This code was already used on this device.';
+    try { localStorage.setItem(USED_CODES_KEY, JSON.stringify([...used, code])); } catch { /* Still give the card. */ }
+    saveCard(drawCard());
+    return null;
+  };
+
+  // Staff tool: clears saved orders, scratch cards and used codes on this device.
+  const clearSavedData = () => {
+    if (!window.confirm('Clear saved orders and scratch cards on this device?')) return;
+    try {
+      [LAST_ORDER_KEY, CARD_KEY, USED_CODES_KEY].forEach((key) => localStorage.removeItem(key));
+    } catch { /* Nothing saved to clear. */ }
+    setScratchCard(null);
+    setStoredOrder(null);
+    setOrder(null);
+    setCart([]);
   };
 
   // Item notes, like "no cucumber". Saved with the cart and shown on the order.
@@ -535,7 +569,7 @@ function App() {
       </nav>
 
       {page === 'rewards' && <RewardsPage card={scratchCard} restaurantName={copy.brandName} hasLastOrder={Boolean(orderForReceipt)}
-        onReveal={revealCard} onOrderAgain={() => orderForReceipt && orderAgain(orderForReceipt)} onStartOrder={() => goToPage('menu')} />}
+        onReveal={revealCard} onRedeemCode={redeemFamilyCode} onOrderAgain={() => orderForReceipt && orderAgain(orderForReceipt)} onStartOrder={() => goToPage('menu')} />}
 
       {page === 'about' && <AboutPage restaurantName={copy.brandName} location={copy.topbarLocation} story={copy.aboutStory} hours={copy.aboutHours}
         phone={copy.restaurantPhone} dishCount={items.length} categoryCount={categories.length - 1} onStartOrder={() => goToPage('menu')} />}
@@ -772,6 +806,7 @@ function App() {
              <label>Menu heading<input value={draftCopy.menuHeading} onChange={(event) => setDraftCopy((current) => ({ ...current, menuHeading: event.target.value }))} data-testid="input-copy-menu-heading" /></label>
              <label>Menu introduction<textarea rows={2} value={draftCopy.menuDescription} onChange={(event) => setDraftCopy((current) => ({ ...current, menuDescription: event.target.value }))} data-testid="input-copy-menu-description" /></label>
              <label>Footer restaurant line<input value={draftCopy.footerRestaurant} onChange={(event) => setDraftCopy((current) => ({ ...current, footerRestaurant: event.target.value }))} data-testid="input-copy-footer-restaurant" /></label>
+             <label>Friends &amp; family code (change it to hand out new scratch cards)<input value={draftCopy.familyCode} onChange={(event) => setDraftCopy((current) => ({ ...current, familyCode: event.target.value.toUpperCase() }))} data-testid="input-copy-family-code" /></label>
              <label>Restaurant phone (shown after ordering)<input type="tel" value={draftCopy.restaurantPhone} placeholder="(303) 555-0123" onChange={(event) => setDraftCopy((current) => ({ ...current, restaurantPhone: event.target.value }))} data-testid="input-copy-restaurant-phone" /></label>
              <label>About page story<textarea rows={4} value={draftCopy.aboutStory} onChange={(event) => setDraftCopy((current) => ({ ...current, aboutStory: event.target.value }))} data-testid="input-copy-about-story" /></label>
              <label>Hours (one line per day or range; leave blank to hide)<textarea rows={3} value={draftCopy.aboutHours} placeholder={'Mon–Thu 11am–9pm\nFri–Sat 11am–10pm'} onChange={(event) => setDraftCopy((current) => ({ ...current, aboutHours: event.target.value }))} data-testid="input-copy-about-hours" /></label>
@@ -789,7 +824,8 @@ function App() {
           </div>}
           {editorError && <div className="editor-error" role="alert" data-testid="status-editor-error">{editorError}</div>}
           <div className="editor-actions">
-            <button type="button" className="editor-reset" onClick={resetToPublished} data-testid="button-reset-published"><RotateCcw size={14} /> Reset to published</button>
+            <div><button type="button" className="editor-reset" onClick={resetToPublished} data-testid="button-reset-published"><RotateCcw size={14} /> Reset to published</button>
+            <button type="button" className="editor-reset" onClick={clearSavedData} data-testid="button-clear-saved"><X size={14} /> Clear orders &amp; cards</button></div>
             <div><button type="button" className="plain-btn" onClick={() => { setEditorOpen(false); setEditorError(''); }} data-testid="button-cancel-editor">Cancel</button><button type="button" className="editor-save" onClick={saveEditor} data-testid="button-save-editor"><Save size={15} /> Save on this device</button></div>
           </div>
         </section>
@@ -810,10 +846,6 @@ function App() {
               {order.specialRequests && <div className="review-line"><span>Special request</span><strong>{order.specialRequests}</strong></div>}
             </div>
             {order.discount ? <p className="saved-discount" data-testid="text-saved-discount">You saved {money(order.discount)} with your {order.discountPercent}% scratch card.</p> : null}
-            {scratchCard && !scratchCard.scratched && <button type="button" className="stamp-earned" onClick={() => { setCheckoutOpen(false); goToPage('rewards'); }} data-testid="button-new-card">
-              <span className="stamp-mini" aria-hidden="true">美</span>
-              <span>{order.newCard ? 'You got a new scratch card.' : 'You still have a scratch card.'} <strong>Scratch it now</strong></span>
-            </button>}
             <button className="checkout-button secondary" onClick={() => setCheckoutOpen(false)} data-testid="button-done">Done</button>
           </div> : <>
             <div className="modal-head"><div><div className="eyebrow" style={{ color: '#8f6410', marginBottom: 8 }}>Almost there</div><h2 id="checkout-title">{step === 1 ? 'Your details' : 'Review your order'}</h2><p>{step === 1 ? 'A few details, then one last look.' : 'Check everything before saving your order.'}</p></div>

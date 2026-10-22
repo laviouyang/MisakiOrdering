@@ -75,9 +75,11 @@ Prices change, so check them with Misaki before taking real orders.
   restaurant's phone number in **Edit menu → Shop details** so it shows after ordering.
 - Tax and delivery fees are estimates until the restaurant confirms its rules.
 - Scratch card: a digital version of Misaki's friends & family scratch cards.
-  Customers scratch to reveal 5–40% off, and the discount comes off their next
-  order before tax. Each saved order earns a new card. The odds are in
-  `src/RewardsPage.tsx` (smaller discounts are more common). Cards are saved on
-  the customer's device.
+  Customers enter the friends & family code (set in **Edit menu → Shop details**,
+  default `MISAKI`) to get a card, then scratch to reveal 5–40% off. Each code
+  works once per device; change the code to hand out new cards. A scratched
+  discount is good for that visit only. The odds are in `src/RewardsPage.tsx`.
+- **Edit menu → Clear orders & cards** wipes saved orders, scratch cards and used
+  codes on that device. Use it to start each demo fresh.
 - The About page story, hours and phone number are set in
   **Edit menu → Shop details**. Hours stay hidden until you fill them in.
