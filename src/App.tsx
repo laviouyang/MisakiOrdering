@@ -99,6 +99,8 @@ const CARD_KEY = 'misaki-scratch-card-v1';
 const USED_CODES_KEY = 'misaki-used-family-codes-v1';
 const LAST_ORDER_KEY = 'misaki-last-order';
 const NOTE_MAX = 80;
+// Staff PIN for Edit menu. It can only be changed here in the code, not in the app.
+const STAFF_PIN = '2468';
 
 function openPhotoDb(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
@@ -158,6 +160,10 @@ function App() {
   const [rules, setRules] = useState<LocalRules>(defaultRules);
   const [rulesOverrides, setRulesOverrides] = useState<Partial<LocalRules>>({});
   const [editorOpen, setEditorOpen] = useState(false);
+  const [pinOpen, setPinOpen] = useState(false);
+  const [pinEntry, setPinEntry] = useState('');
+  const [pinError, setPinError] = useState('');
+  const [staffUnlocked, setStaffUnlocked] = useState(false); // stays unlocked until the app is closed
   const [editorTab, setEditorTab] = useState<'menu' | 'copy'>('menu');
   const [draftItems, setDraftItems] = useState<Record<string, MenuItem>>({});
   const [draftCopy, setDraftCopy] = useState<LocalCopy>(defaultCopy);
@@ -255,6 +261,25 @@ function App() {
   const cartCount = cart.reduce((sum, entry) => sum + entry.quantity, 0);
   const budgetNumber = budget.trim() ? Number(budget) : null;
   const exceedsBudget = budgetNumber !== null && Number.isFinite(budgetNumber) && total > budgetNumber;
+
+  // Edit menu asks for the staff PIN once per visit.
+  const requestEditor = () => {
+    if (staffUnlocked) { openEditor(); return; }
+    setPinEntry('');
+    setPinError('');
+    setPinOpen(true);
+  };
+
+  const submitPin = () => {
+    if (pinEntry === STAFF_PIN) {
+      setStaffUnlocked(true);
+      setPinOpen(false);
+      openEditor();
+    } else {
+      setPinError('That PIN isn’t right. Ask a Misaki staff member.');
+      setPinEntry('');
+    }
+  };
 
   const openEditor = () => {
     setDraftItems(Object.fromEntries(items.map((item) => [item.id, { ...item }])));
@@ -556,7 +581,7 @@ function App() {
           <button className="cart-jump" onClick={() => (page === 'menu' ? scrollToCart() : goToPage('menu', true))} data-testid="button-view-cart" aria-label={`View cart, ${cartCount} items`}>
             <ShoppingBag size={16} /> Your order <span className="cart-count" data-testid="text-cart-count">{cartCount}</span>
           </button>
-          <button className="editor-launch" type="button" onClick={openEditor} data-testid="button-open-editor"><Pencil size={14} /> Edit menu</button>
+          <button className="editor-launch" type="button" onClick={requestEditor} data-testid="button-open-editor"><Pencil size={14} /> Edit menu</button>
         </div>
       </header>
 
@@ -749,6 +774,21 @@ function App() {
       {cart.length > 0 && <div className="mobile-cart-bar">
         <div><span>{cartCount} {cartCount === 1 ? 'item' : 'items'} in your order</span><br /><strong>{money(total)}</strong></div>
         <button onClick={scrollToCart} data-testid="button-mobile-view-cart">View order <ChevronRight size={14} /></button>
+      </div>}
+
+      {pinOpen && <div className="overlay editor-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setPinOpen(false); }}>
+        <form className="pin-modal" role="dialog" aria-modal="true" aria-labelledby="pin-title" onSubmit={(event) => { event.preventDefault(); submitPin(); }} data-testid="dialog-staff-pin">
+          <h2 id="pin-title">Staff only</h2>
+          <p>Enter the staff PIN to edit the menu and shop details.</p>
+          <input type="password" inputMode="numeric" autoComplete="off" maxLength={8} autoFocus value={pinEntry}
+            onChange={(event) => { setPinEntry(event.target.value.replace(/\D/g, '')); setPinError(''); }}
+            aria-label="Staff PIN" aria-invalid={Boolean(pinError)} data-testid="input-staff-pin" />
+          {pinError && <p className="error-msg" role="alert" data-testid="error-staff-pin">{pinError}</p>}
+          <div className="modal-actions">
+            <button type="button" className="plain-btn" onClick={() => setPinOpen(false)} data-testid="button-cancel-pin">Cancel</button>
+            <button type="submit" className="checkout-button secondary" style={{ width: 'auto' }} data-testid="button-submit-pin">Unlock</button>
+          </div>
+        </form>
       </div>}
 
       {editorOpen && <div className="overlay editor-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setEditorOpen(false); }}>

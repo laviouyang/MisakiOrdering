@@ -79,6 +79,9 @@ Prices change, so check them with Misaki before taking real orders.
   default `MISAKI`) to get a card, then scratch to reveal 5–40% off. Each code
   works once per device; change the code to hand out new cards. A scratched
   discount is good for that visit only. The odds are in `src/RewardsPage.tsx`.
+- **Edit menu** is staff only: it asks for the staff PIN (`2468`). The PIN can't be
+  changed in the app, only in `src/App.tsx` (`STAFF_PIN`). Once unlocked, it stays
+  unlocked until the app is closed.
 - **Edit menu → Clear orders & cards** wipes saved orders, scratch cards and used
   codes on that device. Use it to start each demo fresh.
 - The About page story, hours and phone number are set in
