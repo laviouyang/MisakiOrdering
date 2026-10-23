@@ -888,7 +888,7 @@ function App() {
             {order.discount ? <p className="saved-discount" data-testid="text-saved-discount">You saved {money(order.discount)} with your {order.discountPercent}% scratch card.</p> : null}
             <button className="checkout-button secondary" onClick={() => setCheckoutOpen(false)} data-testid="button-done">Done</button>
           </div> : <>
-            <div className="modal-head"><div><div className="eyebrow" style={{ color: '#8f6410', marginBottom: 8 }}>Almost there</div><h2 id="checkout-title">{step === 1 ? 'Your details' : 'Review your order'}</h2><p>{step === 1 ? 'A few details, then one last look.' : 'Check everything before saving your order.'}</p></div>
+            <div className="modal-head"><div><div className="eyebrow" style={{ color: '#a8321f', marginBottom: 8 }}>Almost there</div><h2 id="checkout-title">{step === 1 ? 'Your details' : 'Review your order'}</h2><p>{step === 1 ? 'A few details, then one last look.' : 'Check everything before saving your order.'}</p></div>
               <button className="close-btn" aria-label="Close checkout" onClick={() => setCheckoutOpen(false)} data-testid="button-close-checkout"><X size={18} /></button></div>
             <div className="step-indicator"><span className="step-pill active" /><span className={`step-pill${step === 2 ? ' active' : ''}`} /></div>
             {step === 1 ? <>
