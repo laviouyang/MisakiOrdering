@@ -126,7 +126,7 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 .total-line { display:flex;justify-content:space-between;font-size:12px;color:#4a5c96;margin:7px 0; }
 .total-line.total { border-top:1px solid #d7dbe9;margin-top:12px;padding-top:12px;color:#1c2954;font-size:16px;font-weight:700; }
 .min-notice { border-radius:8px;background:#f6eee0;color:#866443;padding:9px 10px;font-size:11px;line-height:1.45;margin:12px 0; }
-.min-notice.met { background:#dff3e9;color:#1d7a55; }
+.min-notice.met { background:#e5eedf;color:#44683a; }
 .quantity-cap-note { color:#79829e;font-size:10px;line-height:1.45;margin:8px 1px; }
 .checkout-button { border:0;background:#c8402e;color:#ffffff;width:100%;border-radius:10px;padding:13px 15px;font-size:13px;font-weight:700;display:flex;justify-content:center;align-items:center;gap:8px; }
 .checkout-button:hover { background:#a8321f; }
@@ -164,7 +164,7 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 .review-line strong { color:#202f5f; }
 .order-note { background:#eef1f8;border:1px solid #d9deeb;color:#2c3a66;border-radius:10px;padding:12px;font-size:11px;line-height:1.5;margin-top:14px; }
 .success-view { text-align:center;padding:14px 8px 4px; }
-.success-icon { margin:0 auto 17px;width:65px;height:65px;border-radius:50%;display:grid;place-items:center;background:#d9f2e6;color:#1d7a55; }
+.success-icon { margin:0 auto 17px;width:65px;height:65px;border-radius:50%;display:grid;place-items:center;background:#e3ecd9;color:#44683a; }
 .success-view h2 { font:600 32px var(--app-font-serif);margin:0 0 9px;color:#1c2953; }
 .success-view p { color:#656e8c;font-size:13px;line-height:1.6;margin:0 auto 20px;max-width:385px; }
 .order-id { font-family:monospace;color:#3d4c7d;background:#e6e9f1;border-radius:7px;display:inline-block;padding:8px 12px;font-size:12px;margin-bottom:18px; }
@@ -194,8 +194,8 @@ button:disabled { cursor: not-allowed; opacity: .48; }
 .editor-item-top strong { color:#1c2953;font-size:13px; }
 .editor-item-top>div>span { display:block;color:#7a839f;font-size:10px;margin-top:3px; }
 .availability-toggle { display:flex;align-items:center;gap:7px;color:#98614d;font-size:11px;font-weight:700;white-space:nowrap; }
-.availability-toggle.available { color:#1d7a55; }
-.availability-toggle input { accent-color:#1d7a55;width:16px;height:16px; }
+.availability-toggle.available { color:#44683a; }
+.availability-toggle input { accent-color:#44683a;width:16px;height:16px; }
 .editor-fields { display:grid;grid-template-columns:1.1fr .85fr .55fr 1.5fr;gap:9px; }
 .editor-fields label,.copy-editor label { display:flex;flex-direction:column;gap:5px;color:#475890;font-size:10px;font-weight:700; }
 .editor-fields input,.editor-fields textarea,.copy-editor input,.copy-editor textarea { width:100%;border:1px solid #c9cddc;background:#f2f4fa;border-radius:7px;padding:8px 9px;color:#1a264d;font:500 12px var(--app-font-sans);outline:none; }
@@ -327,8 +327,8 @@ a.visit-row:hover strong { text-decoration:underline;text-underline-offset:3px; 
 .is-revealed .scratch-area { animation:prize-in .35s ease-out both; }
 @keyframes prize-in { from { transform:scale(.96); } to { transform:scale(1); } }
 .scratch-empty { display:flex;align-items:center;gap:10px;max-width:560px;background:#ffffff;border:1px dashed #c9cfdf;border-radius:14px;padding:18px;color:#3b4260; }
-.discount-line, .discount-line span, .discount-line strong { color:#1d7a55; }
-.saved-discount { color:#1d7a55 !important;font-weight:700; }
+.discount-line, .discount-line span, .discount-line strong { color:#44683a; }
+.saved-discount { color:#44683a !important;font-weight:700; }
 .code-form { max-width:560px;display:flex;flex-direction:column;gap:10px;background:#ffffff;border:1px solid #d9deeb;border-radius:18px;padding:22px; }
 .code-form label { display:flex;align-items:center;gap:8px;font-weight:700;color:#1c2954; }
 .code-row { display:flex;gap:10px; }
@@ -348,3 +348,16 @@ body, .app-shell { background:#f7f2e8; } .topbar { background:rgba(247,242,232,.
 
 /* Accent colors: matcha green for good news, pale yellow for notes */
 .reward-ready { background:#fbf0c4 !important;color:#6b4d14 !important; }
+
+/* Matcha green: "add" actions, quantities and good news */
+.add-button { background:#e3ecd9;color:#2f4a2a; }
+.add-button:hover { background:#d2e2c4; }
+.qty-control button { background:#eef3e8;border-color:#c9dbbd;color:#2f4a2a; }
+.qty-control button:hover:not(:disabled) { background:#e3ecd9; }
+.item-category { color:#5f8a4e; }
+.note-add { color:#44683a; }
+.search-box:focus-within { border-color:#5f8a4e;box-shadow:0 0 0 3px #5f8a4e22; }
+.confirm-card { background:#eef3e8;border-color:#c9dbbd; }
+.confirm-card strong svg { color:#44683a; }
+.about-visit { border-color:#c9dbbd;border-top:4px solid #5f8a4e; }
+.about-visit a { color:#44683a; }
