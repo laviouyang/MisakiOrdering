@@ -1,6 +1,8 @@
 # Category pictures
 
-Put a picture for each box on the menu page in this folder, named exactly like
+You can also just click **Upload** on a box in the app (that saves the picture on
+that one device). To make a picture part of the project for every computer, put
+it in this folder, named exactly like
 this (lowercase, `.jpg`). Boxes without a picture show a colored square.
 
 | Box | File name |

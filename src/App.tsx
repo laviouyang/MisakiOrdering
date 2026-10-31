@@ -720,15 +720,31 @@ function App() {
                 {[...categories, 'Vegetarian'].map((name, index) => {
                   const veg = name === 'Vegetarian';
                   const slug = slugify(name);
+                  // Box pictures are saved on this device like dish photos, under "category-<name>".
+                  const photoKey = `category-${slug}`;
+                  const uploaded = photoUrls[photoKey];
                   return (
-                    <button type="button" key={name} className="category-box" onClick={() => pickCategory(veg ? 'All items' : name, veg)} data-testid={`box-category-${slug}`}>
-                      <span className="category-box-art" style={{ background: veg ? '#5f8a4e' : TILE_COLORS[index % TILE_COLORS.length] }}>
-                        {!missingTile[slug] && <img src={`${import.meta.env.BASE_URL}categories/${slug}.jpg`} alt="" loading="lazy"
-                          onError={() => setMissingTile((current) => ({ ...current, [slug]: true }))} />}
-                        {missingTile[slug] && (veg ? <Leaf size={44} /> : <span className="category-box-letter">{name === 'All items' ? '全' : name.charAt(0)}</span>)}
-                      </span>
-                      <span className="category-box-label">{name === 'All items' ? 'Full menu' : name}</span>
-                    </button>
+                    <div className="category-box" key={name}>
+                      <button type="button" className="category-box-open" onClick={() => pickCategory(veg ? 'All items' : name, veg)} data-testid={`box-category-${slug}`}>
+                        <span className="category-box-art" style={{ background: veg ? '#5f8a4e' : TILE_COLORS[index % TILE_COLORS.length] }}>
+                          {uploaded ? <img src={uploaded} alt="" data-testid={`img-category-photo-${slug}`} /> :
+                            !missingTile[slug] ? <img src={`${import.meta.env.BASE_URL}categories/${slug}.jpg`} alt="" loading="lazy"
+                              onError={() => setMissingTile((current) => ({ ...current, [slug]: true }))} /> :
+                            veg ? <Leaf size={44} /> : <span className="category-box-letter">{name === 'All items' ? '全' : name.charAt(0)}</span>}
+                        </span>
+                        <span className="category-box-label">{name === 'All items' ? 'Full menu' : name}</span>
+                      </button>
+                      <input className="photo-input" type="file" accept="image/*" ref={(node) => { fileRefs.current[photoKey] = node; }}
+                        onChange={(event) => { void handlePhoto(photoKey, event.currentTarget.files?.[0]); event.currentTarget.value = ''; }}
+                        aria-label={`Choose picture for ${name}`} data-testid={`input-category-photo-${slug}`} />
+                      <div className="category-box-actions">
+                        <button className="photo-btn" type="button" onClick={() => fileRefs.current[photoKey]?.click()} data-testid={`button-category-photo-${slug}`}>
+                          {uploaded ? 'Change' : 'Upload'}
+                        </button>
+                        {uploaded && <button className="photo-btn remove" type="button" onClick={() => void removePhoto(photoKey)} data-testid={`button-category-photo-remove-${slug}`}>Remove</button>}
+                      </div>
+                      {photoError[photoKey] && <span className="error-msg" role="alert">{photoError[photoKey]}</span>}
+                    </div>
                   );
                 })}
               </div>

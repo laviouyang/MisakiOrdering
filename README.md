@@ -95,5 +95,7 @@ Prices change, so check them with Misaki before taking real orders.
 
 Under "Explore the menu" there is a box for each category. Click one to see its
 dishes, and "All categories" to go back. To give a box a picture,
+click **Upload** on the box (saved on that device only, like dish photos), or
 put a `.jpg` in `public/categories/` with the name listed in
-`public/categories/README.md` (for example `ramen.jpg`).
+`public/categories/README.md` (for example `ramen.jpg`) so every computer gets it.
+An uploaded picture is shown instead of the file.

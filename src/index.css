@@ -373,10 +373,12 @@ body, .app-shell { background:#f7f2e8; } .topbar { background:rgba(247,242,232,.
 
 /* Category boxes (menu page). Pictures go in public/categories/<name>.jpg */
 .category-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 18px;margin-top:4px; }
-.category-box { border:0;padding:0;background:transparent;display:flex;flex-direction:column;align-items:stretch;gap:10px;cursor:pointer;text-align:center; }
+.category-box { position:relative;display:flex;flex-direction:column;gap:6px; }
+.category-box-open { border:0;padding:0;background:transparent;display:flex;flex-direction:column;align-items:stretch;gap:10px;cursor:pointer;text-align:center; }
+.category-box-actions { position:absolute;top:8px;right:8px;display:flex;gap:5px;z-index:2; }
 .category-box-art { position:relative;aspect-ratio:3 / 2;border-radius:10px;overflow:hidden;display:grid;place-items:center;color:#fffcf6;box-shadow:0 8px 18px -10px #1c295488;transition:transform .15s,box-shadow .15s; }
-.category-box:hover .category-box-art { transform:translateY(-2px);box-shadow:0 14px 24px -12px #1c2954aa; }
-.category-box:focus-visible .category-box-art { outline:3px solid #c8402e;outline-offset:3px; }
+.category-box-open:hover .category-box-art { transform:translateY(-2px);box-shadow:0 14px 24px -12px #1c2954aa; }
+.category-box-open:focus-visible .category-box-art { outline:3px solid #c8402e;outline-offset:3px; }
 .category-box-art img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
 .category-box-letter { font:700 58px/1 var(--app-font-serif);opacity:.9; }
 .category-box-label { font-size:17px;font-weight:800;letter-spacing:.02em;text-transform:uppercase;color:#1c2954;line-height:1.2; }
