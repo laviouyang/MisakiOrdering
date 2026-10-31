@@ -253,7 +253,8 @@
       "sourcePrice": "$5.95",
       "sourceCategory": "Appetizers",
       "sourceName": "house salad",
-      "sourceDescription": "spring mix of leaf greens, garnished with tomatoes and shredded potato crunches with our awesome tofu dressing!"
+      "sourceDescription": "spring mix of leaf greens, garnished with tomatoes and shredded potato crunches with our awesome tofu dressing!",
+      "vegetarian": true
     },
     {
       "id": "menu-126",
@@ -265,7 +266,8 @@
       "sourcePrice": "$8.25",
       "sourceCategory": "Appetizers",
       "sourceName": "seaweed salad",
-      "sourceDescription": "a medley of our hiyashi wakame (green seaweed), wakame (kelp), and cucumbers, topped with a savory vinaigrette!"
+      "sourceDescription": "a medley of our hiyashi wakame (green seaweed), wakame (kelp), and cucumbers, topped with a savory vinaigrette!",
+      "vegetarian": true
     },
     {
       "id": "menu-127",
@@ -277,7 +279,8 @@
       "sourcePrice": "$5.95",
       "sourceCategory": "Appetizers",
       "sourceName": "edamame (salted)",
-      "sourceDescription": "sweet edamame that's lightly sprinkled with coarse sea salt!"
+      "sourceDescription": "sweet edamame that's lightly sprinkled with coarse sea salt!",
+      "vegetarian": true
     },
     {
       "id": "menu-128",
@@ -289,7 +292,8 @@
       "sourcePrice": "$6.50",
       "sourceCategory": "Appetizers",
       "sourceName": "edamame (spicy)",
-      "sourceDescription": "sweet edamame mixed with spicy lemon garlic sriracha!"
+      "sourceDescription": "sweet edamame mixed with spicy lemon garlic sriracha!",
+      "vegetarian": true
     },
     {
       "id": "menu-129",
@@ -301,7 +305,8 @@
       "sourcePrice": "$6.25",
       "sourceCategory": "Appetizers",
       "sourceName": "vegetable egg rolls",
-      "sourceDescription": "3 pieces of crispy egg rolls with a side of sweet chili sauce"
+      "sourceDescription": "3 pieces of crispy egg rolls with a side of sweet chili sauce",
+      "vegetarian": true
     },
     {
       "id": "menu-130",
@@ -313,7 +318,8 @@
       "sourcePrice": "$12.95",
       "sourceCategory": "Appetizers",
       "sourceName": "vegetable tempura",
-      "sourceDescription": "10pcs of fresh vegetables select by chef with a side of house temp. sauce"
+      "sourceDescription": "10pcs of fresh vegetables select by chef with a side of house temp. sauce",
+      "vegetarian": true
     },
     {
       "id": "menu-131",
@@ -373,7 +379,8 @@
       "sourcePrice": "$8.25",
       "sourceCategory": "Appetizers",
       "sourceName": "gyoza - vegetable",
-      "sourceDescription": "6 pieces pan fried veggie dumplings"
+      "sourceDescription": "6 pieces pan fried veggie dumplings",
+      "vegetarian": true
     },
     {
       "id": "menu-136",
@@ -673,7 +680,8 @@
       "sourcePrice": "$6.95",
       "sourceCategory": "vegetable rolls",
       "sourceName": "cucumber roll (6 pieces)",
-      "sourceDescription": ""
+      "sourceDescription": "",
+      "vegetarian": true
     },
     {
       "id": "menu-097",
@@ -685,7 +693,8 @@
       "sourcePrice": "$6.95",
       "sourceCategory": "vegetable rolls",
       "sourceName": "avocado roll (6 pieces)",
-      "sourceDescription": ""
+      "sourceDescription": "",
+      "vegetarian": true
     },
     {
       "id": "menu-098",
@@ -697,7 +706,8 @@
       "sourcePrice": "$6.95",
       "sourceCategory": "vegetable rolls",
       "sourceName": "asparagus roll",
-      "sourceDescription": ""
+      "sourceDescription": "",
+      "vegetarian": true
     },
     {
       "id": "menu-099",
@@ -709,7 +719,8 @@
       "sourcePrice": "$6.95",
       "sourceCategory": "vegetable rolls",
       "sourceName": "natto shiso maki (6 pieces)",
-      "sourceDescription": "fermented soybeans and shiso leaves"
+      "sourceDescription": "fermented soybeans and shiso leaves",
+      "vegetarian": true
     },
     {
       "id": "menu-100",
@@ -721,7 +732,8 @@
       "sourcePrice": "$6.95",
       "sourceCategory": "vegetable rolls",
       "sourceName": "ume shiso maki (6 pieces)",
-      "sourceDescription": "Japanese ume plum paste and shiso leaves"
+      "sourceDescription": "Japanese ume plum paste and shiso leaves",
+      "vegetarian": true
     },
     {
       "id": "menu-101",
@@ -733,7 +745,8 @@
       "sourcePrice": "$7.95",
       "sourceCategory": "vegetable rolls",
       "sourceName": "kanpyo maki (6 pieces)",
-      "sourceDescription": "a traditional japanese sweet dried gourd, pickles"
+      "sourceDescription": "a traditional japanese sweet dried gourd, pickles",
+      "vegetarian": true
     },
     {
       "id": "menu-102",
@@ -745,7 +758,8 @@
       "sourcePrice": "$9.25",
       "sourceCategory": "vegetable rolls",
       "sourceName": "garden roll (6 pieces)",
-      "sourceDescription": "avocado, asparagus, kaiware, cucumber, mixed greens, pickled daikon"
+      "sourceDescription": "avocado, asparagus, kaiware, cucumber, mixed greens, pickled daikon",
+      "vegetarian": true
     },
     {
       "id": "menu-103",
@@ -757,7 +771,8 @@
       "sourcePrice": "$9.95",
       "sourceCategory": "vegetable rolls",
       "sourceName": "veggie tempura roll (6 pieces)",
-      "sourceDescription": "asparagus, Japanese pumpkin, carrot, shiso leaf and kaiware"
+      "sourceDescription": "asparagus, Japanese pumpkin, carrot, shiso leaf and kaiware",
+      "vegetarian": true
     },
     {
       "id": "menu-104",
@@ -769,7 +784,8 @@
       "sourcePrice": "$15.95",
       "sourceCategory": "vegetable rolls",
       "sourceName": "green monster roll (8 pieces)",
-      "sourceDescription": "Japanese pumpkin tempura, kanpyo (sweet gourd) , avocado on top with sweet tamari"
+      "sourceDescription": "Japanese pumpkin tempura, kanpyo (sweet gourd) , avocado on top with sweet tamari",
+      "vegetarian": true
     },
     {
       "id": "menu-039",
@@ -1141,7 +1157,8 @@
       "sourcePrice": "$6.25",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "inari",
-      "sourceDescription": "sweet tofu skin"
+      "sourceDescription": "sweet tofu skin",
+      "vegetarian": true
     },
     {
       "id": "menu-050",
@@ -1273,7 +1290,8 @@
       "sourcePrice": "$16.50",
       "sourceCategory": "Ramen",
       "sourceName": "vegetable ramen",
-      "sourceDescription": "vegetable stock, tofu, bean sprouts, bokchoy, pickles, soft poached egg, cabbage salad, green onion with macho (roasted jalapeno)"
+      "sourceDescription": "vegetable stock, tofu, bean sprouts, bokchoy, pickles, soft poached egg, cabbage salad, green onion with macho (roasted jalapeno)",
+      "vegetarian": true
     },
     {
       "id": "menu-142",
@@ -1333,7 +1351,8 @@
       "sourcePrice": "$6.00",
       "sourceCategory": "Dessert",
       "sourceName": "green tea mochi ice cream",
-      "sourceDescription": "2 pcs / order"
+      "sourceDescription": "2 pcs / order",
+      "vegetarian": true
     },
     {
       "id": "menu-031",
@@ -1345,7 +1364,8 @@
       "sourcePrice": "$6.00",
       "sourceCategory": "Dessert",
       "sourceName": "Mango mochi ice cream",
-      "sourceDescription": "2 pcs / order"
+      "sourceDescription": "2 pcs / order",
+      "vegetarian": true
     },
     {
       "id": "menu-032",
@@ -1357,7 +1377,8 @@
       "sourcePrice": "$6.00",
       "sourceCategory": "Dessert",
       "sourceName": "Vanilla mochi ice cream",
-      "sourceDescription": "2 pcs / order"
+      "sourceDescription": "2 pcs / order",
+      "vegetarian": true
     },
     {
       "id": "menu-033",
@@ -1369,7 +1390,8 @@
       "sourcePrice": "$6.00",
       "sourceCategory": "Dessert",
       "sourceName": "Strawberry mochi ice cream",
-      "sourceDescription": "2 pcs / order"
+      "sourceDescription": "2 pcs / order",
+      "vegetarian": true
     },
     {
       "id": "menu-034",
@@ -1381,7 +1403,8 @@
       "sourcePrice": "$8.00",
       "sourceCategory": "Dessert",
       "sourceName": "chocolate crème pie",
-      "sourceDescription": "Chocolate and vanilla crème in a chocolatey cookie crust, topped with chocolate chips and fudge drizzle"
+      "sourceDescription": "Chocolate and vanilla crème in a chocolatey cookie crust, topped with chocolate chips and fudge drizzle",
+      "vegetarian": true
     },
     {
       "id": "menu-035",
@@ -1393,7 +1416,8 @@
       "sourcePrice": "$6.00 - Unavailable",
       "sourceCategory": "Dessert",
       "sourceName": "Chocolate mochi ice cream",
-      "sourceDescription": "2 pcs / order"
+      "sourceDescription": "2 pcs / order",
+      "vegetarian": true
     },
     {
       "id": "menu-036",
@@ -1405,7 +1429,8 @@
       "sourcePrice": "$7.00 - Unavailable",
       "sourceCategory": "Dessert",
       "sourceName": "egg custard tarts",
-      "sourceDescription": "4pcs of A crisp pastry creamy egg custard before baking until golden, can be paired with chocolate or caramel dressing if desire"
+      "sourceDescription": "4pcs of A crisp pastry creamy egg custard before baking until golden, can be paired with chocolate or caramel dressing if desire",
+      "vegetarian": true
     },
     {
       "id": "menu-012",
@@ -1657,7 +1682,8 @@
       "sourcePrice": "$2.75",
       "sourceCategory": "Sides",
       "sourceName": "White Rice",
-      "sourceDescription": ""
+      "sourceDescription": "",
+      "vegetarian": true
     },
     {
       "id": "menu-002",
@@ -1669,7 +1695,8 @@
       "sourcePrice": "$4.25",
       "sourceCategory": "Sides",
       "sourceName": "Sushi Rice",
-      "sourceDescription": ""
+      "sourceDescription": "",
+      "vegetarian": true
     },
     {
       "id": "menu-003",

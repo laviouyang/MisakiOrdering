@@ -76,9 +76,13 @@ Prices change, so check them with Misaki before taking real orders.
 - Tax and delivery fees are estimates until the restaurant confirms its rules.
 - Scratch card: a digital version of Misaki's friends & family scratch cards.
   Customers enter the friends & family code (set in **Edit menu → Shop details**,
-  default `MISAKI`) to get a card, then scratch to reveal 5–40% off. Each code
+  default `MISAKI`) to get a card, then scratch to reveal 5–40% off one
+  plate of the most expensive dish in the cart. Each code
   works once per device; change the code to hand out new cards. A scratched
   discount is good for that visit only. The odds are in `src/RewardsPage.tsx`.
+- **Vegetarian filter:** dishes with `"vegetarian": true` in
+  `src/data/misaki-menu.json` get a Veg tag and show up under the Vegetarian
+  button. These were marked from the menu descriptions (no meat or fish).
 - **Edit menu** is staff only: it asks for the staff PIN (`2468`). The PIN can't be
   changed in the app, only in `src/App.tsx` (`STAFF_PIN`). Once unlocked, it stays
   unlocked until the app is closed.

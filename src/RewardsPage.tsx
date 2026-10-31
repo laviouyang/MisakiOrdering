@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Gift } from 'lucide-react';
 
 // The friends & family scratch card. A digital version of the scratch cards
-// Misaki hands out: scratch to reveal 5–40% off.
+// Misaki hands out: scratch to reveal 5–40% off the most expensive dish.
 // Customers unlock a card with the friends & family code the restaurant gives
 // them (set in Edit menu → Shop details). A scratched discount is good for this
 // visit only (see `scratchCard` in App.tsx).
@@ -59,7 +59,7 @@ export default function RewardsPage({ card, restaurantName, hasLastOrder, onReve
     <main className="content-wrap page" data-testid="page-rewards">
       <div className="page-head">
         <h1>Scratch card</h1>
-        <p>Friends &amp; family of {restaurantName} get a scratch card for 5–40% off. Enter the code the family gave you to get yours.</p>
+        <p>Friends &amp; family of {restaurantName} get a scratch card for 5–40% off their most expensive dish. Enter the code the family gave you to get yours.</p>
       </div>
 
       {card ? (
@@ -150,7 +150,7 @@ function ScratchArea({ percent, scratched, onReveal }: { percent: number; scratc
   return (
     <div className="scratch-area">
       <div className="scratch-prize" aria-live="polite">
-        {scratched || isScratching ? <><strong>{percent}% off</strong><span>your next order</span></> : null}
+        {scratched || isScratching ? <><strong>{percent}% off</strong><span>your priciest dish</span></> : null}
       </div>
       {!scratched && (
         <>

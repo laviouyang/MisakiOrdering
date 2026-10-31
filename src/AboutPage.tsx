@@ -1,4 +1,4 @@
-import { Clock3, Globe, MapPin, Phone } from 'lucide-react';
+import { CalendarDays, Clock3, Globe, MapPin, Phone, Sun, Truck } from 'lucide-react';
 
 // The About page: the restaurant's story and how to find it.
 // All of the wording can be changed in Edit menu → Shop details.
@@ -14,16 +14,29 @@ type Props = {
   onStartOrder: () => void;
 };
 
-const MAP_URL = 'https://www.google.com/maps/search/?api=1&query=Misaki+Superior+Colorado';
+const MAP_URL = 'https://www.google.com/maps/search/?api=1&query=402+Marshall+Road+Superior+CO+80027';
+const ADDRESS = '402 Marshall Road, Superior, CO 80027';
+const RESERVATIONS_URL = 'https://www.misakiatsuperior.com/reservations';
+const DELIVERY_URL = 'https://direct.chownow.com/order/37403/locations/56958';
 const WEBSITE_URL = 'https://www.misakiatsuperior.com';
 
-export default function AboutPage({ restaurantName, location, story, hours, phone, dishCount, categoryCount, onStartOrder }: Props) {
+export default function AboutPage({ restaurantName, story, hours, phone, dishCount, categoryCount, onStartOrder }: Props) {
   return (
     <main className="content-wrap page" data-testid="page-about">
       <div className="about-layout">
         <section className="about-story">
           <h1>About {restaurantName}</h1>
           {story.split('\n').filter((line) => line.trim()).map((paragraph, index) => <p key={index}>{paragraph}</p>)}
+          <h2 className="about-sub">Good to know</h2>
+          <ul className="about-list" data-testid="list-accommodations">
+            <li><strong>Patio seating</strong> is available.</li>
+            <li><strong>Pickup:</strong> choose a pickup time when you check out. Minimum order is $10.</li>
+            <li><strong>Special requests:</strong> add a note to any dish. Add-ons and changes may cost extra.</li>
+            <li><strong>Allergies:</strong> tell staff about any allergies or dietary needs. Some dishes contain sesame seeds and masago, and dishes marked * may be raw or undercooked.</li>
+            <li><strong>Vegetarian:</strong> use the Vegetarian filter on the menu.</li>
+            <li><strong>Fresh fish</strong> is imported daily from Japan and around the world, including rare fish for nigiri and sashimi.</li>
+            <li><strong>Drinks:</strong> Japanese beer and sake, plus wine, shochu, spirits and cocktails (21+).</li>
+          </ul>
           <p className="about-menu-line">The menu has {dishCount} dishes across {categoryCount} categories, from chef’s special rolls to ramen and kushiyaki.</p>
           <button type="button" className="checkout-button secondary about-cta" onClick={onStartOrder} data-testid="button-about-start-order">See the menu</button>
         </section>
@@ -31,7 +44,7 @@ export default function AboutPage({ restaurantName, location, story, hours, phon
         <aside className="about-visit" aria-label="Visit us">
           <h2>Visit us</h2>
           <a className="visit-row" href={MAP_URL} target="_blank" rel="noreferrer" data-testid="link-map">
-            <MapPin size={18} /><span><strong>{location}</strong>Open in Maps</span>
+            <MapPin size={18} /><span><strong>{ADDRESS}</strong>Open in Maps</span>
           </a>
           {hours.trim() && (
             <div className="visit-row" data-testid="text-hours">
@@ -43,6 +56,15 @@ export default function AboutPage({ restaurantName, location, story, hours, phon
               <Phone size={18} /><span><strong>{phone}</strong>Call to order or ask about allergies</span>
             </a>
           )}
+          <a className="visit-row" href={RESERVATIONS_URL} target="_blank" rel="noreferrer" data-testid="link-reservations">
+            <CalendarDays size={18} /><span><strong>Reservations</strong>Book a table on Misaki’s website</span>
+          </a>
+          <a className="visit-row" href={DELIVERY_URL} target="_blank" rel="noreferrer" data-testid="link-delivery">
+            <Truck size={18} /><span><strong>Delivery</strong>Order delivery through ChowNow</span>
+          </a>
+          <div className="visit-row" data-testid="text-patio">
+            <Sun size={18} /><span><strong>Patio seating</strong>Now open</span>
+          </div>
           <a className="visit-row" href={WEBSITE_URL} target="_blank" rel="noreferrer" data-testid="link-website">
             <Globe size={18} /><span><strong>misakiatsuperior.com</strong>The restaurant’s website</span>
           </a>

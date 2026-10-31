@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Check, ChevronRight, Clock3, ImagePlus, MapPin, MessageSquare, Minus, Plus, Repeat, Search, ShoppingBag, Store, Truck, Utensils, X, Pencil, RotateCcw, Save } from 'lucide-react';
+import { Check, ChevronRight, Clock3, ImagePlus, Leaf, MapPin, MessageSquare, Minus, Plus, Repeat, Search, ShoppingBag, Store, Truck, Utensils, X, Pencil, RotateCcw, Save } from 'lucide-react';
 import menuData from './data/misaki-menu.json';
 import RewardsPage, { drawCard, type ScratchCard } from './RewardsPage';
 import AboutPage from './AboutPage';
@@ -12,6 +12,7 @@ type MenuItem = {
   description: string;
   price: number;
   availability: 'available' | 'unavailable';
+  vegetarian?: boolean; // no meat or fish in the menu description
   sourcePrice: string;
   sourceCategory: string;
   sourceName: string;
@@ -57,6 +58,8 @@ type SavedOrder = {
   total: number;
   discountPercent?: number;
   discount?: number;
+  discountItem?: string; // the dish the scratch card was used on
+  pickupTime?: string;
   specialRequests?: string;
 };
 
@@ -82,17 +85,17 @@ const defaultCopy: LocalCopy = {
   deliveryHint: 'Address required for delivery',
   dineInHint: 'We’ll have a table ready',
   heroEyebrow: 'A little taste of Japan, close to home',
-  heroHeading: 'Good food.\nGood neighbors.',
+  heroHeading: 'Fresh food.\nFamily owned.',
   heroDescription: 'Rolls, bowls, and all the little things we love making for Superior. Choose your favorites and we’ll take it from here.',
   heroNote: 'Locally owned in Superior\nFreshly prepared, just for you',
   menuHeading: 'Explore the menu',
   menuDescription: 'All the favorites, made here in Superior.',
   footerRestaurant: 'Misaki @ Superior · Superior, Colorado',
   footerInstallNote: 'On iPhone, tap Share → Add to Home Screen to keep Misaki on your phone.',
-  restaurantPhone: '',
+  restaurantPhone: '720-277-8600',
   familyCode: 'MISAKI',
   aboutStory: 'Misaki is a family-owned Japanese kitchen in Superior, Colorado, serving sushi, rolls, ramen and more, made fresh to order.\nCome in for dinner, or order ahead and pick it up on your way home.',
-  aboutHours: '',
+  aboutHours: 'Monday: closed\nTue–Thu: 11 am–2 pm, 4:30–9 pm\nFri–Sat: 11 am–2 pm, 4:30–9:30 pm\nSunday: 12–8:30 pm',
 };
 const defaultRules: LocalRules = { minimumOrder: 10, taxRate: 8.85, deliveryFee: 4.5, maxPerItem: 10 };
 const CARD_KEY = 'misaki-scratch-card-v1';
@@ -101,6 +104,31 @@ const LAST_ORDER_KEY = 'misaki-last-order';
 const NOTE_MAX = 80;
 // Staff PIN for Edit menu. It can only be changed here in the code, not in the app.
 const STAFF_PIN = '2468';
+
+// Opening hours from misakiatsuperior.com, in minutes after midnight.
+// Index 0 is Sunday. Monday is closed.
+const OPEN_HOURS: Array<Array<[number, number]>> = [
+  [[12 * 60, 20 * 60 + 30]],
+  [],
+  [[11 * 60, 14 * 60], [16 * 60 + 30, 21 * 60]],
+  [[11 * 60, 14 * 60], [16 * 60 + 30, 21 * 60]],
+  [[11 * 60, 14 * 60], [16 * 60 + 30, 21 * 60]],
+  [[11 * 60, 14 * 60], [16 * 60 + 30, 21 * 60 + 30]],
+  [[11 * 60, 14 * 60], [16 * 60 + 30, 21 * 60 + 30]],
+];
+const clockLabel = (minutes: number) => {
+  const h = Math.floor(minutes / 60), m = minutes % 60;
+  return `${((h + 11) % 12) + 1}:${String(m).padStart(2, '0')} ${h < 12 ? 'am' : 'pm'}`;
+};
+// Pickup times left today: every 15 minutes while open, starting 20 minutes from now.
+function pickupSlots(now: Date): string[] {
+  const earliest = now.getHours() * 60 + now.getMinutes() + 20;
+  const slots: string[] = [];
+  for (const [open, close] of OPEN_HOURS[now.getDay()]) {
+    for (let t = open + 15; t <= close; t += 15) if (t >= earliest) slots.push(clockLabel(t));
+  }
+  return slots;
+}
 
 function openPhotoDb(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
@@ -191,6 +219,8 @@ function App() {
   const [page, setPage] = useState<Page>('menu');
   const [scratchCard, setScratchCard] = useState<ScratchCard | null>(null);
   const [noteOpen, setNoteOpen] = useState<string | null>(null);
+  const [vegOnly, setVegOnly] = useState(false);
+  const [pickupTime, setPickupTime] = useState('As soon as possible');
   const fileRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const photoUrlsRef = useRef<Record<string, string>>({});
   const categories = useMemo(() => ['All items', ...Array.from(new Set(items.map((item) => item.category)))], [items]);
@@ -248,13 +278,19 @@ function App() {
     return items.filter((item) => {
       const matchesCategory = category === 'All items' || item.category === category;
       const matchesSearch = !needle || `${item.name} ${item.description} ${item.category}`.toLocaleLowerCase().includes(needle);
-      return matchesCategory && matchesSearch;
+      const matchesDiet = !vegOnly || item.vegetarian === true;
+      return matchesCategory && matchesSearch && matchesDiet;
     });
-  }, [category, search, items]);
+  }, [category, search, vegOnly, items]);
   const subtotal = cart.reduce((sum, entry) => sum + (itemMap.get(entry.itemId)?.price ?? 0) * entry.quantity, 0);
-  // A revealed scratch card takes its percentage off the food, before tax.
-  const discountPercent = scratchCard?.scratched && cart.length > 0 ? scratchCard.percent : 0;
-  const discount = Number((subtotal * discountPercent / 100).toFixed(2));
+  // A revealed scratch card takes its percentage off ONE of the most expensive
+  // dish in the cart (one plate, not every copy of it), before tax.
+  const discountTarget = cart.reduce<MenuItem | null>((best, entry) => {
+    const item = itemMap.get(entry.itemId);
+    return item && (!best || item.price > best.price) ? item : best;
+  }, null);
+  const discountPercent = scratchCard?.scratched && discountTarget ? scratchCard.percent : 0;
+  const discount = discountTarget ? Number((discountTarget.price * discountPercent / 100).toFixed(2)) : 0;
   const tax = Number(((subtotal - discount) * rules.taxRate / 100).toFixed(2));
   const deliveryFee = fulfillment === 'delivery' && cart.length > 0 ? rules.deliveryFee : 0;
   const total = Number((subtotal - discount + tax + deliveryFee).toFixed(2));
@@ -450,6 +486,7 @@ function App() {
 
   const startCheckout = () => {
     setOrder(null); // a new checkout starts at the form, not the last thank-you screen
+    setPickupTime('As soon as possible'); // earlier time slots may have passed
     setCheckoutOpen(true);
     setStep(1);
     setErrors({});
@@ -472,7 +509,8 @@ function App() {
       tax,
       deliveryFee,
       total,
-      ...(discount > 0 ? { discountPercent, discount } : {}),
+      ...(discount > 0 ? { discountPercent, discount, discountItem: discountTarget?.name } : {}),
+      ...(fulfillment === 'pickup' ? { pickupTime } : {}),
       ...(specialRequests.trim() ? { specialRequests: specialRequests.trim() } : {}),
     };
     try { localStorage.setItem(LAST_ORDER_KEY, JSON.stringify(savedOrder)); } catch { /* Keep the confirmation visible even if storage is unavailable. */ }
@@ -652,6 +690,9 @@ function App() {
               <label className="search-box"><Search size={16} aria-hidden="true" /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search dishes…" aria-label="Search menu" data-testid="input-menu-search" /></label>
             </div>
             <div className="category-tabs" role="tablist" aria-label="Menu categories">
+              <button type="button" className={`veg-toggle${vegOnly ? ' active' : ''}`} aria-pressed={vegOnly} onClick={() => setVegOnly((on) => !on)} data-testid="button-filter-vegetarian">
+                <Leaf size={13} /> Vegetarian
+              </button>
               {categories.map((itemCategory) => (
                 <button type="button" key={itemCategory} role="tab" aria-selected={category === itemCategory}
                   className={`category-tab${category === itemCategory ? ' active' : ''}`} onClick={() => setCategory(itemCategory)}
@@ -667,11 +708,12 @@ function App() {
               </div>
             )}
             <div className="menu-safety" role="note" data-testid="notice-menu-safety">
-              Some dishes contain raw or undercooked ingredients, and menu descriptions may not list every ingredient. Contact Misaki directly about allergies, modifications, or current availability.
+              Dishes marked * may be served raw or undercooked, and eating raw or undercooked food may increase your risk of foodborne illness. Some dishes contain sesame seeds and masago, and not every ingredient is listed. Please tell Misaki about any allergies or dietary needs.
             </div>
+            {vegOnly && <p className="menu-legend" data-testid="notice-vegetarian">Vegetarian dishes have no meat or fish in their menu description. Some sauces and soups can use fish stock, so ask staff if you need to be sure.</p>}
             <div className="menu-grid" data-testid="list-menu-items">
               {visibleItems.length === 0 && (
-                <div className="no-results" data-testid="status-no-menu-results"><Search size={24} /><strong>No dishes found</strong>Try another name or category.</div>
+                <div className="no-results" data-testid="status-no-menu-results"><Search size={24} /><strong>No dishes found</strong>{vegOnly ? 'No vegetarian dishes match. Try another category or turn off Vegetarian.' : 'Try another name or category.'}</div>
               )}
               {visibleItems.map((item) => {
                 const quantity = cart.find((entry) => entry.itemId === item.id)?.quantity ?? 0;
@@ -691,7 +733,7 @@ function App() {
                       </div>
                     </div>
                     <div className="item-info">
-                      <div className="item-topline"><h3 className="item-name">{item.name}</h3><span className="item-price" data-testid={`text-price-${item.id}`}>{money(item.price)}</span></div>
+                      <div className="item-topline"><h3 className="item-name">{item.name}{item.vegetarian && <span className="veg-tag" title="Vegetarian" data-testid={`tag-vegetarian-${item.id}`}>Veg</span>}</h3><span className="item-price" data-testid={`text-price-${item.id}`}>{money(item.price)}</span></div>
                       {item.description && <p className="item-desc">{item.description}</p>}
                       <div className="item-bottom">
                         <span className="item-category">{item.category}</span>
@@ -744,7 +786,7 @@ function App() {
             )}
             <div className="totals">
               <div className="total-line"><span>Subtotal</span><span data-testid="text-subtotal">{money(subtotal)}</span></div>
-              {discount > 0 && <div className="total-line discount-line"><span>Scratch card ({discountPercent}% off)</span><span data-testid="text-discount">−{money(discount)}</span></div>}
+              {discount > 0 && <div className="total-line discount-line"><span>Scratch card ({discountPercent}% off)<span className="discount-dish">on {discountTarget?.name}</span></span><span data-testid="text-discount">−{money(discount)}</span></div>}
               <div className="total-line"><span>Estimated tax</span><span data-testid="text-tax">{money(tax)}</span></div>
               {fulfillment === 'delivery' && <div className="total-line"><span>Delivery fee</span><span data-testid="text-delivery-fee">{money(deliveryFee)}</span></div>}
               <div className="total-line total"><span>Total</span><span data-testid="text-total">{money(total)}</span></div>
@@ -878,14 +920,14 @@ function App() {
             <p>Your order is saved. {copy.restaurantPhone.trim() ? <>Call <a href={`tel:${copy.restaurantPhone.replace(/[^\d+]/g, '')}`}>{copy.restaurantPhone}</a> to place it, or show this at the counter.</> : 'To place it, call Misaki or show this at the counter.'}</p>
             <div className="order-id" data-testid="text-order-id">{order.id}</div>
             <div className="confirm-card receipt" data-testid="list-saved-order">
-              <div className="review-meta"><div><span>Order for</span><strong>{fulfillmentLabel[order.fulfillment]}</strong></div><div><span>Total</span><strong>{money(order.total)}</strong></div></div>
+              <div className="review-meta"><div><span>Order for</span><strong>{fulfillmentLabel[order.fulfillment]}{order.pickupTime ? ` · ${order.pickupTime}` : ''}</strong></div><div><span>Total</span><strong>{money(order.total)}</strong></div></div>
               {order.items.map((entry) => {
                 const item = itemMap.get(entry.itemId);
                 return item ? <div className="review-line" key={entry.itemId}><span>{entry.quantity} × {item.name}{entry.note && <em className="line-note">“{entry.note}”</em>}</span><strong>{money(item.price * entry.quantity)}</strong></div> : null;
               })}
               {order.specialRequests && <div className="review-line"><span>Special request</span><strong>{order.specialRequests}</strong></div>}
             </div>
-            {order.discount ? <p className="saved-discount" data-testid="text-saved-discount">You saved {money(order.discount)} with your {order.discountPercent}% scratch card.</p> : null}
+            {order.discount ? <p className="saved-discount" data-testid="text-saved-discount">You saved {money(order.discount)} with your {order.discountPercent}% scratch card{order.discountItem ? ` on ${order.discountItem}` : ''}.</p> : null}
             <button className="checkout-button secondary" onClick={() => setCheckoutOpen(false)} data-testid="button-done">Done</button>
           </div> : <>
             <div className="modal-head"><div><div className="eyebrow" style={{ color: '#a8321f', marginBottom: 8 }}>Almost there</div><h2 id="checkout-title">{step === 1 ? 'Your details' : 'Review your order'}</h2><p>{step === 1 ? 'A few details, then one last look.' : 'Check everything before saving your order.'}</p></div>
@@ -895,22 +937,26 @@ function App() {
               <div className="form-grid">
                 <div className="field"><label htmlFor="customer-name">Your name *</label><input id="customer-name" autoComplete="name" value={customerName} onChange={(event) => setCustomerName(event.target.value)} placeholder="Name for the order" data-testid="input-customer-name" />{errors.customerName && <span className="error-msg" data-testid="error-customer-name">{errors.customerName}</span>}</div>
                 <div className="field"><label htmlFor="customer-phone">Phone number *</label><input id="customer-phone" type="tel" autoComplete="tel" value={phone} onChange={(event) => setPhone(event.target.value)} placeholder="(303) 555-0123" data-testid="input-customer-phone" />{errors.phone && <span className="error-msg" data-testid="error-customer-phone">{errors.phone}</span>}</div>
+                {fulfillment === 'pickup' && <div className="field"><label htmlFor="pickup-time">Pickup time</label><select id="pickup-time" value={pickupTime} onChange={(event) => setPickupTime(event.target.value)} data-testid="select-pickup-time">
+                  <option>As soon as possible</option>
+                  {pickupSlots(new Date()).map((slot) => <option key={slot}>{`Today, ${slot}`}</option>)}
+                </select><span className="field-hint">Misaki is closed Mondays.</span></div>}
                 {fulfillment === 'delivery' && <div className="field full"><label htmlFor="delivery-address">Delivery address *</label><input id="delivery-address" autoComplete="street-address" value={address} onChange={(event) => setAddress(event.target.value)} placeholder="Street, city, ZIP" data-testid="input-delivery-address" />{errors.address && <span className="error-msg" data-testid="error-delivery-address">{errors.address}</span>}</div>}
                 <div className="field"><label htmlFor="budget">Optional budget</label><input id="budget" type="number" min="0" step="0.01" value={budget} onChange={(event) => setBudget(event.target.value)} placeholder="No limit" data-testid="input-budget" /><span className="field-hint">We’ll flag the total if it goes over.</span>{errors.budget && <span className="error-msg" data-testid="error-budget">{errors.budget}</span>}</div>
-                <div className="field"><label htmlFor="special-requests">Special requests</label><textarea id="special-requests" value={specialRequests} onChange={(event) => setSpecialRequests(event.target.value)} placeholder="Anything we should know?" data-testid="input-special-requests" /></div>
+                <div className="field"><label htmlFor="special-requests">Special requests</label><textarea id="special-requests" value={specialRequests} onChange={(event) => setSpecialRequests(event.target.value)} placeholder="Allergies, add-ons, changes to a roll…" data-testid="input-special-requests" /><span className="field-hint">Add-ons and changes may cost extra, paid at the restaurant.</span></div>
               </div>
               {exceedsBudget && <div className="budget-alert" role="status" data-testid="status-budget-exceeded">Your estimated total of {money(total)} is above your {money(budgetNumber ?? 0)} budget.</div>}
               <div className="modal-actions"><button className="plain-btn" onClick={() => setCheckoutOpen(false)} data-testid="button-cancel-checkout">Keep browsing</button><button className="checkout-button secondary" style={{ width: 'auto' }} onClick={goToReview} data-testid="button-review-order">Review order <ChevronRight size={15} /></button></div>
             </> : <>
               <div className="confirm-card">
-                <div className="review-meta"><div><span>Fulfillment</span><strong>{fulfillmentLabel[fulfillment]}</strong></div><div><span>Order for</span><strong>{customerName}</strong></div><div><span>Phone</span><strong>{phone}</strong></div>{fulfillment === 'delivery' && <div><span>Deliver to</span><strong>{address}</strong></div>}</div>
+                <div className="review-meta"><div><span>Fulfillment</span><strong>{fulfillmentLabel[fulfillment]}</strong></div><div><span>Order for</span><strong>{customerName}</strong></div><div><span>Phone</span><strong>{phone}</strong></div>{fulfillment === 'pickup' && <div><span>Pickup</span><strong>{pickupTime}</strong></div>}{fulfillment === 'delivery' && <div><span>Deliver to</span><strong>{address}</strong></div>}</div>
                 {cart.map((entry) => {
                   const item = itemMap.get(entry.itemId);
                   return item ? <div className="review-line" key={entry.itemId} data-testid={`row-review-item-${item.id}`}><span>{entry.quantity} × {item.name}{entry.note?.trim() && <em className="line-note">“{entry.note.trim()}”</em>}</span><strong>{money(item.price * entry.quantity)}</strong></div> : null;
                 })}
                 {specialRequests.trim() && <div className="review-line"><span>Special request</span><strong>{specialRequests}</strong></div>}
                 <div className="review-line"><span>Subtotal</span><strong>{money(subtotal)}</strong></div>
-                {discount > 0 && <div className="review-line discount-line"><span>Scratch card ({discountPercent}% off)</span><strong>−{money(discount)}</strong></div>}
+                {discount > 0 && <div className="review-line discount-line"><span>Scratch card ({discountPercent}% off)<span className="discount-dish">on {discountTarget?.name}</span></span><strong>−{money(discount)}</strong></div>}
                 <div className="review-line"><span>Estimated tax</span><strong>{money(tax)}</strong></div>
                 {fulfillment === 'delivery' && <div className="review-line"><span>Delivery fee</span><strong>{money(deliveryFee)}</strong></div>}
                 <div className="review-line" style={{ fontSize: 15 }}><strong>Estimated total</strong><strong>{money(total)}</strong></div>
