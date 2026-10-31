@@ -343,7 +343,8 @@ a.visit-row:hover strong { text-decoration:underline;text-underline-offset:3px; 
 .pin-modal .modal-actions { margin-top:6px; }
 @media(max-width:600px) { .pin-modal{border-radius:18px 18px 0 0;padding:22px 18px calc(20px + env(safe-area-inset-bottom))} }
 
-body, .app-shell { background:#f7f2e8; } .topbar { background:rgba(247,242,232,.94); } .page-nav { background:#fbf8f1; }
+/* Light cream wood: soft grain (SVG noise) plus faint plank lines */
+body, .app-shell { background-color:#f4ead8;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2400' height='1260'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0025 0.09' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45  0 0 0 0 0.31  0 0 0 0 0.16  0 0 0 0.45 -0.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23g%29'/%3E%3C/svg%3E"),repeating-linear-gradient(180deg, transparent 0 178px, rgba(120,84,44,.10) 178px 180px, rgba(255,255,255,.35) 180px 181px, transparent 181px 182px),linear-gradient(180deg,#f6eddc,#f1e5d0);background-size:2400px 1260px,auto,auto;background-attachment:scroll; } .topbar { background:rgba(247,242,232,.94); } .page-nav { background:#fbf8f1; }
 
 /* Accent colors: matcha green for good news, pale yellow for notes */
 .reward-ready { background:#fbf0c4 !important;color:#6b4d14 !important; }
