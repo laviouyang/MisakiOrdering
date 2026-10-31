@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Check, ChevronRight, Clock3, ImagePlus, Leaf, MapPin, MessageSquare, Minus, Plus, Repeat, Search, ShoppingBag, Store, Truck, Utensils, X, Pencil, RotateCcw, Save } from 'lucide-react';
+import { Check, ChevronLeft, ChevronRight, Clock3, ImagePlus, Leaf, MapPin, MessageSquare, Minus, Plus, Repeat, Search, ShoppingBag, Store, Truck, Utensils, X, Pencil, RotateCcw, Save } from 'lucide-react';
 import menuData from './data/misaki-menu.json';
 import RewardsPage, { drawCard, type ScratchCard } from './RewardsPage';
 import AboutPage from './AboutPage';
@@ -226,6 +226,7 @@ function App() {
   const [noteOpen, setNoteOpen] = useState<string | null>(null);
   const [vegOnly, setVegOnly] = useState(false);
   const [missingTile, setMissingTile] = useState<Record<string, boolean>>({}); // category pictures not added yet
+  const [browsing, setBrowsing] = useState(false); // false = show the category boxes
   const menuListRef = useRef<HTMLDivElement | null>(null);
   const [pickupTime, setPickupTime] = useState('As soon as possible');
   const fileRefs = useRef<Record<string, HTMLInputElement | null>>({});
@@ -289,13 +290,22 @@ function App() {
       return matchesCategory && matchesSearch && matchesDiet;
     });
   }, [category, search, vegOnly, items]);
-  const countFor = (name: string) => items.filter((item) => name === 'All items' || item.category === name).length;
+  // Clicking a box opens that category; "All categories" goes back to the boxes.
   const pickCategory = (name: string, veg = false) => {
     setCategory(name);
     setVegOnly(veg);
-    setSearch('');
+    setBrowsing(true);
     requestAnimationFrame(() => menuListRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   };
+  const backToBoxes = () => {
+    setCategory('All items');
+    setVegOnly(false);
+    setSearch('');
+    setBrowsing(false);
+    requestAnimationFrame(() => menuListRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  };
+  // Typing in search skips the boxes and searches every dish.
+  const showBoxes = !browsing && !search.trim();
 
   const subtotal = cart.reduce((sum, entry) => sum + (itemMap.get(entry.itemId)?.price ?? 0) * entry.quantity, 0);
   // A revealed scratch card takes its percentage off ONE of the most expensive
@@ -698,46 +708,38 @@ function App() {
           <div className="fulfillment-hint">{fulfillment === 'delivery' ? `${money(rules.deliveryFee)} delivery fee · ${copy.deliveryHint}` : fulfillment === 'dine-in' ? copy.dineInHint : copy.pickupHint}</div>
         </section>
 
-        <section className="category-boxes" aria-labelledby="category-boxes-title" data-testid="section-category-boxes">
-          <h2 id="category-boxes-title">What are you craving?</h2>
-          <div className="category-grid">
-            {[...categories, 'Vegetarian'].map((name, index) => {
-              const veg = name === 'Vegetarian';
-              const slug = slugify(name);
-              const active = veg ? vegOnly && category === 'All items' : !vegOnly && category === name;
-              const count = veg ? items.filter((item) => item.vegetarian).length : countFor(name);
-              return (
-                <button type="button" key={name} className={`category-box${active ? ' active' : ''}${veg ? ' veg' : ''}`}
-                  onClick={() => pickCategory(veg ? 'All items' : name, veg)} aria-pressed={active} data-testid={`box-category-${slug}`}>
-                  <span className="category-box-art" style={{ background: veg ? '#5f8a4e' : TILE_COLORS[index % TILE_COLORS.length] }}>
-                    {!missingTile[slug] && <img src={`${import.meta.env.BASE_URL}categories/${slug}.jpg`} alt="" loading="lazy"
-                      onError={() => setMissingTile((current) => ({ ...current, [slug]: true }))} />}
-                    {missingTile[slug] && (veg ? <Leaf size={30} /> : <span className="category-box-letter">{name === 'All items' ? '全' : name.charAt(0)}</span>)}
-                  </span>
-                  <span className="category-box-label"><strong>{name === 'All items' ? 'Everything' : name}</strong><span>{count} {count === 1 ? 'dish' : 'dishes'}</span></span>
-                </button>
-              );
-            })}
-          </div>
-        </section>
-
         <div className="browse-layout">
           <section className="browse-main" aria-label="Menu">
             <div className="menu-heading">
               <div><h2>{copy.menuHeading}</h2><p>{copy.menuDescription}</p></div>
               <label className="search-box"><Search size={16} aria-hidden="true" /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search dishes…" aria-label="Search menu" data-testid="input-menu-search" /></label>
             </div>
-            <div className="showing-bar" ref={menuListRef}>
-              <strong data-testid="text-showing">{category === 'All items' ? 'All dishes' : category}{vegOnly ? ' · vegetarian' : ''}</strong>
+            <div ref={menuListRef} className="menu-anchor" />
+            {showBoxes ? (
+              <div className="category-grid" data-testid="section-category-boxes">
+                {[...categories, 'Vegetarian'].map((name, index) => {
+                  const veg = name === 'Vegetarian';
+                  const slug = slugify(name);
+                  return (
+                    <button type="button" key={name} className="category-box" onClick={() => pickCategory(veg ? 'All items' : name, veg)} data-testid={`box-category-${slug}`}>
+                      <span className="category-box-art" style={{ background: veg ? '#5f8a4e' : TILE_COLORS[index % TILE_COLORS.length] }}>
+                        {!missingTile[slug] && <img src={`${import.meta.env.BASE_URL}categories/${slug}.jpg`} alt="" loading="lazy"
+                          onError={() => setMissingTile((current) => ({ ...current, [slug]: true }))} />}
+                        {missingTile[slug] && (veg ? <Leaf size={44} /> : <span className="category-box-letter">{name === 'All items' ? '全' : name.charAt(0)}</span>)}
+                      </span>
+                      <span className="category-box-label">{name === 'All items' ? 'Full menu' : name}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            ) : <>
+            <div className="showing-bar">
+              <button type="button" className="show-all" onClick={backToBoxes} data-testid="button-back-to-boxes"><ChevronLeft size={14} /> All categories</button>
+              <strong data-testid="text-showing">{search.trim() && !browsing ? 'Search results' : category === 'All items' ? (vegOnly ? 'Vegetarian' : 'Full menu') : `${category}${vegOnly ? ' · vegetarian' : ''}`}</strong>
               <span className="menu-count" data-testid="text-menu-result-count">{visibleItems.length} items</span>
               <button type="button" className={`veg-toggle${vegOnly ? ' active' : ''}`} aria-pressed={vegOnly} onClick={() => setVegOnly((on) => !on)} data-testid="button-filter-vegetarian">
                 <Leaf size={13} /> Vegetarian
               </button>
-              {(category !== 'All items' || vegOnly) && (
-                <button type="button" className="show-all" onClick={() => { setCategory('All items'); setVegOnly(false); }} data-testid="button-show-all">
-                  <X size={13} /> Show all
-                </button>
-              )}
             </div>
             {category.toLocaleLowerCase().includes('sake') && (
               <div className="sake-warning" role="note" data-testid="status-sake-age-restriction">
@@ -790,6 +792,7 @@ function App() {
                 );
               })}
             </div>
+            </>}
           </section>
 
           <aside className="cart-panel" id="cart-panel" aria-label="Your order">

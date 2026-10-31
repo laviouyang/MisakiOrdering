@@ -93,6 +93,7 @@ Prices change, so check them with Misaki before taking real orders.
 
 ## Category boxes
 
-The menu page starts with a box for each category. To give a box a picture,
+Under "Explore the menu" there is a box for each category. Click one to see its
+dishes, and "All categories" to go back. To give a box a picture,
 put a `.jpg` in `public/categories/` with the name listed in
 `public/categories/README.md` (for example `ramen.jpg`).
