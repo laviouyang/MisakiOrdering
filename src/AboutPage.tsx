@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { CalendarDays, Clock3, Globe, MapPin, Phone, Sun, Truck } from 'lucide-react';
 
 // The About page: the restaurant's story and how to find it.
@@ -21,19 +20,7 @@ const RESERVATIONS_URL = 'https://www.misakiatsuperior.com/reservations';
 const DELIVERY_URL = 'https://direct.chownow.com/order/37403/locations/56958';
 const WEBSITE_URL = 'https://www.misakiatsuperior.com';
 
-type Credit = { title: string; author: string; license: string; source: string };
-
 export default function AboutPage({ restaurantName, story, hours, phone, dishCount, categoryCount, onStartOrder }: Props) {
-  // Credits for the dish photos downloaded by `npm run photos`.
-  const [credits, setCredits] = useState<Record<string, Credit>>({});
-  useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}dishes/credits.json`)
-      .then((response) => (response.ok ? response.json() : {}))
-      .then((data) => setCredits(data as Record<string, Credit>))
-      .catch(() => setCredits({}));
-  }, []);
-  const creditList = Object.entries(credits);
-
   return (
     <main className="content-wrap page" data-testid="page-about">
       <div className="about-layout">
@@ -52,17 +39,6 @@ export default function AboutPage({ restaurantName, story, hours, phone, dishCou
           </ul>
           <p className="about-menu-line">The menu has {dishCount} dishes across {categoryCount} categories, from chef’s special rolls to ramen and kushiyaki.</p>
           <button type="button" className="checkout-button secondary about-cta" onClick={onStartOrder} data-testid="button-about-start-order">See the menu</button>
-          {creditList.length > 0 && (
-            <details className="photo-credits" data-testid="section-photo-credits">
-              <summary>Photo credits</summary>
-              <p>Dish photos are examples from Wikimedia Commons, not photos of Misaki’s food. Thank you to these photographers:</p>
-              <ul>
-                {creditList.map(([key, credit]) => (
-                  <li key={key}><a href={credit.source} target="_blank" rel="noreferrer">{credit.title}</a> by {credit.author} ({credit.license})</li>
-                ))}
-              </ul>
-            </details>
-          )}
         </section>
 
         <aside className="about-visit" aria-label="Visit us">

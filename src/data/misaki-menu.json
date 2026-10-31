@@ -13,8 +13,7 @@
       "sourcePrice": "$13.95",
       "sourceCategory": "chef's special rolls",
       "sourceName": "green hama* (8 pieces)",
-      "sourceDescription": "masago, green onion, hamachi poke, spicy mayonnaise, jalapenos topped with tempura flakes and cilantro",
-      "photo": "green-hama-roll"
+      "sourceDescription": "masago, green onion, hamachi poke, spicy mayonnaise, jalapenos topped with tempura flakes and cilantro"
     },
     {
       "id": "menu-106",
@@ -26,8 +25,7 @@
       "sourcePrice": "$14.95",
       "sourceCategory": "chef's special rolls",
       "sourceName": "expert roll tempura (6 pieces)",
-      "sourceDescription": "baked salmon, avocado, shiso, mayonnaise, unagi sauce, masago, cream cheese deep fried in tempura",
-      "photo": "expert-roll"
+      "sourceDescription": "baked salmon, avocado, shiso, mayonnaise, unagi sauce, masago, cream cheese deep fried in tempura"
     },
     {
       "id": "menu-107",
@@ -39,8 +37,7 @@
       "sourcePrice": "$15.95",
       "sourceCategory": "chef's special rolls",
       "sourceName": "orange lion* (8 pieces)",
-      "sourceDescription": "smoked salmon, sliced lemons, kaiware, jalapenos, cucumbers, cream cheese, yuzu sauce, wasabi mustard, gree onion",
-      "photo": "orange-lion-roll"
+      "sourceDescription": "smoked salmon, sliced lemons, kaiware, jalapenos, cucumbers, cream cheese, yuzu sauce, wasabi mustard, gree onion"
     },
     {
       "id": "menu-108",
@@ -52,8 +49,7 @@
       "sourcePrice": "$15.95",
       "sourceCategory": "chef's special rolls",
       "sourceName": "snow in the mountain* (8 pieces)",
-      "sourceDescription": "shrimp tempura, spicy poke, and cucumber topped with furikake, coconut and macho",
-      "photo": "snow-mountain-roll"
+      "sourceDescription": "shrimp tempura, spicy poke, and cucumber topped with furikake, coconut and macho"
     },
     {
       "id": "menu-109",
@@ -65,8 +61,7 @@
       "sourcePrice": "$16.25",
       "sourceCategory": "chef's special rolls",
       "sourceName": "superior roll* (8 pieces)",
-      "sourceDescription": "shrimp tempura, surimi crab mix, cucumbers, mango, with mango sauce and cilantro on top",
-      "photo": "superior-roll"
+      "sourceDescription": "shrimp tempura, surimi crab mix, cucumbers, mango, with mango sauce and cilantro on top"
     },
     {
       "id": "menu-110",
@@ -78,8 +73,7 @@
       "sourcePrice": "$16.95",
       "sourceCategory": "chef's special rolls",
       "sourceName": "tropical coconut (10 pieces)",
-      "sourceDescription": "salmon tempura, spicy aioli, jalapenos, avocado, cucumbers with roasted coconuts wrapped in soy paper",
-      "photo": "tropical-coconut-roll"
+      "sourceDescription": "salmon tempura, spicy aioli, jalapenos, avocado, cucumbers with roasted coconuts wrapped in soy paper"
     },
     {
       "id": "menu-111",
@@ -91,8 +85,7 @@
       "sourcePrice": "$16.95",
       "sourceCategory": "chef's special rolls",
       "sourceName": "when pigs swim*",
-      "sourceDescription": "salmon skin, bacon with jalapeno, avocado topped with tuna, spicy miso mayonnaise and negi",
-      "photo": "pigs-swim-roll"
+      "sourceDescription": "salmon skin, bacon with jalapeno, avocado topped with tuna, spicy miso mayonnaise and negi"
     },
     {
       "id": "menu-112",
@@ -104,8 +97,7 @@
       "sourcePrice": "$16.95",
       "sourceCategory": "chef's special rolls",
       "sourceName": "salmon tartar* (8 pieces)",
-      "sourceDescription": "salmon poke, caper, white onion, masago, slightly torched salmon sashimi with garlic butter and fried onion on top",
-      "photo": "salmon-tartar-roll"
+      "sourceDescription": "salmon poke, caper, white onion, masago, slightly torched salmon sashimi with garlic butter and fried onion on top"
     },
     {
       "id": "menu-113",
@@ -117,8 +109,7 @@
       "sourcePrice": "$16.95",
       "sourceCategory": "chef's special rolls",
       "sourceName": "rainbow roll* (8 pieces)",
-      "sourceDescription": "California roll topped with maguro sashimi, shake sashimi, hamachi sashimi, white fish sashimi and ebi sashimi",
-      "photo": "rainbow-roll"
+      "sourceDescription": "California roll topped with maguro sashimi, shake sashimi, hamachi sashimi, white fish sashimi and ebi sashimi"
     },
     {
       "id": "menu-114",
@@ -130,8 +121,7 @@
       "sourcePrice": "$16.95",
       "sourceCategory": "chef's special rolls",
       "sourceName": "caterpillar roll (8 pieces)",
-      "sourceDescription": "unagi, cucumber, covered with avocado",
-      "photo": "caterpillar-roll"
+      "sourceDescription": "unagi, cucumber, covered with avocado"
     },
     {
       "id": "menu-115",
@@ -143,8 +133,7 @@
       "sourcePrice": "$17.95",
       "sourceCategory": "chef's special rolls",
       "sourceName": "dragon ball (8 pieces)",
-      "sourceDescription": "shrimp tempura, surimi crab mix, unagi, avocado and strawberries with unagi sauce on top",
-      "photo": "dragon-roll"
+      "sourceDescription": "shrimp tempura, surimi crab mix, unagi, avocado and strawberries with unagi sauce on top"
     },
     {
       "id": "menu-116",
@@ -156,8 +145,7 @@
       "sourcePrice": "$17.95",
       "sourceCategory": "chef's special rolls",
       "sourceName": "misaki roll* (8 pieces)",
-      "sourceDescription": "tuna poke, avocado tempura, mustard yuzu sauce, negi, kaiware, spicy ponzu and maguro tataki sashimi on top",
-      "photo": "misaki-roll"
+      "sourceDescription": "tuna poke, avocado tempura, mustard yuzu sauce, negi, kaiware, spicy ponzu and maguro tataki sashimi on top"
     },
     {
       "id": "menu-117",
@@ -169,8 +157,7 @@
       "sourcePrice": "$17.95",
       "sourceCategory": "chef's special rolls",
       "sourceName": "meiji maguro roll* (8 pieces)",
-      "sourceDescription": "cucumber, avocado, kaiware, jalapenos, topped with tuna poke and masago arare",
-      "photo": "meiji-maguro-roll"
+      "sourceDescription": "cucumber, avocado, kaiware, jalapenos, topped with tuna poke and masago arare"
     },
     {
       "id": "menu-118",
@@ -182,8 +169,7 @@
       "sourcePrice": "$19.95",
       "sourceCategory": "chef's special rolls",
       "sourceName": "hokkaido roll* (8 pieces)",
-      "sourceDescription": "spicy scallops and negi tempura topped with yellow tail and roasted jalapenos",
-      "photo": "hokkaido-roll"
+      "sourceDescription": "spicy scallops and negi tempura topped with yellow tail and roasted jalapenos"
     },
     {
       "id": "menu-119",
@@ -195,8 +181,7 @@
       "sourcePrice": "$21.95",
       "sourceCategory": "chef's special rolls",
       "sourceName": "surf and turf*",
-      "sourceDescription": "snow crab tempura, avocado, topped with torched tri-tip beef, garlic butter and yuzu mustard.",
-      "photo": "surf-turf-roll"
+      "sourceDescription": "snow crab tempura, avocado, topped with torched tri-tip beef, garlic butter and yuzu mustard."
     },
     {
       "id": "menu-120",
@@ -208,8 +193,7 @@
       "sourcePrice": "$27.95",
       "sourceCategory": "Sushi Combos - Dinner",
       "sourceName": "moriawase*",
-      "sourceDescription": "sushi of 2 pieces maguro, 1 piece of shake, 1 piece of hamachi, 1 piece of ebi, 1 piece of bincho, choice of spicy poke or nova lox salmon roll or shrimp tempura roll, comes with soup and salad!",
-      "photo": "sushi-platter"
+      "sourceDescription": "sushi of 2 pieces maguro, 1 piece of shake, 1 piece of hamachi, 1 piece of ebi, 1 piece of bincho, choice of spicy poke or nova lox salmon roll or shrimp tempura roll, comes with soup and salad!"
     },
     {
       "id": "menu-121",
@@ -221,8 +205,7 @@
       "sourcePrice": "$29.95",
       "sourceCategory": "Sushi Combos - Dinner",
       "sourceName": "beginner's combo*",
-      "sourceDescription": "sushi of 2 pieces maguro, 2 pieces of shake, 2 pieces of hamachi, 2 pieces of ebi, california roll, comes with soup and salad!",
-      "photo": "sushi-platter"
+      "sourceDescription": "sushi of 2 pieces maguro, 2 pieces of shake, 2 pieces of hamachi, 2 pieces of ebi, california roll, comes with soup and salad!"
     },
     {
       "id": "menu-122",
@@ -234,8 +217,7 @@
       "sourcePrice": "$34.95",
       "sourceCategory": "Sushi Combos - Dinner",
       "sourceName": "sashimi combo*",
-      "sourceDescription": "sashimi of 3 pieces maguro, 3 pieces of shake, 3 pieces of hamachi, 3 pieces of tako, 3 pieces of white fish, comes with soup and salad!",
-      "photo": "sashimi-platter"
+      "sourceDescription": "sashimi of 3 pieces maguro, 3 pieces of shake, 3 pieces of hamachi, 3 pieces of tako, 3 pieces of white fish, comes with soup and salad!"
     },
     {
       "id": "menu-123",
@@ -247,8 +229,7 @@
       "sourcePrice": "$34.95",
       "sourceCategory": "Sushi Combos - Dinner",
       "sourceName": "chirashi*",
-      "sourceDescription": "bed of rice, garikan, furikake, Japanese pickles, a variety sashimi selected by the chef, comes with soup and salad!",
-      "photo": "chirashi"
+      "sourceDescription": "bed of rice, garikan, furikake, Japanese pickles, a variety sashimi selected by the chef, comes with soup and salad!"
     },
     {
       "id": "menu-124",
@@ -260,8 +241,7 @@
       "sourcePrice": "$3.25",
       "sourceCategory": "Appetizers",
       "sourceName": "miso soup",
-      "sourceDescription": "rich in seaweed, tofu and negi (green onion), that will warm your stomach, and prep you for your main course!",
-      "photo": "miso-soup"
+      "sourceDescription": "rich in seaweed, tofu and negi (green onion), that will warm your stomach, and prep you for your main course!"
     },
     {
       "id": "menu-125",
@@ -274,8 +254,7 @@
       "sourceCategory": "Appetizers",
       "sourceName": "house salad",
       "sourceDescription": "spring mix of leaf greens, garnished with tomatoes and shredded potato crunches with our awesome tofu dressing!",
-      "vegetarian": true,
-      "photo": "house-salad"
+      "vegetarian": true
     },
     {
       "id": "menu-126",
@@ -288,8 +267,7 @@
       "sourceCategory": "Appetizers",
       "sourceName": "seaweed salad",
       "sourceDescription": "a medley of our hiyashi wakame (green seaweed), wakame (kelp), and cucumbers, topped with a savory vinaigrette!",
-      "vegetarian": true,
-      "photo": "seaweed-salad"
+      "vegetarian": true
     },
     {
       "id": "menu-127",
@@ -302,8 +280,7 @@
       "sourceCategory": "Appetizers",
       "sourceName": "edamame (salted)",
       "sourceDescription": "sweet edamame that's lightly sprinkled with coarse sea salt!",
-      "vegetarian": true,
-      "photo": "edamame"
+      "vegetarian": true
     },
     {
       "id": "menu-128",
@@ -316,8 +293,7 @@
       "sourceCategory": "Appetizers",
       "sourceName": "edamame (spicy)",
       "sourceDescription": "sweet edamame mixed with spicy lemon garlic sriracha!",
-      "vegetarian": true,
-      "photo": "spicy-edamame"
+      "vegetarian": true
     },
     {
       "id": "menu-129",
@@ -330,8 +306,7 @@
       "sourceCategory": "Appetizers",
       "sourceName": "vegetable egg rolls",
       "sourceDescription": "3 pieces of crispy egg rolls with a side of sweet chili sauce",
-      "vegetarian": true,
-      "photo": "egg-rolls"
+      "vegetarian": true
     },
     {
       "id": "menu-130",
@@ -344,8 +319,7 @@
       "sourceCategory": "Appetizers",
       "sourceName": "vegetable tempura",
       "sourceDescription": "10pcs of fresh vegetables select by chef with a side of house temp. sauce",
-      "vegetarian": true,
-      "photo": "vegetable-tempura"
+      "vegetarian": true
     },
     {
       "id": "menu-131",
@@ -357,8 +331,7 @@
       "sourcePrice": "$15.95",
       "sourceCategory": "Appetizers",
       "sourceName": "shrimp & veggie tempura",
-      "sourceDescription": "assorted 4 pieces of vegetables selected by our chefs along with 6 pieces of fresh shrimp temp. and side of dipping sauce",
-      "photo": "shrimp-tempura"
+      "sourceDescription": "assorted 4 pieces of vegetables selected by our chefs along with 6 pieces of fresh shrimp temp. and side of dipping sauce"
     },
     {
       "id": "menu-132",
@@ -370,8 +343,7 @@
       "sourcePrice": "$9.95",
       "sourceCategory": "Appetizers",
       "sourceName": "pork chashu buns",
-      "sourceDescription": "3 pieces barbecued pork bellies wrapped with milky buns along with cucumber covered with special dressing and chili oil",
-      "photo": "pork-bun"
+      "sourceDescription": "3 pieces barbecued pork bellies wrapped with milky buns along with cucumber covered with special dressing and chili oil"
     },
     {
       "id": "menu-133",
@@ -383,8 +355,7 @@
       "sourcePrice": "$6.95",
       "sourceCategory": "Appetizers",
       "sourceName": "shrimp shumai",
-      "sourceDescription": "6 pieces of steamed shrimp dumplings garnished with masago on top",
-      "photo": "shumai"
+      "sourceDescription": "6 pieces of steamed shrimp dumplings garnished with masago on top"
     },
     {
       "id": "menu-134",
@@ -396,8 +367,7 @@
       "sourcePrice": "$8.25",
       "sourceCategory": "Appetizers",
       "sourceName": "gyoza - chicken & pork",
-      "sourceDescription": "6 pieces pan fried meat dumplings",
-      "photo": "gyoza"
+      "sourceDescription": "6 pieces pan fried meat dumplings"
     },
     {
       "id": "menu-135",
@@ -410,8 +380,7 @@
       "sourceCategory": "Appetizers",
       "sourceName": "gyoza - vegetable",
       "sourceDescription": "6 pieces pan fried veggie dumplings",
-      "vegetarian": true,
-      "photo": "vegetable-gyoza"
+      "vegetarian": true
     },
     {
       "id": "menu-136",
@@ -423,8 +392,7 @@
       "sourcePrice": "$12.95",
       "sourceCategory": "Appetizers",
       "sourceName": "baked mussels",
-      "sourceDescription": "5 pieces savory mussels backed with spicy mayonnaise, unagi sauce",
-      "photo": "baked-mussels"
+      "sourceDescription": "5 pieces savory mussels backed with spicy mayonnaise, unagi sauce"
     },
     {
       "id": "menu-137",
@@ -436,8 +404,7 @@
       "sourcePrice": "$15.95",
       "sourceCategory": "Appetizers",
       "sourceName": "kama hama",
-      "sourceDescription": "grilled yellowtail collar",
-      "photo": "hamachi-kama"
+      "sourceDescription": "grilled yellowtail collar"
     },
     {
       "id": "menu-138",
@@ -449,8 +416,7 @@
       "sourcePrice": "$12.25",
       "sourceCategory": "Appetizers",
       "sourceName": "fried calamari tentacles",
-      "sourceDescription": "crispy squid tentacles served with a side of spicy mayo",
-      "photo": "calamari"
+      "sourceDescription": "crispy squid tentacles served with a side of spicy mayo"
     },
     {
       "id": "menu-139",
@@ -462,8 +428,7 @@
       "sourcePrice": "$9.95",
       "sourceCategory": "Appetizers",
       "sourceName": "karaage",
-      "sourceDescription": "our best selling crispy fried chicken that is moist and succulent to the core! paired with a fiery spicy mayonnaise to complete its flavoring!",
-      "photo": "karaage"
+      "sourceDescription": "our best selling crispy fried chicken that is moist and succulent to the core! paired with a fiery spicy mayonnaise to complete its flavoring!"
     },
     {
       "id": "menu-140",
@@ -475,8 +440,7 @@
       "sourcePrice": "$7.25",
       "sourceCategory": "Appetizers",
       "sourceName": "Agedashi Tofu",
-      "sourceDescription": "Lightly fried tofu with bonito flakes and a side of tempura sauce",
-      "photo": "agedashi-tofu"
+      "sourceDescription": "Lightly fried tofu with bonito flakes and a side of tempura sauce"
     },
     {
       "id": "menu-141",
@@ -488,8 +452,7 @@
       "sourcePrice": "$9.95 - Unavailable",
       "sourceCategory": "Appetizers",
       "sourceName": "shishito peppers",
-      "sourceDescription": "grilled shishito peppers with bonito flakes, ponzu and togarashi",
-      "photo": "shishito"
+      "sourceDescription": "grilled shishito peppers with bonito flakes, ponzu and togarashi"
     },
     {
       "id": "menu-078",
@@ -501,8 +464,7 @@
       "sourcePrice": "$7.95",
       "sourceCategory": "regular rolls",
       "sourceName": "tekka maki* (6 pieces)",
-      "sourceDescription": "tuna roll*",
-      "photo": "tekka-maki"
+      "sourceDescription": "tuna roll*"
     },
     {
       "id": "menu-079",
@@ -514,8 +476,7 @@
       "sourcePrice": "$7.95",
       "sourceCategory": "regular rolls",
       "sourceName": "shake maki* (6 pieces)",
-      "sourceDescription": "salmon roll*",
-      "photo": "salmon-maki"
+      "sourceDescription": "salmon roll*"
     },
     {
       "id": "menu-080",
@@ -527,8 +488,7 @@
       "sourcePrice": "$7.95",
       "sourceCategory": "regular rolls",
       "sourceName": "negihama* (6 pieces)",
-      "sourceDescription": "yellowtail and scallion roll",
-      "photo": "negihama-roll"
+      "sourceDescription": "yellowtail and scallion roll"
     },
     {
       "id": "menu-081",
@@ -540,8 +500,7 @@
       "sourcePrice": "$7.95",
       "sourceCategory": "regular rolls",
       "sourceName": "california roll (8 pieces)",
-      "sourceDescription": "surimi crab, mayonnaise, cucumber, avocado, masago and sesame seeds on top",
-      "photo": "california-roll"
+      "sourceDescription": "surimi crab, mayonnaise, cucumber, avocado, masago and sesame seeds on top"
     },
     {
       "id": "menu-082",
@@ -553,8 +512,7 @@
       "sourcePrice": "$9.95",
       "sourceCategory": "regular rolls",
       "sourceName": "spicy poke* (8 pieces)",
-      "sourceDescription": "tuna, negi, cucumber, avocado, masago, poke sauce and spicy mayo",
-      "photo": "spicy-poke-roll"
+      "sourceDescription": "tuna, negi, cucumber, avocado, masago, poke sauce and spicy mayo"
     },
     {
       "id": "menu-083",
@@ -566,8 +524,7 @@
       "sourcePrice": "$9.95",
       "sourceCategory": "regular rolls",
       "sourceName": "nova lox salmon roll* (8 pieces)",
-      "sourceDescription": "smoked salmon, cream cheese, cucumber, maui onion, masago",
-      "photo": "philadelphia-roll"
+      "sourceDescription": "smoked salmon, cream cheese, cucumber, maui onion, masago"
     },
     {
       "id": "menu-084",
@@ -579,8 +536,7 @@
       "sourcePrice": "$9.95",
       "sourceCategory": "regular rolls",
       "sourceName": "spicy salmon roll*",
-      "sourceDescription": "(8pcs) salmon, spicy mayo, masago, cucumber, avocado",
-      "photo": "spicy-salmon-roll"
+      "sourceDescription": "(8pcs) salmon, spicy mayo, masago, cucumber, avocado"
     },
     {
       "id": "menu-085",
@@ -592,8 +548,7 @@
       "sourcePrice": "$10.95",
       "sourceCategory": "regular rolls",
       "sourceName": "spicy bincho roll*",
-      "sourceDescription": "(8pcs) albacore tuna with kewpie mayonnaise, negi, masago, cucumber and avocado",
-      "photo": "albacore-roll"
+      "sourceDescription": "(8pcs) albacore tuna with kewpie mayonnaise, negi, masago, cucumber and avocado"
     },
     {
       "id": "menu-086",
@@ -605,8 +560,7 @@
       "sourcePrice": "$10.95",
       "sourceCategory": "regular rolls",
       "sourceName": "unagi cucumber roll",
-      "sourceDescription": "(8pcs)",
-      "photo": "eel-roll"
+      "sourceDescription": "(8pcs)"
     },
     {
       "id": "menu-087",
@@ -618,8 +572,7 @@
       "sourcePrice": "$10.95",
       "sourceCategory": "regular rolls",
       "sourceName": "unagi avocado roll",
-      "sourceDescription": "(8pcs)",
-      "photo": "eel-roll"
+      "sourceDescription": "(8pcs)"
     },
     {
       "id": "menu-088",
@@ -631,8 +584,7 @@
       "sourcePrice": "$12.95",
       "sourceCategory": "regular rolls",
       "sourceName": "spicy scallop roll*",
-      "sourceDescription": "(8pcs) scallop, masago, spicy mayo with cucumber",
-      "photo": "scallop-roll"
+      "sourceDescription": "(8pcs) scallop, masago, spicy mayo with cucumber"
     },
     {
       "id": "menu-089",
@@ -644,8 +596,7 @@
       "sourcePrice": "$13.95",
       "sourceCategory": "regular rolls",
       "sourceName": "negitoro*",
-      "sourceDescription": "toro (fatty tuna) and negi (green onion) 6pcs or hand roll also available!",
-      "photo": "negitoro"
+      "sourceDescription": "toro (fatty tuna) and negi (green onion) 6pcs or hand roll also available!"
     },
     {
       "id": "menu-090",
@@ -657,8 +608,7 @@
       "sourcePrice": "$8.95",
       "sourceCategory": "tempura rolls",
       "sourceName": "chicken tempura roll (6 pieces)",
-      "sourceDescription": "kaiware, ooba, cucumber, avocado, asparagus masago, japanese mayonnaise, and chicken tempura",
-      "photo": "chicken-tempura-roll"
+      "sourceDescription": "kaiware, ooba, cucumber, avocado, asparagus masago, japanese mayonnaise, and chicken tempura"
     },
     {
       "id": "menu-091",
@@ -670,8 +620,7 @@
       "sourcePrice": "$9.95",
       "sourceCategory": "tempura rolls",
       "sourceName": "shrimp tempura roll (6 pieces)",
-      "sourceDescription": "kaiware, masago, ooba, cucumber, avocado, asparagus, japanese mayonnaise, shrimp tempura",
-      "photo": "shrimp-tempura-roll"
+      "sourceDescription": "kaiware, masago, ooba, cucumber, avocado, asparagus, japanese mayonnaise, shrimp tempura"
     },
     {
       "id": "menu-092",
@@ -683,8 +632,7 @@
       "sourcePrice": "$10.95",
       "sourceCategory": "tempura rolls",
       "sourceName": "salmon skin roll (6 pieces)",
-      "sourceDescription": "salmon skin tempura with asparagus, masago, ooba, kaiware, cucumber, avocado, yamagobo, Japanese mayonnaise",
-      "photo": "salmon-skin-roll"
+      "sourceDescription": "salmon skin tempura with asparagus, masago, ooba, kaiware, cucumber, avocado, yamagobo, Japanese mayonnaise"
     },
     {
       "id": "menu-093",
@@ -696,8 +644,7 @@
       "sourcePrice": "$10.95",
       "sourceCategory": "tempura rolls",
       "sourceName": "white fish tempura roll (6 pieces)",
-      "sourceDescription": "asparagus, masago, ooba, kaiware, cucumber, avocado, Japanese mayonnaise and white fish tempura",
-      "photo": "white-fish-tempura-roll"
+      "sourceDescription": "asparagus, masago, ooba, kaiware, cucumber, avocado, Japanese mayonnaise and white fish tempura"
     },
     {
       "id": "menu-094",
@@ -709,8 +656,7 @@
       "sourcePrice": "$12.95",
       "sourceCategory": "tempura rolls",
       "sourceName": "spider roll (6 pieces)",
-      "sourceDescription": "asparagus, masago, ooba, kaiware, cucumber, avocado, mixed greens, yamagobo, Japanese mayonnaise and soft shell crab tempura",
-      "photo": "spider-roll"
+      "sourceDescription": "asparagus, masago, ooba, kaiware, cucumber, avocado, mixed greens, yamagobo, Japanese mayonnaise and soft shell crab tempura"
     },
     {
       "id": "menu-095",
@@ -722,8 +668,7 @@
       "sourcePrice": "$16.95",
       "sourceCategory": "tempura rolls",
       "sourceName": "lobster tempura roll (6 pieces)",
-      "sourceDescription": "asparagus, masago, ooba, kaiware, cucumber, avocado, Japaneses mayonnaise and lobster tempura",
-      "photo": "lobster-roll"
+      "sourceDescription": "asparagus, masago, ooba, kaiware, cucumber, avocado, Japaneses mayonnaise and lobster tempura"
     },
     {
       "id": "menu-096",
@@ -736,8 +681,7 @@
       "sourceCategory": "vegetable rolls",
       "sourceName": "cucumber roll (6 pieces)",
       "sourceDescription": "",
-      "vegetarian": true,
-      "photo": "cucumber-roll"
+      "vegetarian": true
     },
     {
       "id": "menu-097",
@@ -750,8 +694,7 @@
       "sourceCategory": "vegetable rolls",
       "sourceName": "avocado roll (6 pieces)",
       "sourceDescription": "",
-      "vegetarian": true,
-      "photo": "avocado-roll"
+      "vegetarian": true
     },
     {
       "id": "menu-098",
@@ -764,8 +707,7 @@
       "sourceCategory": "vegetable rolls",
       "sourceName": "asparagus roll",
       "sourceDescription": "",
-      "vegetarian": true,
-      "photo": "asparagus-roll"
+      "vegetarian": true
     },
     {
       "id": "menu-099",
@@ -778,8 +720,7 @@
       "sourceCategory": "vegetable rolls",
       "sourceName": "natto shiso maki (6 pieces)",
       "sourceDescription": "fermented soybeans and shiso leaves",
-      "vegetarian": true,
-      "photo": "natto-maki"
+      "vegetarian": true
     },
     {
       "id": "menu-100",
@@ -792,8 +733,7 @@
       "sourceCategory": "vegetable rolls",
       "sourceName": "ume shiso maki (6 pieces)",
       "sourceDescription": "Japanese ume plum paste and shiso leaves",
-      "vegetarian": true,
-      "photo": "ume-maki"
+      "vegetarian": true
     },
     {
       "id": "menu-101",
@@ -806,8 +746,7 @@
       "sourceCategory": "vegetable rolls",
       "sourceName": "kanpyo maki (6 pieces)",
       "sourceDescription": "a traditional japanese sweet dried gourd, pickles",
-      "vegetarian": true,
-      "photo": "kanpyo-maki"
+      "vegetarian": true
     },
     {
       "id": "menu-102",
@@ -820,8 +759,7 @@
       "sourceCategory": "vegetable rolls",
       "sourceName": "garden roll (6 pieces)",
       "sourceDescription": "avocado, asparagus, kaiware, cucumber, mixed greens, pickled daikon",
-      "vegetarian": true,
-      "photo": "garden-roll"
+      "vegetarian": true
     },
     {
       "id": "menu-103",
@@ -834,8 +772,7 @@
       "sourceCategory": "vegetable rolls",
       "sourceName": "veggie tempura roll (6 pieces)",
       "sourceDescription": "asparagus, Japanese pumpkin, carrot, shiso leaf and kaiware",
-      "vegetarian": true,
-      "photo": "veggie-tempura-roll"
+      "vegetarian": true
     },
     {
       "id": "menu-104",
@@ -848,8 +785,7 @@
       "sourceCategory": "vegetable rolls",
       "sourceName": "green monster roll (8 pieces)",
       "sourceDescription": "Japanese pumpkin tempura, kanpyo (sweet gourd) , avocado on top with sweet tamari",
-      "vegetarian": true,
-      "photo": "pumpkin-roll"
+      "vegetarian": true
     },
     {
       "id": "menu-039",
@@ -861,8 +797,7 @@
       "sourcePrice": "$18.00",
       "sourceCategory": "nigiri and sashimi",
       "sourceName": "★ uni *",
-      "sourceDescription": "fresh sea urchin 2pcs per order",
-      "photo": "uni"
+      "sourceDescription": "fresh sea urchin 2pcs per order"
     },
     {
       "id": "menu-040",
@@ -874,8 +809,7 @@
       "sourcePrice": "$15.55",
       "sourceCategory": "nigiri and sashimi",
       "sourceName": "o-toro (fatty tuna)*",
-      "sourceDescription": "2 pieces per order",
-      "photo": "toro-nigiri"
+      "sourceDescription": "2 pieces per order"
     },
     {
       "id": "menu-041",
@@ -887,8 +821,7 @@
       "sourcePrice": "$12.55",
       "sourceCategory": "nigiri and sashimi",
       "sourceName": "chu-toro (semi-fatty tuna)*",
-      "sourceDescription": "2 pieces per order",
-      "photo": "chutoro-nigiri"
+      "sourceDescription": "2 pieces per order"
     },
     {
       "id": "menu-042",
@@ -900,8 +833,7 @@
       "sourcePrice": "$10.55",
       "sourceCategory": "nigiri and sashimi",
       "sourceName": "bluefin akami (red lean tuna)*",
-      "sourceDescription": "2 pieces per order",
-      "photo": "tuna-nigiri"
+      "sourceDescription": "2 pieces per order"
     },
     {
       "id": "menu-043",
@@ -913,8 +845,7 @@
       "sourcePrice": "$12.55",
       "sourceCategory": "nigiri and sashimi",
       "sourceName": "ankimo (monkfish liver)",
-      "sourceDescription": "2 pieces per order",
-      "photo": "ankimo"
+      "sourceDescription": "2 pieces per order"
     },
     {
       "id": "menu-044",
@@ -926,8 +857,7 @@
       "sourcePrice": "$11.55",
       "sourceCategory": "nigiri and sashimi",
       "sourceName": "king salmon (New Zealand)*",
-      "sourceDescription": "2 pieces per order",
-      "photo": "salmon-nigiri"
+      "sourceDescription": "2 pieces per order"
     },
     {
       "id": "menu-045",
@@ -939,8 +869,7 @@
       "sourcePrice": "$10.25",
       "sourceCategory": "nigiri and sashimi",
       "sourceName": "mongoika (cuttlefish)*",
-      "sourceDescription": "2 pieces per order",
-      "photo": "squid-nigiri"
+      "sourceDescription": "2 pieces per order"
     },
     {
       "id": "menu-046",
@@ -952,8 +881,7 @@
       "sourcePrice": "$9.55",
       "sourceCategory": "nigiri and sashimi",
       "sourceName": "★ kuruma ebi (black tiger prawn)",
-      "sourceDescription": "cooked, super premium giant tiger shrimp topped with our house special spicy sauce.",
-      "photo": "ebi-nigiri"
+      "sourceDescription": "cooked, super premium giant tiger shrimp topped with our house special spicy sauce."
     },
     {
       "id": "menu-047",
@@ -965,8 +893,7 @@
       "sourcePrice": "$9.25",
       "sourceCategory": "nigiri and sashimi",
       "sourceName": "tri-tip beef*",
-      "sourceDescription": "torched with garlic butter, 2 pieces per order",
-      "photo": "beef-nigiri"
+      "sourceDescription": "torched with garlic butter, 2 pieces per order"
     },
     {
       "id": "menu-048",
@@ -978,8 +905,7 @@
       "sourcePrice": "$8.25",
       "sourceCategory": "nigiri and sashimi",
       "sourceName": "chuka idako (baby octopus)",
-      "sourceDescription": "cooked, sweet marinated, 2 pcs per order",
-      "photo": "octopus-nigiri"
+      "sourceDescription": "cooked, sweet marinated, 2 pcs per order"
     },
     {
       "id": "menu-049",
@@ -991,8 +917,7 @@
       "sourcePrice": "$8.00 - Unavailable",
       "sourceCategory": "nigiri and sashimi",
       "sourceName": "amedai (tile fish)*",
-      "sourceDescription": "choose nigiri or sashimi, 2 pieces per order",
-      "photo": "amadai-nigiri"
+      "sourceDescription": "choose nigiri or sashimi, 2 pieces per order"
     },
     {
       "id": "menu-058",
@@ -1004,8 +929,7 @@
       "sourcePrice": "$7.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "maguro*",
-      "sourceDescription": "tuna*",
-      "photo": "tuna-nigiri"
+      "sourceDescription": "tuna*"
     },
     {
       "id": "menu-059",
@@ -1017,8 +941,7 @@
       "sourcePrice": "$7.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "maguro tataki*",
-      "sourceDescription": "seared tuna*",
-      "photo": "tuna-tataki-nigiri"
+      "sourceDescription": "seared tuna*"
     },
     {
       "id": "menu-060",
@@ -1030,8 +953,7 @@
       "sourcePrice": "$7.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "bincho*",
-      "sourceDescription": "albacore tuna*",
-      "photo": "albacore-nigiri"
+      "sourceDescription": "albacore tuna*"
     },
     {
       "id": "menu-061",
@@ -1043,8 +965,7 @@
       "sourcePrice": "$7.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "shake*",
-      "sourceDescription": "salmon*",
-      "photo": "salmon-nigiri"
+      "sourceDescription": "salmon*"
     },
     {
       "id": "menu-062",
@@ -1056,8 +977,7 @@
       "sourcePrice": "$7.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "kunsei*",
-      "sourceDescription": "smoked salmon*",
-      "photo": "smoked-salmon"
+      "sourceDescription": "smoked salmon*"
     },
     {
       "id": "menu-063",
@@ -1069,8 +989,7 @@
       "sourcePrice": "$7.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "hamachi*",
-      "sourceDescription": "yellow tail*",
-      "photo": "hamachi-nigiri"
+      "sourceDescription": "yellow tail*"
     },
     {
       "id": "menu-064",
@@ -1082,8 +1001,7 @@
       "sourcePrice": "$9.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "kampachi*",
-      "sourceDescription": "amber jack",
-      "photo": "kampachi-nigiri"
+      "sourceDescription": "amber jack"
     },
     {
       "id": "menu-065",
@@ -1095,8 +1013,7 @@
       "sourcePrice": "$8.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "madai*",
-      "sourceDescription": "Japanese snapper*",
-      "photo": "white-fish-nigiri"
+      "sourceDescription": "Japanese snapper*"
     },
     {
       "id": "menu-066",
@@ -1108,8 +1025,7 @@
       "sourcePrice": "$12.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "ama ebi*",
-      "sourceDescription": "sweet shrimp*",
-      "photo": "ama-ebi"
+      "sourceDescription": "sweet shrimp*"
     },
     {
       "id": "menu-067",
@@ -1121,8 +1037,7 @@
       "sourcePrice": "$7.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "saba*",
-      "sourceDescription": "mackerel*",
-      "photo": "saba"
+      "sourceDescription": "mackerel*"
     },
     {
       "id": "menu-068",
@@ -1134,8 +1049,7 @@
       "sourcePrice": "$6.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "ebi",
-      "sourceDescription": "shrimp",
-      "photo": "ebi-nigiri"
+      "sourceDescription": "shrimp"
     },
     {
       "id": "menu-069",
@@ -1147,8 +1061,7 @@
       "sourcePrice": "$16.25",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "kani",
-      "sourceDescription": "snow crab with mayonnaise",
-      "photo": "crab-sushi"
+      "sourceDescription": "snow crab with mayonnaise"
     },
     {
       "id": "menu-070",
@@ -1160,8 +1073,7 @@
       "sourcePrice": "$6.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "tako",
-      "sourceDescription": "octopus",
-      "photo": "octopus-nigiri"
+      "sourceDescription": "octopus"
     },
     {
       "id": "menu-071",
@@ -1173,8 +1085,7 @@
       "sourcePrice": "$8.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "kaibashira*",
-      "sourceDescription": "scallop with mayonnaise",
-      "photo": "scallop-nigiri"
+      "sourceDescription": "scallop with mayonnaise"
     },
     {
       "id": "menu-072",
@@ -1186,8 +1097,7 @@
       "sourcePrice": "$8.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "unagi",
-      "sourceDescription": "fresh water eel",
-      "photo": "unagi-nigiri"
+      "sourceDescription": "fresh water eel"
     },
     {
       "id": "menu-073",
@@ -1199,8 +1109,7 @@
       "sourcePrice": "$11.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "ikura*",
-      "sourceDescription": "salmon egg*",
-      "photo": "ikura"
+      "sourceDescription": "salmon egg*"
     },
     {
       "id": "menu-074",
@@ -1212,8 +1121,7 @@
       "sourcePrice": "$7.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "wasabi tobiko*",
-      "sourceDescription": "wasabi cavair",
-      "photo": "tobiko"
+      "sourceDescription": "wasabi cavair"
     },
     {
       "id": "menu-075",
@@ -1225,8 +1133,7 @@
       "sourcePrice": "$6.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "masago*",
-      "sourceDescription": "smelt egg*",
-      "photo": "masago-gunkan"
+      "sourceDescription": "smelt egg*"
     },
     {
       "id": "menu-076",
@@ -1238,8 +1145,7 @@
       "sourcePrice": "$6.55",
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "tamago",
-      "sourceDescription": "japanese omelette",
-      "photo": "tamago"
+      "sourceDescription": "japanese omelette"
     },
     {
       "id": "menu-077",
@@ -1252,8 +1158,7 @@
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "inari",
       "sourceDescription": "sweet tofu skin",
-      "vegetarian": true,
-      "photo": "inari"
+      "vegetarian": true
     },
     {
       "id": "menu-050",
@@ -1265,8 +1170,7 @@
       "sourcePrice": "$31.95",
       "sourceCategory": "mukozune style",
       "sourceName": "fly of bluefin*",
-      "sourceDescription": "2pcs of bluefin akami nigiri, 2pcs of bluefin chu-toro sashimi, and 1 negitoro roll (6pcs) or hand roll",
-      "photo": "tuna-sashimi"
+      "sourceDescription": "2pcs of bluefin akami nigiri, 2pcs of bluefin chu-toro sashimi, and 1 negitoro roll (6pcs) or hand roll"
     },
     {
       "id": "menu-051",
@@ -1278,8 +1182,7 @@
       "sourcePrice": "$29.95",
       "sourceCategory": "mukozune style",
       "sourceName": "★ bluefin jalapeno*",
-      "sourceDescription": "6pcs of special akami bluefin tuna sashimi with house made ponzu, jalapeno",
-      "photo": "bluefin-jalapeno"
+      "sourceDescription": "6pcs of special akami bluefin tuna sashimi with house made ponzu, jalapeno"
     },
     {
       "id": "menu-052",
@@ -1291,8 +1194,7 @@
       "sourcePrice": "$22.00",
       "sourceCategory": "mukozune style",
       "sourceName": "kampachi jalapeno*",
-      "sourceDescription": "6 pcs of kampachi (amber jack) sashimi and jalapeno slices, with chef special sauce.",
-      "photo": "hamachi-sashimi"
+      "sourceDescription": "6 pcs of kampachi (amber jack) sashimi and jalapeno slices, with chef special sauce."
     },
     {
       "id": "menu-053",
@@ -1304,8 +1206,7 @@
       "sourcePrice": "$23.95",
       "sourceCategory": "mukozune style",
       "sourceName": "Kanpa Hama Trio",
-      "sourceDescription": "2pcs kampachi (amber jack) nigiri, 2 pcs hamachi (yellowtail) sashimi and a negihama maki",
-      "photo": "kampachi-hamachi"
+      "sourceDescription": "2pcs kampachi (amber jack) nigiri, 2 pcs hamachi (yellowtail) sashimi and a negihama maki"
     },
     {
       "id": "menu-054",
@@ -1317,8 +1218,7 @@
       "sourcePrice": "$23.95",
       "sourceCategory": "mukozune style",
       "sourceName": "shake zanmai (salmon trio)*",
-      "sourceDescription": "2pcs of Scottish salmon nigiri, 2pcs of New Zealand king salmon sashimi, and 1 salmon hand roll or shake maki (6pcs)",
-      "photo": "salmon-trio"
+      "sourceDescription": "2pcs of Scottish salmon nigiri, 2pcs of New Zealand king salmon sashimi, and 1 salmon hand roll or shake maki (6pcs)"
     },
     {
       "id": "menu-055",
@@ -1330,8 +1230,7 @@
       "sourcePrice": "$19.95",
       "sourceCategory": "mukozune style",
       "sourceName": "sashimi appetizer*",
-      "sourceDescription": "sashimi of 2 pieces of maguro, 2 pieces of shake and 2 pieces of hamachi",
-      "photo": "sashimi-appetizer"
+      "sourceDescription": "sashimi of 2 pieces of maguro, 2 pieces of shake and 2 pieces of hamachi"
     },
     {
       "id": "menu-056",
@@ -1343,8 +1242,7 @@
       "sourcePrice": "$19.95",
       "sourceCategory": "mukozune style",
       "sourceName": "maguro tataki* app. (seared tuna)",
-      "sourceDescription": "6 pieces of seared tuna tataki appetizer",
-      "photo": "tuna-tataki"
+      "sourceDescription": "6 pieces of seared tuna tataki appetizer"
     },
     {
       "id": "menu-057",
@@ -1356,8 +1254,7 @@
       "sourcePrice": "$14.25",
       "sourceCategory": "mukozune style",
       "sourceName": "squid seaweed salad",
-      "sourceDescription": "marinated squid, baby octopus, and seaweed salad",
-      "photo": "seaweed-salad"
+      "sourceDescription": "marinated squid, baby octopus, and seaweed salad"
     },
     {
       "id": "menu-146",
@@ -1369,8 +1266,7 @@
       "sourcePrice": "$16.50",
       "sourceCategory": "Ramen",
       "sourceName": "tonkotsu",
-      "sourceDescription": "pork broth, naruto, negi, menma, soft poached egg, and pork bellies",
-      "photo": "tonkotsu"
+      "sourceDescription": "pork broth, naruto, negi, menma, soft poached egg, and pork bellies"
     },
     {
       "id": "menu-147",
@@ -1382,8 +1278,7 @@
       "sourcePrice": "$16.50",
       "sourceCategory": "Ramen",
       "sourceName": "tan tan men",
-      "sourceDescription": "spicy ground pork, crispy shallots, bokchoy, negi, soft poached egg and shredded peppers.",
-      "photo": "tantanmen"
+      "sourceDescription": "spicy ground pork, crispy shallots, bokchoy, negi, soft poached egg and shredded peppers."
     },
     {
       "id": "menu-148",
@@ -1396,8 +1291,7 @@
       "sourceCategory": "Ramen",
       "sourceName": "vegetable ramen",
       "sourceDescription": "vegetable stock, tofu, bean sprouts, bokchoy, pickles, soft poached egg, cabbage salad, green onion with macho (roasted jalapeno)",
-      "vegetarian": true,
-      "photo": "vegetable-ramen"
+      "vegetarian": true
     },
     {
       "id": "menu-142",
@@ -1409,8 +1303,7 @@
       "sourcePrice": "$6.25",
       "sourceCategory": "Kushiyaki",
       "sourceName": "chicken tsukune",
-      "sourceDescription": "chicken meatball on skewer, sprinkled with coarse salt and black peppers grilled to perfection",
-      "photo": "tsukune"
+      "sourceDescription": "chicken meatball on skewer, sprinkled with coarse salt and black peppers grilled to perfection"
     },
     {
       "id": "menu-143",
@@ -1422,8 +1315,7 @@
       "sourcePrice": "$6.25",
       "sourceCategory": "Kushiyaki",
       "sourceName": "chicken teriyaki",
-      "sourceDescription": "grilled chicken on skewer, side teriyaki sauce",
-      "photo": "yakitori"
+      "sourceDescription": "grilled chicken on skewer, side teriyaki sauce"
     },
     {
       "id": "menu-144",
@@ -1435,8 +1327,7 @@
       "sourcePrice": "$6.25",
       "sourceCategory": "Kushiyaki",
       "sourceName": "beef teriyaki",
-      "sourceDescription": "grilled beef skewer, side teriyaki sauce",
-      "photo": "beef-skewer"
+      "sourceDescription": "grilled beef skewer, side teriyaki sauce"
     },
     {
       "id": "menu-145",
@@ -1448,8 +1339,7 @@
       "sourcePrice": "$7.95",
       "sourceCategory": "Kushiyaki",
       "sourceName": "salmon teriyaki",
-      "sourceDescription": "grilled salmon skewer, side teriyaki sauce",
-      "photo": "salmon-teriyaki"
+      "sourceDescription": "grilled salmon skewer, side teriyaki sauce"
     },
     {
       "id": "menu-030",
@@ -1462,8 +1352,7 @@
       "sourceCategory": "Dessert",
       "sourceName": "green tea mochi ice cream",
       "sourceDescription": "2 pcs / order",
-      "vegetarian": true,
-      "photo": "mochi-ice-cream"
+      "vegetarian": true
     },
     {
       "id": "menu-031",
@@ -1476,8 +1365,7 @@
       "sourceCategory": "Dessert",
       "sourceName": "Mango mochi ice cream",
       "sourceDescription": "2 pcs / order",
-      "vegetarian": true,
-      "photo": "mochi-ice-cream"
+      "vegetarian": true
     },
     {
       "id": "menu-032",
@@ -1490,8 +1378,7 @@
       "sourceCategory": "Dessert",
       "sourceName": "Vanilla mochi ice cream",
       "sourceDescription": "2 pcs / order",
-      "vegetarian": true,
-      "photo": "mochi-ice-cream"
+      "vegetarian": true
     },
     {
       "id": "menu-033",
@@ -1504,8 +1391,7 @@
       "sourceCategory": "Dessert",
       "sourceName": "Strawberry mochi ice cream",
       "sourceDescription": "2 pcs / order",
-      "vegetarian": true,
-      "photo": "mochi-ice-cream"
+      "vegetarian": true
     },
     {
       "id": "menu-034",
@@ -1518,8 +1404,7 @@
       "sourceCategory": "Dessert",
       "sourceName": "chocolate crème pie",
       "sourceDescription": "Chocolate and vanilla crème in a chocolatey cookie crust, topped with chocolate chips and fudge drizzle",
-      "vegetarian": true,
-      "photo": "chocolate-pie"
+      "vegetarian": true
     },
     {
       "id": "menu-035",
@@ -1532,8 +1417,7 @@
       "sourceCategory": "Dessert",
       "sourceName": "Chocolate mochi ice cream",
       "sourceDescription": "2 pcs / order",
-      "vegetarian": true,
-      "photo": "mochi-ice-cream"
+      "vegetarian": true
     },
     {
       "id": "menu-036",
@@ -1546,8 +1430,7 @@
       "sourceCategory": "Dessert",
       "sourceName": "egg custard tarts",
       "sourceDescription": "4pcs of A crisp pastry creamy egg custard before baking until golden, can be paired with chocolate or caramel dressing if desire",
-      "vegetarian": true,
-      "photo": "egg-tart"
+      "vegetarian": true
     },
     {
       "id": "menu-012",
@@ -1559,8 +1442,7 @@
       "sourcePrice": "$6.00",
       "sourceCategory": "Beverage",
       "sourceName": "original ramune",
-      "sourceDescription": "",
-      "photo": "ramune"
+      "sourceDescription": ""
     },
     {
       "id": "menu-013",
@@ -1572,8 +1454,7 @@
       "sourcePrice": "$6.00",
       "sourceCategory": "Beverage",
       "sourceName": "strawberry ramune",
-      "sourceDescription": "",
-      "photo": "ramune"
+      "sourceDescription": ""
     },
     {
       "id": "menu-014",
@@ -1585,8 +1466,7 @@
       "sourcePrice": "$6.00",
       "sourceCategory": "Beverage",
       "sourceName": "melon ramune",
-      "sourceDescription": "",
-      "photo": "ramune"
+      "sourceDescription": ""
     },
     {
       "id": "menu-015",
@@ -1598,8 +1478,7 @@
       "sourcePrice": "$6.00",
       "sourceCategory": "Beverage",
       "sourceName": "peach ramune",
-      "sourceDescription": "",
-      "photo": "ramune"
+      "sourceDescription": ""
     },
     {
       "id": "menu-016",
@@ -1611,8 +1490,7 @@
       "sourcePrice": "$6.00",
       "sourceCategory": "Beverage",
       "sourceName": "orange ramune",
-      "sourceDescription": "",
-      "photo": "ramune"
+      "sourceDescription": ""
     },
     {
       "id": "menu-017",
@@ -1624,8 +1502,7 @@
       "sourcePrice": "$2.50",
       "sourceCategory": "Beverage",
       "sourceName": "coke can",
-      "sourceDescription": "",
-      "photo": "coke"
+      "sourceDescription": ""
     },
     {
       "id": "menu-018",
@@ -1637,8 +1514,7 @@
       "sourcePrice": "$2.50",
       "sourceCategory": "Beverage",
       "sourceName": "diet coke",
-      "sourceDescription": "",
-      "photo": "diet-coke"
+      "sourceDescription": ""
     },
     {
       "id": "menu-019",
@@ -1650,8 +1526,7 @@
       "sourcePrice": "$2.50",
       "sourceCategory": "Beverage",
       "sourceName": "sprite can",
-      "sourceDescription": "",
-      "photo": "sprite"
+      "sourceDescription": ""
     },
     {
       "id": "menu-020",
@@ -1663,8 +1538,7 @@
       "sourcePrice": "$2.50",
       "sourceCategory": "Beverage",
       "sourceName": "Dr. Pepper can",
-      "sourceDescription": "",
-      "photo": "dr-pepper"
+      "sourceDescription": ""
     },
     {
       "id": "menu-021",
@@ -1676,8 +1550,7 @@
       "sourcePrice": "$4.50",
       "sourceCategory": "Beverage",
       "sourceName": "St. Pellegrino",
-      "sourceDescription": "500ml",
-      "photo": "sparkling-water"
+      "sourceDescription": "500ml"
     },
     {
       "id": "menu-022",
@@ -1689,8 +1562,7 @@
       "sourcePrice": "$6.00",
       "sourceCategory": "Beverage",
       "sourceName": "Yuzu Shiso Soda",
-      "sourceDescription": "Refreshing house made Japanese citrus with shiso leaves",
-      "photo": "yuzu-soda"
+      "sourceDescription": "Refreshing house made Japanese citrus with shiso leaves"
     },
     {
       "id": "menu-023",
@@ -1702,8 +1574,7 @@
       "sourcePrice": "$4.00",
       "sourceCategory": "Beverage",
       "sourceName": "Citron Honey Iced Tea",
-      "sourceDescription": "Japanese herbal tea with bright citrus flavor and a gentle touch of honey",
-      "photo": "citron-tea"
+      "sourceDescription": "Japanese herbal tea with bright citrus flavor and a gentle touch of honey"
     },
     {
       "id": "menu-024",
@@ -1715,8 +1586,7 @@
       "sourcePrice": "$4.00",
       "sourceCategory": "Beverage",
       "sourceName": "Black Iced Tea",
-      "sourceDescription": "",
-      "photo": "iced-tea"
+      "sourceDescription": ""
     },
     {
       "id": "menu-025",
@@ -1728,8 +1598,7 @@
       "sourcePrice": "$4.00",
       "sourceCategory": "Beverage",
       "sourceName": "Matcha Iced Tea",
-      "sourceDescription": "",
-      "photo": "matcha"
+      "sourceDescription": ""
     },
     {
       "id": "menu-026",
@@ -1741,8 +1610,7 @@
       "sourcePrice": "$3.50",
       "sourceCategory": "Beverage",
       "sourceName": "Apple Juice",
-      "sourceDescription": "",
-      "photo": "apple-juice"
+      "sourceDescription": ""
     },
     {
       "id": "menu-027",
@@ -1754,8 +1622,7 @@
       "sourcePrice": "$3.50",
       "sourceCategory": "Beverage",
       "sourceName": "Cranberry Juice",
-      "sourceDescription": "",
-      "photo": "cranberry-juice"
+      "sourceDescription": ""
     },
     {
       "id": "menu-028",
@@ -1767,8 +1634,7 @@
       "sourcePrice": "$3.50",
       "sourceCategory": "Beverage",
       "sourceName": "Mango Juice",
-      "sourceDescription": "",
-      "photo": "mango-juice"
+      "sourceDescription": ""
     },
     {
       "id": "menu-029",
@@ -1780,8 +1646,7 @@
       "sourcePrice": "$3.50",
       "sourceCategory": "Beverage",
       "sourceName": "Lemonade",
-      "sourceDescription": "",
-      "photo": "lemonade"
+      "sourceDescription": ""
     },
     {
       "id": "menu-037",
@@ -1793,8 +1658,7 @@
       "sourcePrice": "$12.00",
       "sourceCategory": "Sake",
       "sourceName": "House Sake (Large)",
-      "sourceDescription": "14 fl oz House Yaegaki Reiko Sake",
-      "photo": "sake"
+      "sourceDescription": "14 fl oz House Yaegaki Reiko Sake"
     },
     {
       "id": "menu-038",
@@ -1806,8 +1670,7 @@
       "sourcePrice": "$12.00",
       "sourceCategory": "Sake",
       "sourceName": "Raspberry Sake",
-      "sourceDescription": "14 fl oz Yaegaki Reiko Sake Raspberry Flavor",
-      "photo": "sake"
+      "sourceDescription": "14 fl oz Yaegaki Reiko Sake Raspberry Flavor"
     },
     {
       "id": "menu-001",
@@ -1820,8 +1683,7 @@
       "sourceCategory": "Sides",
       "sourceName": "White Rice",
       "sourceDescription": "",
-      "vegetarian": true,
-      "photo": "white-rice"
+      "vegetarian": true
     },
     {
       "id": "menu-002",
@@ -1834,8 +1696,7 @@
       "sourceCategory": "Sides",
       "sourceName": "Sushi Rice",
       "sourceDescription": "",
-      "vegetarian": true,
-      "photo": "sushi-rice"
+      "vegetarian": true
     },
     {
       "id": "menu-003",
@@ -1847,8 +1708,7 @@
       "sourcePrice": "$0.50",
       "sourceCategory": "Sides",
       "sourceName": "Unagi Sauce",
-      "sourceDescription": "2oz",
-      "photo": "soy-sauce"
+      "sourceDescription": "2oz"
     },
     {
       "id": "menu-004",
@@ -1860,8 +1720,7 @@
       "sourcePrice": "$0.50",
       "sourceCategory": "Sides",
       "sourceName": "Spicy Mayonnaise",
-      "sourceDescription": "2oz",
-      "photo": "spicy-mayo"
+      "sourceDescription": "2oz"
     },
     {
       "id": "menu-005",
@@ -1873,8 +1732,7 @@
       "sourcePrice": "$0.50",
       "sourceCategory": "Sides",
       "sourceName": "Teriyaki Sauce",
-      "sourceDescription": "2oz",
-      "photo": "teriyaki-sauce"
+      "sourceDescription": "2oz"
     },
     {
       "id": "menu-006",
@@ -1886,8 +1744,7 @@
       "sourcePrice": "$0.50",
       "sourceCategory": "Sides",
       "sourceName": "Ponzu Sauce",
-      "sourceDescription": "2oz",
-      "photo": "soy-sauce"
+      "sourceDescription": "2oz"
     },
     {
       "id": "menu-007",
@@ -1899,8 +1756,7 @@
       "sourcePrice": "$0.50",
       "sourceCategory": "Sides",
       "sourceName": "Ginger",
-      "sourceDescription": "2oz",
-      "photo": "gari"
+      "sourceDescription": "2oz"
     },
     {
       "id": "menu-008",
@@ -1912,8 +1768,7 @@
       "sourcePrice": "$0.50",
       "sourceCategory": "Sides",
       "sourceName": "Wasabi",
-      "sourceDescription": "2oz",
-      "photo": "wasabi"
+      "sourceDescription": "2oz"
     },
     {
       "id": "menu-009",
@@ -1925,8 +1780,7 @@
       "sourcePrice": "$0.50",
       "sourceCategory": "Sides",
       "sourceName": "Jalapeno Macho",
-      "sourceDescription": "",
-      "photo": "jalapeno"
+      "sourceDescription": ""
     },
     {
       "id": "menu-010",
@@ -1938,8 +1792,7 @@
       "sourcePrice": "$0.50",
       "sourceCategory": "Sides",
       "sourceName": "Chili Oil",
-      "sourceDescription": "",
-      "photo": "chili-oil"
+      "sourceDescription": ""
     },
     {
       "id": "menu-011",
@@ -1951,8 +1804,7 @@
       "sourcePrice": "$0.50",
       "sourceCategory": "Sides",
       "sourceName": "Spicy Siracha",
-      "sourceDescription": "",
-      "photo": "sriracha"
+      "sourceDescription": ""
     }
   ]
 }

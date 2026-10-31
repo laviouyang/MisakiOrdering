@@ -90,23 +90,3 @@ Prices change, so check them with Misaki before taking real orders.
   codes on that device. Use it to start each demo fresh.
 - The About page story, hours and phone number are set in
   **Edit menu → Shop details**. Hours stay hidden until you fill them in.
-
-## Dish photos
-
-Every dish is tagged with a kind of photo (`"photo"` in `src/data/misaki-menu.json`).
-To download them, run this once on a computer with internet:
-
-```
-npm run photos
-```
-
-It saves free-to-use example photos from Wikimedia Commons into `public/dishes/`
-and writes the photographers' names to `public/dishes/credits.json`, which the
-About page lists under **Photo credits**. Commit the `public/dishes` folder so
-other computers get the photos too. A photo uploaded in the app replaces the
-example photo on that device.
-
-- Don't like one? Find a better one on commons.wikimedia.org and put its title in
-  `scripts/photo-picks.json`, like `{ "gyoza": "File:Gyoza 001.jpg" }`, then run
-  `npm run photos -- --only gyoza`.
-- The search words for each kind of photo are in `scripts/photo-searches.json`.
