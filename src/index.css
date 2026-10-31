@@ -370,3 +370,7 @@ body, .app-shell { background:#f7f2e8; } .topbar { background:rgba(247,242,232,.
 .about-sub { font:700 20px var(--app-font-serif);color:#1c2954;margin:22px 0 8px; }
 .about-list { list-style:disc;margin:0 0 16px;padding-left:18px;color:#3b4260;font-size:14px;line-height:1.7;max-width:560px; }
 .about-list li::marker { color:#5f8a4e; }
+.photo-credits { margin-top:26px;color:#5c6378;font-size:12px;line-height:1.6;max-width:560px; }
+.photo-credits summary { cursor:pointer;font-weight:700;color:#1c2954;font-size:13px; }
+.photo-credits ul { padding-left:18px;list-style:disc;margin:6px 0 0; }
+.photo-credits a { color:#44683a; }

@@ -13,6 +13,7 @@ type MenuItem = {
   price: number;
   availability: 'available' | 'unavailable';
   vegetarian?: boolean; // no meat or fish in the menu description
+  photo?: string; // stock photo name in public/dishes (from `npm run photos`)
   sourcePrice: string;
   sourceCategory: string;
   sourceName: string;
@@ -220,6 +221,7 @@ function App() {
   const [scratchCard, setScratchCard] = useState<ScratchCard | null>(null);
   const [noteOpen, setNoteOpen] = useState<string | null>(null);
   const [vegOnly, setVegOnly] = useState(false);
+  const [missingStock, setMissingStock] = useState<Record<string, boolean>>({}); // stock photos not downloaded yet
   const [pickupTime, setPickupTime] = useState('As soon as possible');
   const fileRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const photoUrlsRef = useRef<Record<string, string>>({});
@@ -721,6 +723,8 @@ function App() {
                   <article className="menu-card" key={item.id} data-testid={`card-menu-item-${item.id}`}>
                     <div className="photo-slot">
                       {photoUrls[item.id] ? <img src={photoUrls[item.id]} alt={`${item.name} local menu photo`} data-testid={`img-menu-photo-${item.id}`} /> :
+                        item.photo && !missingStock[item.photo] ? <img src={`${import.meta.env.BASE_URL}dishes/${item.photo}.jpg`} alt={item.name} loading="lazy"
+                          onError={() => setMissingStock((current) => ({ ...current, [item.photo as string]: true }))} data-testid={`img-stock-photo-${item.id}`} /> :
                         <div className="photo-art"><ImagePlus size={21} /><span>Add a photo</span></div>}
                       <input className="photo-input" type="file" accept="image/*" ref={(node) => { fileRefs.current[item.id] = node; }}
                         onChange={(event) => { void handlePhoto(item.id, event.currentTarget.files?.[0]); event.currentTarget.value = ''; }}
