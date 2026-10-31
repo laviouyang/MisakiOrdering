@@ -26,7 +26,7 @@ and again whenever you pull changes that add packages.
 
 ```bash
 npm install          # download what the app needs
-npm run dev          # open the app in your browser while you work on it
+npm run dev          # open the app in your browser at http://localhost:5174
 npm run desktop      # open it as a Mac/Windows app
 npm run desktop:mac  # make a Mac installer (.dmg) in the release folder
 npm run desktop:win  # make a Windows installer (run this on a Windows PC)
