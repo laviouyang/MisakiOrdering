@@ -14,7 +14,7 @@
       "sourceCategory": "chef's special rolls",
       "sourceName": "green hama* (8 pieces)",
       "sourceDescription": "masago, green onion, hamachi poke, spicy mayonnaise, jalapenos topped with tempura flakes and cilantro",
-      "photo": "spicy-tuna-roll"
+      "photo": "green-hama-roll"
     },
     {
       "id": "menu-106",
@@ -27,7 +27,7 @@
       "sourceCategory": "chef's special rolls",
       "sourceName": "expert roll tempura (6 pieces)",
       "sourceDescription": "baked salmon, avocado, shiso, mayonnaise, unagi sauce, masago, cream cheese deep fried in tempura",
-      "photo": "tempura-roll"
+      "photo": "expert-roll"
     },
     {
       "id": "menu-107",
@@ -40,7 +40,7 @@
       "sourceCategory": "chef's special rolls",
       "sourceName": "orange lion* (8 pieces)",
       "sourceDescription": "smoked salmon, sliced lemons, kaiware, jalapenos, cucumbers, cream cheese, yuzu sauce, wasabi mustard, gree onion",
-      "photo": "salmon-topped-roll"
+      "photo": "orange-lion-roll"
     },
     {
       "id": "menu-108",
@@ -53,7 +53,7 @@
       "sourceCategory": "chef's special rolls",
       "sourceName": "snow in the mountain* (8 pieces)",
       "sourceDescription": "shrimp tempura, spicy poke, and cucumber topped with furikake, coconut and macho",
-      "photo": "shrimp-tempura-roll"
+      "photo": "snow-mountain-roll"
     },
     {
       "id": "menu-109",
@@ -66,7 +66,7 @@
       "sourceCategory": "chef's special rolls",
       "sourceName": "superior roll* (8 pieces)",
       "sourceDescription": "shrimp tempura, surimi crab mix, cucumbers, mango, with mango sauce and cilantro on top",
-      "photo": "shrimp-tempura-roll"
+      "photo": "superior-roll"
     },
     {
       "id": "menu-110",
@@ -79,7 +79,7 @@
       "sourceCategory": "chef's special rolls",
       "sourceName": "tropical coconut (10 pieces)",
       "sourceDescription": "salmon tempura, spicy aioli, jalapenos, avocado, cucumbers with roasted coconuts wrapped in soy paper",
-      "photo": "tempura-roll"
+      "photo": "tropical-coconut-roll"
     },
     {
       "id": "menu-111",
@@ -92,7 +92,7 @@
       "sourceCategory": "chef's special rolls",
       "sourceName": "when pigs swim*",
       "sourceDescription": "salmon skin, bacon with jalapeno, avocado topped with tuna, spicy miso mayonnaise and negi",
-      "photo": "tuna-topped-roll"
+      "photo": "pigs-swim-roll"
     },
     {
       "id": "menu-112",
@@ -105,7 +105,7 @@
       "sourceCategory": "chef's special rolls",
       "sourceName": "salmon tartar* (8 pieces)",
       "sourceDescription": "salmon poke, caper, white onion, masago, slightly torched salmon sashimi with garlic butter and fried onion on top",
-      "photo": "salmon-topped-roll"
+      "photo": "salmon-tartar-roll"
     },
     {
       "id": "menu-113",
@@ -157,7 +157,7 @@
       "sourceCategory": "chef's special rolls",
       "sourceName": "misaki roll* (8 pieces)",
       "sourceDescription": "tuna poke, avocado tempura, mustard yuzu sauce, negi, kaiware, spicy ponzu and maguro tataki sashimi on top",
-      "photo": "spicy-tuna-roll"
+      "photo": "misaki-roll"
     },
     {
       "id": "menu-117",
@@ -170,7 +170,7 @@
       "sourceCategory": "chef's special rolls",
       "sourceName": "meiji maguro roll* (8 pieces)",
       "sourceDescription": "cucumber, avocado, kaiware, jalapenos, topped with tuna poke and masago arare",
-      "photo": "tuna-topped-roll"
+      "photo": "meiji-maguro-roll"
     },
     {
       "id": "menu-118",
@@ -183,7 +183,7 @@
       "sourceCategory": "chef's special rolls",
       "sourceName": "hokkaido roll* (8 pieces)",
       "sourceDescription": "spicy scallops and negi tempura topped with yellow tail and roasted jalapenos",
-      "photo": "specialty-roll"
+      "photo": "hokkaido-roll"
     },
     {
       "id": "menu-119",
@@ -196,7 +196,7 @@
       "sourceCategory": "chef's special rolls",
       "sourceName": "surf and turf*",
       "sourceDescription": "snow crab tempura, avocado, topped with torched tri-tip beef, garlic butter and yuzu mustard.",
-      "photo": "specialty-roll"
+      "photo": "surf-turf-roll"
     },
     {
       "id": "menu-120",
@@ -317,7 +317,7 @@
       "sourceName": "edamame (spicy)",
       "sourceDescription": "sweet edamame mixed with spicy lemon garlic sriracha!",
       "vegetarian": true,
-      "photo": "edamame"
+      "photo": "spicy-edamame"
     },
     {
       "id": "menu-129",
@@ -411,7 +411,7 @@
       "sourceName": "gyoza - vegetable",
       "sourceDescription": "6 pieces pan fried veggie dumplings",
       "vegetarian": true,
-      "photo": "gyoza"
+      "photo": "vegetable-gyoza"
     },
     {
       "id": "menu-136",
@@ -528,7 +528,7 @@
       "sourceCategory": "regular rolls",
       "sourceName": "negihama* (6 pieces)",
       "sourceDescription": "yellowtail and scallion roll",
-      "photo": "maki-roll"
+      "photo": "negihama-roll"
     },
     {
       "id": "menu-081",
@@ -554,7 +554,7 @@
       "sourceCategory": "regular rolls",
       "sourceName": "spicy poke* (8 pieces)",
       "sourceDescription": "tuna, negi, cucumber, avocado, masago, poke sauce and spicy mayo",
-      "photo": "spicy-tuna-roll"
+      "photo": "spicy-poke-roll"
     },
     {
       "id": "menu-083",
@@ -580,7 +580,7 @@
       "sourceCategory": "regular rolls",
       "sourceName": "spicy salmon roll*",
       "sourceDescription": "(8pcs) salmon, spicy mayo, masago, cucumber, avocado",
-      "photo": "spicy-tuna-roll"
+      "photo": "spicy-salmon-roll"
     },
     {
       "id": "menu-085",
@@ -593,7 +593,7 @@
       "sourceCategory": "regular rolls",
       "sourceName": "spicy bincho roll*",
       "sourceDescription": "(8pcs) albacore tuna with kewpie mayonnaise, negi, masago, cucumber and avocado",
-      "photo": "spicy-tuna-roll"
+      "photo": "albacore-roll"
     },
     {
       "id": "menu-086",
@@ -632,7 +632,7 @@
       "sourceCategory": "regular rolls",
       "sourceName": "spicy scallop roll*",
       "sourceDescription": "(8pcs) scallop, masago, spicy mayo with cucumber",
-      "photo": "spicy-tuna-roll"
+      "photo": "scallop-roll"
     },
     {
       "id": "menu-089",
@@ -658,7 +658,7 @@
       "sourceCategory": "tempura rolls",
       "sourceName": "chicken tempura roll (6 pieces)",
       "sourceDescription": "kaiware, ooba, cucumber, avocado, asparagus masago, japanese mayonnaise, and chicken tempura",
-      "photo": "tempura-roll"
+      "photo": "chicken-tempura-roll"
     },
     {
       "id": "menu-091",
@@ -684,7 +684,7 @@
       "sourceCategory": "tempura rolls",
       "sourceName": "salmon skin roll (6 pieces)",
       "sourceDescription": "salmon skin tempura with asparagus, masago, ooba, kaiware, cucumber, avocado, yamagobo, Japanese mayonnaise",
-      "photo": "tempura-roll"
+      "photo": "salmon-skin-roll"
     },
     {
       "id": "menu-093",
@@ -697,7 +697,7 @@
       "sourceCategory": "tempura rolls",
       "sourceName": "white fish tempura roll (6 pieces)",
       "sourceDescription": "asparagus, masago, ooba, kaiware, cucumber, avocado, Japanese mayonnaise and white fish tempura",
-      "photo": "tempura-roll"
+      "photo": "white-fish-tempura-roll"
     },
     {
       "id": "menu-094",
@@ -723,7 +723,7 @@
       "sourceCategory": "tempura rolls",
       "sourceName": "lobster tempura roll (6 pieces)",
       "sourceDescription": "asparagus, masago, ooba, kaiware, cucumber, avocado, Japaneses mayonnaise and lobster tempura",
-      "photo": "tempura-roll"
+      "photo": "lobster-roll"
     },
     {
       "id": "menu-096",
@@ -765,7 +765,7 @@
       "sourceName": "asparagus roll",
       "sourceDescription": "",
       "vegetarian": true,
-      "photo": "vegetable-roll"
+      "photo": "asparagus-roll"
     },
     {
       "id": "menu-099",
@@ -793,7 +793,7 @@
       "sourceName": "ume shiso maki (6 pieces)",
       "sourceDescription": "Japanese ume plum paste and shiso leaves",
       "vegetarian": true,
-      "photo": "vegetable-roll"
+      "photo": "ume-maki"
     },
     {
       "id": "menu-101",
@@ -821,7 +821,7 @@
       "sourceName": "garden roll (6 pieces)",
       "sourceDescription": "avocado, asparagus, kaiware, cucumber, mixed greens, pickled daikon",
       "vegetarian": true,
-      "photo": "vegetable-roll"
+      "photo": "garden-roll"
     },
     {
       "id": "menu-103",
@@ -835,7 +835,7 @@
       "sourceName": "veggie tempura roll (6 pieces)",
       "sourceDescription": "asparagus, Japanese pumpkin, carrot, shiso leaf and kaiware",
       "vegetarian": true,
-      "photo": "vegetable-roll"
+      "photo": "veggie-tempura-roll"
     },
     {
       "id": "menu-104",
@@ -849,7 +849,7 @@
       "sourceName": "green monster roll (8 pieces)",
       "sourceDescription": "Japanese pumpkin tempura, kanpyo (sweet gourd) , avocado on top with sweet tamari",
       "vegetarian": true,
-      "photo": "vegetable-roll"
+      "photo": "pumpkin-roll"
     },
     {
       "id": "menu-039",
@@ -888,7 +888,7 @@
       "sourceCategory": "nigiri and sashimi",
       "sourceName": "chu-toro (semi-fatty tuna)*",
       "sourceDescription": "2 pieces per order",
-      "photo": "toro-nigiri"
+      "photo": "chutoro-nigiri"
     },
     {
       "id": "menu-042",
@@ -992,7 +992,7 @@
       "sourceCategory": "nigiri and sashimi",
       "sourceName": "amedai (tile fish)*",
       "sourceDescription": "choose nigiri or sashimi, 2 pieces per order",
-      "photo": "white-fish-nigiri"
+      "photo": "amadai-nigiri"
     },
     {
       "id": "menu-058",
@@ -1018,7 +1018,7 @@
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "maguro tataki*",
       "sourceDescription": "seared tuna*",
-      "photo": "tuna-tataki"
+      "photo": "tuna-tataki-nigiri"
     },
     {
       "id": "menu-060",
@@ -1083,7 +1083,7 @@
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "kampachi*",
       "sourceDescription": "amber jack",
-      "photo": "hamachi-nigiri"
+      "photo": "kampachi-nigiri"
     },
     {
       "id": "menu-065",
@@ -1226,7 +1226,7 @@
       "sourceCategory": "Nigiri & Sashimi",
       "sourceName": "masago*",
       "sourceDescription": "smelt egg*",
-      "photo": "tobiko"
+      "photo": "masago-gunkan"
     },
     {
       "id": "menu-076",
@@ -1279,7 +1279,7 @@
       "sourceCategory": "mukozune style",
       "sourceName": "★ bluefin jalapeno*",
       "sourceDescription": "6pcs of special akami bluefin tuna sashimi with house made ponzu, jalapeno",
-      "photo": "tuna-sashimi"
+      "photo": "bluefin-jalapeno"
     },
     {
       "id": "menu-052",
@@ -1305,7 +1305,7 @@
       "sourceCategory": "mukozune style",
       "sourceName": "Kanpa Hama Trio",
       "sourceDescription": "2pcs kampachi (amber jack) nigiri, 2 pcs hamachi (yellowtail) sashimi and a negihama maki",
-      "photo": "hamachi-nigiri"
+      "photo": "kampachi-hamachi"
     },
     {
       "id": "menu-054",
@@ -1318,7 +1318,7 @@
       "sourceCategory": "mukozune style",
       "sourceName": "shake zanmai (salmon trio)*",
       "sourceDescription": "2pcs of Scottish salmon nigiri, 2pcs of New Zealand king salmon sashimi, and 1 salmon hand roll or shake maki (6pcs)",
-      "photo": "salmon-nigiri"
+      "photo": "salmon-trio"
     },
     {
       "id": "menu-055",
@@ -1331,7 +1331,7 @@
       "sourceCategory": "mukozune style",
       "sourceName": "sashimi appetizer*",
       "sourceDescription": "sashimi of 2 pieces of maguro, 2 pieces of shake and 2 pieces of hamachi",
-      "photo": "sashimi-platter"
+      "photo": "sashimi-appetizer"
     },
     {
       "id": "menu-056",

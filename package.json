@@ -13,7 +13,9 @@
     "desktop:mac": "vite build && node electron/stage.mjs && electron-builder --mac --publish never",
     "desktop:win": "vite build && node electron/stage.mjs && electron-builder --win --publish never",
     "ios": "vite build && cap sync ios && cap open ios",
-    "photos": "node scripts/get-photos.mjs"
+    "photos": "node scripts/get-photos.mjs",
+    "photos:review": "node scripts/get-photos.mjs review",
+    "photos:redo": "node scripts/get-photos.mjs force"
   },
   "dependencies": {
     "@capacitor/core": "8.5.2",
