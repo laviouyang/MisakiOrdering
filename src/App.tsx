@@ -76,6 +76,11 @@ const OVERRIDES_KEY = 'misaki-device-menu-overrides-v1';
 const COPY_KEY = 'misaki-device-copy-overrides-v1';
 const RULES_KEY = 'misaki-device-order-rules-v1';
 const money = (amount: number) => `$${amount.toFixed(2)}`;
+// "Chef's Special Rolls" -> "chefs-special-rolls". Used for the picture file
+// names in public/categories (e.g. public/categories/ramen.jpg).
+const slugify = (text: string) => text.toLowerCase().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+// Background colors for category boxes that don't have a picture yet.
+const TILE_COLORS = ['#1c2954', '#c8402e', '#5f8a4e', '#33406b', '#a8321f', '#44683a'];
 const defaultCopy: LocalCopy = {
   brandName: 'Misaki',
   locationCaption: 'Japanese Kitchen · Superior',
@@ -220,6 +225,8 @@ function App() {
   const [scratchCard, setScratchCard] = useState<ScratchCard | null>(null);
   const [noteOpen, setNoteOpen] = useState<string | null>(null);
   const [vegOnly, setVegOnly] = useState(false);
+  const [missingTile, setMissingTile] = useState<Record<string, boolean>>({}); // category pictures not added yet
+  const menuListRef = useRef<HTMLDivElement | null>(null);
   const [pickupTime, setPickupTime] = useState('As soon as possible');
   const fileRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const photoUrlsRef = useRef<Record<string, string>>({});
@@ -282,6 +289,14 @@ function App() {
       return matchesCategory && matchesSearch && matchesDiet;
     });
   }, [category, search, vegOnly, items]);
+  const countFor = (name: string) => items.filter((item) => name === 'All items' || item.category === name).length;
+  const pickCategory = (name: string, veg = false) => {
+    setCategory(name);
+    setVegOnly(veg);
+    setSearch('');
+    requestAnimationFrame(() => menuListRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  };
+
   const subtotal = cart.reduce((sum, entry) => sum + (itemMap.get(entry.itemId)?.price ?? 0) * entry.quantity, 0);
   // A revealed scratch card takes its percentage off ONE of the most expensive
   // dish in the cart (one plate, not every copy of it), before tax.
@@ -683,24 +698,46 @@ function App() {
           <div className="fulfillment-hint">{fulfillment === 'delivery' ? `${money(rules.deliveryFee)} delivery fee · ${copy.deliveryHint}` : fulfillment === 'dine-in' ? copy.dineInHint : copy.pickupHint}</div>
         </section>
 
+        <section className="category-boxes" aria-labelledby="category-boxes-title" data-testid="section-category-boxes">
+          <h2 id="category-boxes-title">What are you craving?</h2>
+          <div className="category-grid">
+            {[...categories, 'Vegetarian'].map((name, index) => {
+              const veg = name === 'Vegetarian';
+              const slug = slugify(name);
+              const active = veg ? vegOnly && category === 'All items' : !vegOnly && category === name;
+              const count = veg ? items.filter((item) => item.vegetarian).length : countFor(name);
+              return (
+                <button type="button" key={name} className={`category-box${active ? ' active' : ''}${veg ? ' veg' : ''}`}
+                  onClick={() => pickCategory(veg ? 'All items' : name, veg)} aria-pressed={active} data-testid={`box-category-${slug}`}>
+                  <span className="category-box-art" style={{ background: veg ? '#5f8a4e' : TILE_COLORS[index % TILE_COLORS.length] }}>
+                    {!missingTile[slug] && <img src={`${import.meta.env.BASE_URL}categories/${slug}.jpg`} alt="" loading="lazy"
+                      onError={() => setMissingTile((current) => ({ ...current, [slug]: true }))} />}
+                    {missingTile[slug] && (veg ? <Leaf size={30} /> : <span className="category-box-letter">{name === 'All items' ? '全' : name.charAt(0)}</span>)}
+                  </span>
+                  <span className="category-box-label"><strong>{name === 'All items' ? 'Everything' : name}</strong><span>{count} {count === 1 ? 'dish' : 'dishes'}</span></span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+
         <div className="browse-layout">
           <section className="browse-main" aria-label="Menu">
             <div className="menu-heading">
               <div><h2>{copy.menuHeading}</h2><p>{copy.menuDescription}</p></div>
               <label className="search-box"><Search size={16} aria-hidden="true" /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search dishes…" aria-label="Search menu" data-testid="input-menu-search" /></label>
             </div>
-            <div className="category-tabs" role="tablist" aria-label="Menu categories">
+            <div className="showing-bar" ref={menuListRef}>
+              <strong data-testid="text-showing">{category === 'All items' ? 'All dishes' : category}{vegOnly ? ' · vegetarian' : ''}</strong>
+              <span className="menu-count" data-testid="text-menu-result-count">{visibleItems.length} items</span>
               <button type="button" className={`veg-toggle${vegOnly ? ' active' : ''}`} aria-pressed={vegOnly} onClick={() => setVegOnly((on) => !on)} data-testid="button-filter-vegetarian">
                 <Leaf size={13} /> Vegetarian
               </button>
-              {categories.map((itemCategory) => (
-                <button type="button" key={itemCategory} role="tab" aria-selected={category === itemCategory}
-                  className={`category-tab${category === itemCategory ? ' active' : ''}`} onClick={() => setCategory(itemCategory)}
-                  data-testid={`button-category-${itemCategory.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
-                  {itemCategory === 'All items' ? 'All items' : itemCategory}
+              {(category !== 'All items' || vegOnly) && (
+                <button type="button" className="show-all" onClick={() => { setCategory('All items'); setVegOnly(false); }} data-testid="button-show-all">
+                  <X size={13} /> Show all
                 </button>
-              ))}
-              <span className="menu-count" data-testid="text-menu-result-count">{visibleItems.length} items</span>
+              )}
             </div>
             {category.toLocaleLowerCase().includes('sake') && (
               <div className="sake-warning" role="note" data-testid="status-sake-age-restriction">

@@ -90,3 +90,9 @@ Prices change, so check them with Misaki before taking real orders.
   codes on that device. Use it to start each demo fresh.
 - The About page story, hours and phone number are set in
   **Edit menu → Shop details**. Hours stay hidden until you fill them in.
+
+## Category boxes
+
+The menu page starts with a box for each category. To give a box a picture,
+put a `.jpg` in `public/categories/` with the name listed in
+`public/categories/README.md` (for example `ramen.jpg`).

@@ -370,3 +370,23 @@ body, .app-shell { background:#f7f2e8; } .topbar { background:rgba(247,242,232,.
 .about-sub { font:700 20px var(--app-font-serif);color:#1c2954;margin:22px 0 8px; }
 .about-list { list-style:disc;margin:0 0 16px;padding-left:18px;color:#3b4260;font-size:14px;line-height:1.7;max-width:560px; }
 .about-list li::marker { color:#5f8a4e; }
+
+/* Category boxes: pick what to browse. Pictures go in public/categories/<name>.jpg */
+.category-boxes { margin:30px 0 34px; }
+.category-boxes h2 { font:600 30px/1.15 var(--app-font-serif);color:#1c2954;margin:0 0 16px; }
+.category-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px; }
+.category-box { border:0;padding:0;text-align:left;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 1px 0 #e6dccb,0 10px 24px -18px #1c295466;display:flex;flex-direction:column;cursor:pointer;transition:transform .15s,box-shadow .15s; }
+.category-box:hover { transform:translateY(-2px);box-shadow:0 1px 0 #e6dccb,0 16px 30px -18px #1c295488; }
+.category-box:focus-visible { outline:3px solid #c8402e;outline-offset:2px; }
+.category-box.active { box-shadow:0 0 0 3px #c8402e,0 16px 30px -18px #1c295488; }
+.category-box-art { position:relative;aspect-ratio:4 / 3;display:grid;place-items:center;color:#fffcf6;overflow:hidden; }
+.category-box-art img { position:absolute;inset:0;width:100%;height:100%;object-fit:cover; }
+.category-box-letter { font:700 54px/1 var(--app-font-serif);opacity:.9; }
+.category-box-label { display:flex;flex-direction:column;gap:2px;padding:11px 13px 13px; }
+.category-box-label strong { font-size:14px;color:#1c2954;line-height:1.25; }
+.category-box-label span { font-size:12px;color:#6b7390; }
+.category-box.veg .category-box-label strong { color:#2f4a2a; }
+.showing-bar { display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:0 0 15px;scroll-margin-top:90px; }
+.showing-bar strong { font-size:15px;color:#1c2954; }
+.show-all { display:inline-flex;align-items:center;gap:5px;border:1px solid #c3c8d9;background:#ffffff;color:#3b4978;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:700; }
+@media(max-width:560px) { .category-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.category-boxes h2{font-size:24px}.category-box-art{aspect-ratio:16 / 10}.category-box-letter{font-size:40px} }
