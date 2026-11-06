@@ -3,6 +3,7 @@ import { Check, ChevronRight, Clock3, ImagePlus, Leaf, MapPin, MessageSquare, Mi
 import menuData from './data/misaki-menu.json';
 import RewardsPage, { drawCard, type ScratchCard } from './RewardsPage';
 import AboutPage from './AboutPage';
+import HelpPage from './HelpPage';
 
 // One dish on the menu. The full menu lives in src/data/misaki-menu.json.
 type MenuItem = {
@@ -42,7 +43,7 @@ type LocalCopy = {
 type LocalRules = { minimumOrder: number; taxRate: number; deliveryFee: number; maxPerItem: number };
 type ItemOverride = Partial<Pick<MenuItem, 'name' | 'description' | 'category' | 'price' | 'availability'>>;
 type CartEntry = { itemId: string; quantity: number; note?: string };
-type Page = 'menu' | 'rewards' | 'about';
+type Page = 'menu' | 'rewards' | 'about' | 'help';
 type Fulfillment = 'pickup' | 'delivery' | 'dine-in';
 type SavedOrder = {
   id: string;
@@ -624,7 +625,7 @@ function App() {
       </header>
 
       <nav className="page-nav" aria-label="Sections">
-        {([['menu', 'Menu'], ['rewards', 'Scratch card'], ['about', 'About']] as const).map(([id, label]) => (
+        {([['menu', 'Menu'], ['rewards', 'Scratch card'], ['about', 'About'], ['help', 'Help']] as const).map(([id, label]) => (
           <button key={id} type="button" className={page === id ? 'active' : ''} aria-current={page === id ? 'page' : undefined} onClick={() => goToPage(id)} data-testid={`nav-${id}`}>
             {label}{id === 'rewards' && scratchCard && !scratchCard.scratched && <span className="nav-dot" aria-label="new scratch card" />}
           </button>
@@ -636,6 +637,9 @@ function App() {
 
       {page === 'about' && <AboutPage restaurantName={copy.brandName} location={copy.topbarLocation} story={copy.aboutStory} hours={copy.aboutHours}
         phone={copy.restaurantPhone} dishCount={items.length} categoryCount={categories.length - 1} onStartOrder={() => goToPage('menu')} />}
+
+      {page === 'help' && <HelpPage minimumOrder={rules.minimumOrder} taxRate={rules.taxRate} deliveryFee={rules.deliveryFee}
+        maxPerItem={rules.maxPerItem} phone={copy.restaurantPhone} onStartOrder={() => goToPage('menu')} />}
 
       {page === 'menu' && <>
       <section className="hero">

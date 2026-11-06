@@ -370,3 +370,24 @@ body, .app-shell { background:#f7f2e8; } .topbar { background:rgba(247,242,232,.
 .about-sub { font:700 20px var(--app-font-serif);color:#1c2954;margin:22px 0 8px; }
 .about-list { list-style:disc;margin:0 0 16px;padding-left:18px;color:#3b4260;font-size:14px;line-height:1.7;max-width:560px; }
 .about-list li::marker { color:#5f8a4e; }
+
+/* Help page */
+.help-title { display:flex;align-items:center;gap:10px;font:600 clamp(30px,4vw,42px)/1.1 var(--app-font-serif);color:#1c2954;margin:6px 0 0; }
+.help-steps, .help-ask { background:#ffffff;border:1px solid #e6dccb;border-radius:16px;padding:22px 24px;margin-top:18px; }
+.help-steps h2, .help-ask h2 { font:700 22px var(--app-font-serif);color:#1c2954;margin:0 0 12px; }
+.help-steps ol { list-style:decimal;margin:0;padding-left:22px;color:#3b4260;font-size:15px;line-height:1.8; }
+.help-steps li::marker { color:#c8402e;font-weight:700; }
+.help-cta { width:auto;margin-top:14px;padding:11px 20px; }
+.help-search { max-width:none;position:relative; }
+.help-clear { border:0;background:transparent;color:#5c6378;display:grid;place-items:center;padding:4px;cursor:pointer; }
+.help-quick { display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px; }
+.help-quick button { border:1px solid #c9dbbd;background:#eef3e8;color:#2f4a2a;border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer; }
+.help-quick button:hover { background:#e3ecd9; }
+.help-answers { margin-top:14px;display:flex;flex-direction:column;gap:8px; }
+.help-item { border:1px solid #e6dccb;border-radius:12px;background:#fffcf6; }
+.help-item.open { border-color:#c9dbbd;background:#f7faf3; }
+.help-item > button { width:100%;display:flex;justify-content:space-between;align-items:center;gap:12px;border:0;background:transparent;padding:13px 16px;text-align:left;font-size:15px;font-weight:700;color:#1c2954;cursor:pointer; }
+.help-chevron { color:#5f8a4e;font-size:20px;line-height:1; }
+.help-item p { margin:0;padding:0 16px 14px;color:#3b4260;font-size:14px;line-height:1.65; }
+.help-none { color:#5c6378;font-size:14px;margin:4px 0; }
+.help-none a { color:#44683a; }
