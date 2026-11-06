@@ -99,3 +99,9 @@ click **Upload** on the box (saved on that device only, like dish photos), or
 put a `.jpg` in `public/categories/` with the name listed in
 `public/categories/README.md` (for example `ramen.jpg`) so every computer gets it.
 An uploaded picture is shown instead of the file.
+## Help page
+
+The **Help** tab explains how to order and has an interactive Q&A: customers type
+a question (or tap a common one) and the best-matching answers open. The
+questions and answers are in `src/HelpPage.tsx`; numbers such as the minimum
+order and tax come from the shop's current rules.
