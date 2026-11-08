@@ -4,6 +4,7 @@ import menuData from './data/misaki-menu.json';
 import RewardsPage, { drawCard, type ScratchCard } from './RewardsPage';
 import AboutPage from './AboutPage';
 import HelpPage from './HelpPage';
+import { makeZip, type ZipFile } from './zip';
 
 // One dish on the menu. The full menu lives in src/data/misaki-menu.json.
 type MenuItem = {
@@ -175,6 +176,25 @@ async function writePhoto(id: string, blob: Blob | null) {
   });
 }
 
+// Turns any uploaded picture into a JPEG (at most 1600 px wide or tall) so it can
+// be saved into the project's public folder and load on every computer.
+async function toJpeg(blob: Blob): Promise<Uint8Array> {
+  const bitmap = await createImageBitmap(blob);
+  const scale = Math.min(1, 1600 / Math.max(bitmap.width, bitmap.height));
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(bitmap.width * scale);
+  canvas.height = Math.round(bitmap.height * scale);
+  const context = canvas.getContext('2d');
+  if (!context) throw new Error('no canvas');
+  context.fillStyle = '#ffffff'; // see-through PNGs get a white background
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  bitmap.close();
+  const jpeg = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.88));
+  if (!jpeg) throw new Error('could not convert');
+  return new Uint8Array(await jpeg.arrayBuffer());
+}
+
 const fulfillmentLabel: Record<Fulfillment, string> = {
   pickup: 'Pickup',
   delivery: 'Delivery',
@@ -222,6 +242,8 @@ function App() {
   const [noteOpen, setNoteOpen] = useState<string | null>(null);
   const [vegOnly, setVegOnly] = useState(false);
   const [pickupTime, setPickupTime] = useState('As soon as possible');
+  const [missingFilePhoto, setMissingFilePhoto] = useState<Record<string, boolean>>({}); // dishes with no photo in public/dish-photos
+  const [exportStatus, setExportStatus] = useState('');
   const fileRefs = useRef<Record<string, HTMLInputElement | null>>({});
   const photoUrlsRef = useRef<Record<string, string>>({});
   const categories = useMemo(() => ['All items', ...Array.from(new Set(items.map((item) => item.category)))], [items]);
@@ -553,6 +575,37 @@ function App() {
   };
 
   // Staff tool: clears saved orders, scratch cards and used codes on this device.
+  // Staff: download every uploaded photo in one zip, already named for the
+  // project folders (public/dish-photos and public/categories).
+  const exportPhotos = async () => {
+    setExportStatus('Packing photos…');
+    try {
+      const stored = await readPhotos();
+      const files: ZipFile[] = [];
+      const failed: string[] = [];
+      for (const [key, blob] of Object.entries(stored)) {
+        const path = key.startsWith('category-') ? `public/categories/${key.slice('category-'.length)}.jpg` : `public/dish-photos/${key}.jpg`;
+        try { files.push({ path, data: await toJpeg(blob) }); } catch { failed.push(itemMap.get(key)?.name ?? key); }
+      }
+      if (files.length === 0) { setExportStatus(failed.length ? 'None of the photos could be read.' : 'No photos have been uploaded on this device yet.'); return; }
+      const guide = 'Unzip this into your MisakiOrdering folder (the one with package.json).\n'
+        + 'Dish photos go in public/dish-photos and category pictures in public/categories.\n'
+        + 'Then run: git add public  /  git commit -m "Add photos"  /  git push\n';
+      files.push({ path: 'HOW-TO-USE.txt', data: new TextEncoder().encode(guide) });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(makeZip(files));
+      link.download = 'misaki-photos.zip';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(link.href), 10000);
+      const count = files.length - 1;
+      setExportStatus(`Downloaded ${count} photo${count === 1 ? '' : 's'} as misaki-photos.zip.${failed.length ? ` Couldn’t read: ${failed.join(', ')}.` : ''}`);
+    } catch {
+      setExportStatus('Could not read the photos saved on this device.');
+    }
+  };
+
   const clearSavedData = () => {
     if (!window.confirm('Clear saved orders and scratch cards on this device?')) return;
     try {
@@ -725,6 +778,8 @@ function App() {
                   <article className="menu-card" key={item.id} data-testid={`card-menu-item-${item.id}`}>
                     <div className="photo-slot">
                       {photoUrls[item.id] ? <img src={photoUrls[item.id]} alt={`${item.name} local menu photo`} data-testid={`img-menu-photo-${item.id}`} /> :
+                        !missingFilePhoto[item.id] ? <img src={`${import.meta.env.BASE_URL}dish-photos/${item.id}.jpg`} alt={item.name} loading="lazy"
+                          onError={() => setMissingFilePhoto((current) => ({ ...current, [item.id]: true }))} data-testid={`img-file-photo-${item.id}`} /> :
                         <div className="photo-art"><ImagePlus size={21} /><span>Add a photo</span></div>}
                       <input className="photo-input" type="file" accept="image/*" ref={(node) => { fileRefs.current[item.id] = node; }}
                         onChange={(event) => { void handlePhoto(item.id, event.currentTarget.files?.[0]); event.currentTarget.value = ''; }}
@@ -911,7 +966,9 @@ function App() {
           {editorError && <div className="editor-error" role="alert" data-testid="status-editor-error">{editorError}</div>}
           <div className="editor-actions">
             <div><button type="button" className="editor-reset" onClick={resetToPublished} data-testid="button-reset-published"><RotateCcw size={14} /> Reset to published</button>
-            <button type="button" className="editor-reset" onClick={clearSavedData} data-testid="button-clear-saved"><X size={14} /> Clear orders &amp; cards</button></div>
+            <button type="button" className="editor-reset" onClick={clearSavedData} data-testid="button-clear-saved"><X size={14} /> Clear orders &amp; cards</button>
+            <button type="button" className="editor-reset" onClick={() => void exportPhotos()} data-testid="button-export-photos"><ImagePlus size={14} /> Download all photos</button>
+            {exportStatus && <span className="export-status" role="status" data-testid="status-export-photos">{exportStatus}</span>}</div>
             <div><button type="button" className="plain-btn" onClick={() => { setEditorOpen(false); setEditorError(''); }} data-testid="button-cancel-editor">Cancel</button><button type="button" className="editor-save" onClick={saveEditor} data-testid="button-save-editor"><Save size={15} /> Save on this device</button></div>
           </div>
         </section>
