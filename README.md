@@ -105,3 +105,17 @@ The **Help** tab explains how to order and has an interactive Q&A: customers typ
 a question (or tap a common one) and the best-matching answers open. The
 questions and answers are in `src/HelpPage.tsx`; numbers such as the minimum
 order and tax come from the shop's current rules.
+
+## Saving uploaded photos into the project
+
+Photos uploaded with the **Upload** buttons are saved only in that browser. To
+make them part of the project (so every computer shows them):
+
+1. Open **Edit menu** (staff PIN) and click **Download all photos**. You get
+   `misaki-photos.zip`, with every photo converted to JPEG and named for its folder.
+2. Unzip it into the MisakiOrdering folder (the one with `package.json`).
+   Dish photos land in `public/dish-photos/` (named by dish id, like
+   `menu-105.jpg`) and box pictures in `public/categories/`.
+3. Commit and push: `git add public`, `git commit -m "Add photos"`, `git push`.
+
+An uploaded photo still shows first on the device it was uploaded on.
